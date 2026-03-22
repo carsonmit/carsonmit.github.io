@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Name — Personal Site</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+```
+:root {
+  --cream: #f5f0e8;
+  --ink: #1a1612;
+  --rust: #c4501a;
+  --sand: #e8dcc8;
+  --muted: #7a6e62;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── Noise texture overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+
+/* ── Nav ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  mix-blend-mode: multiply;
+}
+
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--rust); }
+
+/* ── Hero ── */
+#hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 8rem 3rem 5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(3.5rem, 6vw, 6rem);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.9s 0.4s forwards;
+}
+
+.hero-name em {
+  font-style: italic;
+  color: var(--rust);
+}
+
+.hero-tagline {
+  margin-top: 2rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 380px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.9s 0.6s forwards;
+}
+
+.hero-cta {
+  margin-top: 3rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.9s 0.8s forwards;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.85rem 2rem;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid var(--ink);
+  transition: background 0.25s, color 0.25s;
+}
+
+.btn:hover {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  margin-left: 1rem;
+}
+
+.btn-ghost:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.hero-right {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-blob {
+  position: absolute;
+  inset: 0;
+  background: var(--sand);
+  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.hero-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 1px solid rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 5rem;
+  opacity: 0;
+  animation: fadeIn 1s 1s forwards;
+}
+
+/* Decorative rule */
+.hero-rule {
+  position: absolute;
+  bottom: 3rem;
+  right: 3rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  writing-mode: vertical-rl;
+  opacity: 0;
+  animation: fadeIn 1s 1.2s forwards;
+}
+
+/* ── Section shared ── */
+section {
+  padding: 8rem 3rem;
+}
+
+.section-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+/* ── About ── */
+#about {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 6rem;
+  align-items: start;
+  border-top: 1px solid var(--sand);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-body {
+  padding-top: 3rem;
+}
+
+.about-body p {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--muted);
+  margin-top: 1.5rem;
+}
+
+.about-body p strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 2.5rem;
+}
+
+.tag {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--ink);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ── Connect ── */
+#connect {
+  background: var(--ink);
+  color: var(--cream);
+  border-top: none;
+}
+
+#connect .section-label { color: var(--rust); }
+
+#connect .section-title { color: var(--cream); }
+
+.connect-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+  margin-top: 4rem;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.connect-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem;
+  background: var(--ink);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.connect-card:hover { background: #2a241e; }
+
+.connect-card-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+
+.connect-card-title {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  color: var(--cream);
+  margin-top: 1.5rem;
+}
+
+.connect-card-arrow {
+  margin-top: 3rem;
+  font-size: 1.4rem;
+  color: rgba(255,255,255,0.3);
+  transition: color 0.2s, transform 0.2s;
+}
+
+.connect-card:hover .connect-card-arrow {
+  color: var(--rust);
+  transform: translateX(4px);
+}
+
+/* ── Footer ── */
+footer {
+  background: var(--ink);
+  color: var(--muted);
+  padding: 2rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+footer a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+footer a:hover { color: var(--cream); }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { gap: 1.2rem; }
+
+  #hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .hero-left { padding: 7rem 1.5rem 3rem; }
+  .hero-right { height: 250px; }
+  .hero-circle { width: 200px; height: 200px; font-size: 3rem; }
+
+  #about {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 5rem 1.5rem;
+  }
+
+  section { padding: 5rem 1.5rem; }
+
+  .btn-ghost { margin-left: 0; margin-top: 0.75rem; }
+
+  footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+```
+
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+
+  <nav>
+    <a class="nav-logo" href="#hero">Your Name</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#connect">Connect</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+
+  <section id="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Hello, I'm</p>
+      <h1 class="hero-name">Your<br/><em>Name</em></h1>
+      <p class="hero-tagline">
+        A short, compelling line about who you are and what you care about. Make it yours.
+      </p>
+      <div class="hero-cta">
+        <a href="#about" class="btn">Learn more</a>
+        <a href="#connect" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-blob"></div>
+      <div class="hero-circle">👋</div>
+      <span class="hero-rule">Est. 2025 &nbsp;·&nbsp; Based on Earth</span>
+    </div>
+  </section>
+
+  <!-- About -->
+
+  <section id="about">
+    <div class="about-sticky">
+      <p class="section-label">About me</p>
+      <h2 class="section-title">A bit<br/>about<br/>myself</h2>
+    </div>
+    <div class="about-body">
+      <p>
+        <strong>Write a paragraph about yourself here.</strong> Where are you from? What do you do or study? What are you passionate about? This is your space to introduce yourself to the world in your own words.
+      </p>
+      <p>
+        Feel free to add a second paragraph going a little deeper — your background, your journey, or what you're currently working on. Keep it conversational and genuine.
+      </p>
+      <p>
+        Outside of that, you might mention hobbies, interests, or what you're excited about right now. People connect with people, so don't be shy.
+      </p>
+      <div class="tags">
+        <span class="tag">Curiosity</span>
+        <span class="tag">Design</span>
+        <span class="tag">Technology</span>
+        <span class="tag">Writing</span>
+        <span class="tag">Your Interest</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Connect -->
+
+  <section id="connect">
+    <p class="section-label">Let's talk</p>
+    <h2 class="section-title">Find me<br/>around the web</h2>
+    <div class="connect-grid">
+      <a class="connect-card" href="mailto:you@email.com">
+        <span class="connect-card-label">Email</span>
+        <span class="connect-card-title">you@email.com</span>
+        <span class="connect-card-arrow">→</span>
+      </a>
+      <a class="connect-card" href="https://linkedin.com/in/yourhandle" target="_blank">
+        <span class="connect-card-label">LinkedIn</span>
+        <span class="connect-card-title">yourhandle</span>
+        <span class="connect-card-arrow">→</span>
+      </a>
+      <a class="connect-card" href="https://github.com/yourhandle" target="_blank">
+        <span class="connect-card-label">GitHub</span>
+        <span class="connect-card-title">yourhandle</span>
+        <span class="connect-card-arrow">→</span>
+      </a>
+      <a class="connect-card" href="https://twitter.com/yourhandle" target="_blank">
+        <span class="connect-card-label">Twitter / X</span>
+        <span class="connect-card-title">@yourhandle</span>
+        <span class="connect-card-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+
+  <footer>
+    <span>© 2025 Your Name</span>
+    <a href="#hero">Back to top ↑</a>
+  </footer>
+
+</body>
+</html>
