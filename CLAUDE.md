@@ -8,10 +8,10 @@
 - Current sections: hero, about, connect/social, footer, with animation effects.
 
 ## PDF pipeline
-- A LaTeX project (`main.tex`) on Overleaf syncs to a separate GitHub repo.
-- A GitHub Actions workflow in that repo (`.github/workflows/deploy.yml`) compiles it with `xu-cheng/latex-action@v3` and pushes the PDF to this repo at `files/grebook.pdf`.
-- The push uses a fine-grained token stored as the secret `PAGES_DEPLOY_TOKEN`.
-- Do not touch `files/` by hand; the pipeline overwrites it.
+- A LaTeX project on Overleaf syncs to the repo `carsonmit/Mathematics-for-the-GRE`.
+- On every push to its `master` branch, the workflow `.github/workflows/publish-pdf.yml` copies the committed `GRE-Textbook.pdf` (it does not compile LaTeX) into this repo at `pdf/GRE-Textbook.pdf` and pushes as `github-actions`.
+- The push uses a token stored as the secret `WEBSITE_TOKEN`.
+- `index.html` links to `pdf/GRE-Textbook.pdf`. Do not touch `pdf/GRE-Textbook.pdf` by hand; the pipeline overwrites it.
 
 ## Rules
 - Never commit secrets, API keys, or tokens (the repo is public).

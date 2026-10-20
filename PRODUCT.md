@@ -25,7 +25,7 @@ Undecided. Not yet discussed with the owner.
 ## Operating Context
 
 - Hosted on GitHub Pages as a single static `index.html` (plain HTML/CSS/JS, no framework or build step unless the owner asks).
-- The GRE textbook is written in LaTeX on Overleaf and compiled by a GitHub Actions workflow in a separate repo, which pushes the PDF into this repo. Do not edit generated PDFs by hand. (The current link points to `pdf/GRE-Textbook.pdf`; `CLAUDE.md` mentions `files/grebook.pdf`. These disagree and should be reconciled.)
+- The GRE textbook is written in LaTeX on Overleaf; a GitHub Actions workflow in `carsonmit/Mathematics-for-the-GRE` copies the PDF into this repo at `pdf/GRE-Textbook.pdf`, which the site links to. Do not edit that PDF by hand.
 - GitHub Pages deploys can lag and cache.
 
 ## Capabilities and Constraints

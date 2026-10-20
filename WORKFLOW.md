@@ -17,8 +17,8 @@ How we customize the site, step by step. Your job is to decide and react; Claude
 
 ## Stage 0: Housekeeping (once, ~10 min)
 
-1. "Commit the setup." Claude writes `.gitignore`, removes the stray `agent/` folder, and commits the skills and notes, but asks about the 19 MB Impeccable binary first.
-2. "Which PDF path is right?" `index.html` links `pdf/GRE-Textbook.pdf` but `CLAUDE.md` says the pipeline writes `files/grebook.pdf`. Settle it so the download link never breaks.
+1. ✅ Commit the setup (skills and notes; compiled binaries and personal settings are gitignored).
+2. ✅ PDF path settled: the pipeline writes `pdf/GRE-Textbook.pdf`, which the site links to.
 
 ## Stage 1: Gather real content (you, any time)
 
