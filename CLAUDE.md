@@ -18,6 +18,7 @@
 - Prefer low-friction setups with few manual steps.
 - Design/animation decisions: follow the `emil-design-eng` skill (Emil Kowalski) when installed.
 - GitHub Pages deploys can lag and cache; account for that before assuming a change failed.
+- Keep `README.md` and `CHANGELOG.md` current: add every notable change under `## [Unreleased]` in `CHANGELOG.md` in the same commit, and update the README when structure or process changes. When I say a set of changes is a release, move Unreleased to a new version (MAJOR = redesign/relaunch, MINOR = new section/feature, PATCH = fixes) and create a matching `vX.Y.Z` git tag. Ask before pushing tags.
 
 ## Design skills (who leads)
 - Installed: `emil-design-eng` (+ other Emil skills), `impeccable`, `design-taste-frontend`, `playwright-cli`.
