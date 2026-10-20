@@ -1,0 +1,20 @@
+# Playwright CLI output (may contain credentials)
+.playwright-cli/
+
+# macOS clutter
+.DS_Store
+
+# Personal Claude Code settings (permissions, local hooks)
+.claude/settings.local.json
+
+# Impeccable: personal config, cache, and the compiled engine (reinstall with `npx impeccable install`)
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+.claude/skills/impeccable/scripts/bin/
+.agents/skills/impeccable/scripts/bin/
+
+# design-taste-frontend working files (screenshots, reports)
+.taste-skill/
+
+# Duplicate skill copies made by the skills installer for another tool
+agent/
