@@ -18,6 +18,7 @@
 - Prefer low-friction setups with few manual steps.
 - Design/animation decisions: follow the `emil-design-eng` skill (Emil Kowalski) when installed.
 - GitHub Pages deploys can lag and cache; account for that before assuming a change failed.
+- Commit messages must be understandable by me (a beginner): a short first line in plain English saying what changed on the site or in the project (e.g. "Add tutoring section with booking button", not "refactor hero styles"), then a few bullet lines saying what changed and why. Avoid jargon; if a technical term is unavoidable, explain it briefly.
 - Keep `README.md` and `CHANGELOG.md` current: add every notable change under `## [Unreleased]` in `CHANGELOG.md` in the same commit, and update the README when structure or process changes. When I say a set of changes is a release, move Unreleased to a new version (MAJOR = redesign/relaunch, MINOR = new section/feature, PATCH = fixes) and create a matching `vX.Y.Z` git tag. Ask before pushing tags.
 
 ## Design skills (who leads)

@@ -4,7 +4,8 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
-Nothing yet.
+### Changed
+- `CLAUDE.md`: commit messages must be written in plain, beginner-friendly English.
 
 ## [0.3.0] - 2026-10-20
 
