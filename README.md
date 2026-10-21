@@ -100,7 +100,7 @@ Tracked in [WORKFLOW.md](WORKFLOW.md):
 
 - [x] Stage 0: setup, design skills, palette, notes
 - [ ] Stage 1: real bio, links, tutoring details, photo
-- [ ] Stage 2: body font, page plan, interactive centerpiece
+- [x] Stage 2: body font, page plan, interactive centerpiece (v0.4.0)
 - [ ] Stage 3: build section by section
 - [ ] Stage 4: polish (accessibility, mobile, motion)
 - [ ] Stage 5: launch v1.0.0
