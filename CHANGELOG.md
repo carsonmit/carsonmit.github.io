@@ -4,6 +4,10 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+### Added
+- `design/mockups/hero-fourier.html`: the approved hero centerpiece (spinning circles drawing C and M) saved as a page you can open in a browser, so the built site can match it exactly.
+- `DESIGN.md` and `README.md` point to it as the reference.
+
 ## [0.4.0] - 2026-10-21
 
 Stage 2: design decisions finished. No visible change to the live site yet; everything here is the plan in `DESIGN.md` that Stage 3 will build.

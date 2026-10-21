@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero centerpiece (approved mockup)</title>
+<!--
+  APPROVED reference for the hero centerpiece (Stage 2, v0.4.0).
+  The built site must match this file: drawing logic, timing, colors, math, and wording.
+  Saved from the version Carson approved in the design session; only the page wrapper
+  (doctype, body background, the day/night button's own style) was added so it runs on its own.
+  Open it in a browser to compare with the built site.
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+body{margin:0;padding:24px;background:#0f1318;font-family:'IBM Plex Sans',sans-serif}
+#mt{font-family:'IBM Plex Sans',sans-serif;font-size:13px;background:#2a3240;color:#F2EFE8;border:0;border-radius:999px;padding:7px 14px;cursor:pointer;margin:0 0 12px}
+.hw{--bg:#151a21;--ac:#C9ACDE;--ink:#F2EFE8;--mu:#A19E96;--on:#151a21;--card2:#2a3240;--ghost:#2c3441;--track:#3a4352;max-width:760px;background:var(--bg);color:var(--ink);border-radius:12px;padding:1rem 1.4rem 1.6rem;transition:background .4s ease,color .4s ease}
+.hw.day{--bg:#F3EBDD;--ac:#6C4487;--ink:#1f1a14;--mu:#5c5348;--on:#F3EBDD;--card2:#D6C6AC;--ghost:#DDD0BA;--track:#A99D8B}
+.hw nav{font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;display:flex;gap:16px;align-items:center;margin:0 0 1.6rem}
+.hw nav b{font-family:'DM Serif Display',serif;font-weight:400;font-size:18px;margin-right:auto}
+.hg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:1.2rem;align-items:center}
+@media (max-width:560px){.hg{grid-template-columns:1fr}}
+.hw h1{font-family:'DM Serif Display',serif;font-weight:400;font-size:52px;line-height:.98;letter-spacing:-.01em;margin:0 0 14px;color:var(--ink)}
+.hw p.s{font-family:'Newsreader',serif;font-weight:420;font-size:18.5px;line-height:1.45;margin:0 0 18px}
+.hw button.pb{font-family:'IBM Plex Sans',sans-serif;font-size:14.5px;font-weight:500;background:var(--ac);color:var(--on);border:0;border-radius:999px;padding:10px 20px;height:auto;cursor:pointer;transition:transform .16s ease-out}
+.hw button.pb:active{transform:scale(.97)}
+.ql{font-family:'Newsreader',serif;font-weight:420;font-size:17px;color:var(--ac);margin-left:14px;text-decoration:underline;text-underline-offset:3px}
+.hw svg{width:100%;height:auto;display:block}
+#math{min-height:150px;text-align:center;opacity:0;transform:translateY(6px);transition:opacity .6s ease,transform .6s ease}
+#math.on{opacity:1;transform:none}
+#math .eq .katex{font-size:1.32em}
+#math .eq2 .katex{font-size:1.02em;color:var(--mu)}
+#math .katex-display{margin:.5em 0}
+#math .cap{font-family:'Newsreader',serif;font-style:italic;font-weight:420;font-size:16px;line-height:1.45;color:var(--mu);margin:2px 0 0}
+#math .cap .katex{font-size:1.02em;font-style:normal}
+.ctl{font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;color:var(--mu);display:flex;gap:10px;align-items:center;margin:2px 0 2px}
+#rd{font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;color:var(--mu);margin:0 0 10px;min-height:18px}
+#rd b{font-weight:500;color:var(--ink)}
+.hw input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:18px;background:transparent;margin:0}
+.hw input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:2px;background:var(--track)}
+.hw input[type=range]::-moz-range-track{height:3px;border-radius:2px;background:var(--track)}
+.hw input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--ac);border:0;margin-top:-6.5px;cursor:grab}
+.hw input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ac);border:0;cursor:grab}
+</style>
+</head>
+<body>
+<button id="mt">Switch to day</button>
+<div class="hw" id="hw">
+<nav><b>Carson Mitchell</b><span>About</span><span>Tutoring</span><span>GRE book</span><span>Projects</span></nav>
+<div class="hg">
+<div><h1>Carson Mitchell</h1><p class="s">Mathematics tutor, and author of a free textbook for the GRE mathematics test.</p><button class="pb">Get In Touch</button><span class="ql">GRE textbook</span></div>
+<div>
+<svg viewBox="0 0 300 160" aria-label="Spinning circles drawing the initials C M as one curve"><path id="gh" fill="none" stroke="var(--ghost)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><g id="fc"></g><path id="ft" fill="none" stroke="var(--ac)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><g id="pens"></g></svg>
+<div class="ctl"><label for="fk" id="fl">N</label><input type="range" id="fk" min="1" max="100" value="30" step="1"></div>
+<div id="rd"></div>
+<div id="math"><div class="eq" id="meq"></div><div class="eq2" id="meq2"></div><p class="cap" id="mcap"></p></div>
+</div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script>
+const hw=document.getElementById('hw'),mt=document.getElementById('mt');
+mt.onclick=()=>{hw.classList.toggle('day');mt.textContent=hw.classList.contains('day')?'Switch to night':'Switch to day'};
+// The true path f: the C (arc), pen up to the M, the M (polyline), pen up back to the start.
+const segs=[];const arc=[];for(let i=0;i<=60;i++){const t=Math.PI/4+i/60*1.5*Math.PI;arc.push([92+48*Math.cos(t),80-48*Math.sin(t)])}
+const Mv=[[168,125],[168,34],[208,92],[248,34],[248,125]];
+function addPoly(pts,pen){for(let i=0;i<pts.length-1;i++)segs.push({a:pts[i],b:pts[i+1],pen})}
+addPoly(arc,true);addPoly([arc[arc.length-1],Mv[0]],false);addPoly(Mv,true);addPoly([Mv[4],arc[0]],false);
+// 720 points evenly spaced by arc length along f.
+const L=segs.map(s=>Math.hypot(s.b[0]-s.a[0],s.b[1]-s.a[1])),TOT=L.reduce((x,y)=>x+y,0),MS=720;
+const F=[],PEN=[];let si=0,acc=0;for(let m=0;m<MS;m++){const d=m/MS*TOT;while(acc+L[si]<d){acc+=L[si];si++}const s=segs[si],f=(d-acc)/L[si];F.push([s.a[0]+(s.b[0]-s.a[0])*f,s.a[1]+(s.b[1]-s.a[1])*f]);PEN.push(s.pen)}
+// Coefficients c_n for n = -100..100 (discrete Fourier transform of the 720 points).
+const NMAX=100,C={};for(let n=-NMAX;n<=NMAX;n++){let re=0,im=0;for(let m=0;m<MS;m++){const a=-2*Math.PI*n*m/MS;re+=F[m][0]*Math.cos(a)-F[m][1]*Math.sin(a);im+=F[m][0]*Math.sin(a)+F[m][1]*Math.cos(a)}C[n]={re:re/MS,im:im/MS,r:Math.hypot(re,im)/MS}}
+// Partial sum z(t) at s = t / 2π, terms ordered 0, 1, -1, 2, -2, ...
+function z(N,s,circ){let x=0,y=0,out=[];for(let j=0;j<=2*N;j++){const n=j===0?0:(j%2?(j+1)/2:-j/2),c=C[n],a=2*Math.PI*n*s;if(circ&&j>0)out.push([x,y,c.r]);x+=c.re*Math.cos(a)-c.im*Math.sin(a);y+=c.re*Math.sin(a)+c.im*Math.cos(a)}return{x,y,out}}
+let ghost='';F.forEach((p,m)=>{const prev=m>0&&PEN[m-1];if(PEN[m])ghost+=(prev?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)});document.getElementById('gh').setAttribute('d',ghost);
+let N=30,raf=null;const DUR=5200,fc=document.getElementById('fc'),ft=document.getElementById('ft'),math=document.getElementById('math');
+const T=(s,d)=>window.katex?katex.renderToString(s,{displayMode:!!d,throwOnError:false}):s;
+// Mean distance between z_N and f on the letters, as a percent of the letter height (92).
+function miss(){let e=0,k=0;for(let m=0;m<MS;m+=2){if(!PEN[m])continue;const q=z(N,m/MS,false);e+=Math.hypot(q.x-F[m][0],q.y-F[m][1]);k++}return 100*e/k/92}
+function readout(){document.getElementById('fl').innerHTML=T('N = '+N);const pc=miss();document.getElementById('rd').innerHTML='<b>'+2*N+' circles</b> · they miss the true letters by <b>'+(pc<0.1?pc.toFixed(2):pc.toFixed(1))+'%</b> of their height, on average. More circles, sharper corners.'}
+function showMath(){document.getElementById('meq').innerHTML=T('z(t) \\;=\\; \\sum_{n=-'+N+'}^{'+N+'} c_n\\, e^{int}',1);
+document.getElementById('meq2').innerHTML=T('c_n \\;=\\; \\frac{1}{2\\pi}\\int_0^{2\\pi} f(t)\\, e^{-int}\\, dt',1);
+document.getElementById('mcap').innerHTML='One curve '+T('f')+' writes both letters, lifting the pen in between. Each '+T('c_n')+' is '+T('f')+' unwound '+T('n')+' times and averaged, and each term is a circle of radius '+T('\\lvert c_n\\rvert')+'.';math.classList.add('on')}
+// Draw once over one full period, then fade the circles and show the math.
+function run(){cancelAnimationFrame(raf);math.classList.remove('on');fc.style.transition='none';fc.style.opacity=1;const t0=performance.now();
+function fr(now){const p=Math.min(1,(now-t0)/DUR),st=Math.max(2,Math.ceil(p*MS));let path='',circ='';
+for(let i=0;i<=st;i++){const s=p*i/st,m=Math.min(MS-1,Math.floor(s*MS));if(!PEN[m])continue;const q=z(N,s,false),prev=i>0&&PEN[Math.min(MS-1,Math.floor(p*(i-1)/st*MS))];path+=(prev?'L':'M')+q.x.toFixed(1)+' '+q.y.toFixed(1)}
+const q=z(N,p,true);q.out.forEach(([x,y,r])=>{if(r>0.4)circ+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r.toFixed(1)+'" fill="none" stroke="var(--card2)" stroke-width="1"/>'});
+const down=PEN[Math.min(MS-1,Math.floor(p*MS))];fc.innerHTML=circ;ft.setAttribute('d',path);
+document.getElementById('pens').innerHTML=p<1?'<circle cx="'+q.x.toFixed(1)+'" cy="'+q.y.toFixed(1)+'" r="3.5" fill="'+(down?'var(--ac)':'none')+'" stroke="var(--ac)" stroke-width="1.5"/>':'';
+if(p<1)raf=requestAnimationFrame(fr);else{fc.style.transition='opacity .6s ease';fc.style.opacity=0;showMath()}}
+raf=requestAnimationFrame(fr)}
+// Slider: redraw once, 300 ms after the last change.
+const fk=document.getElementById('fk');let deb;fk.oninput=()=>{N=+fk.value;readout();clearTimeout(deb);deb=setTimeout(run,300)};
+document.fonts.ready.then(()=>{readout();run()});
+</script>
+</body>
+</html>
