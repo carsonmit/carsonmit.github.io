@@ -12,7 +12,7 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ### Changed
 - `CLAUDE.md`: commit messages must be written in plain, beginner-friendly English.
-- `CLAUDE.md`: all text in American English; noted the wish to use Three.js and Manim later.
+- `CLAUDE.md`: all text in American English; Claude should suggest Three.js and Manim wherever they'd fit.
 - `WORKFLOW.md`: Stage 2 marked done.
 
 ## [0.3.0] - 2026-10-20

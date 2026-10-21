@@ -6,7 +6,7 @@
 - Stack: plain HTML/CSS/JS, single-file site. No frameworks or build step unless I ask.
 - Aesthetic: a scholarly serif voice in a dark, quiet, interactive frame, with light and dark modes. Palette and fonts are in `DESIGN.md`.
 - Current sections: hero, about, connect/social, footer, with animation effects. The planned redesign (section order, centerpiece) is in `DESIGN.md`.
-- Future wish: I want to use **Three.js** (a JavaScript library for 3D graphics in the browser; loads from a CDN, so no build step) and **Manim** (3Blue1Brown's Python library for math animations; it renders videos offline, so on the site it would appear as pre-rendered video) at some point. When planning features or animations, say when one of them would fit. Each use still needs my OK.
+- I want to use **Three.js** (a JavaScript library for 3D graphics in the browser; loads from a CDN, so no build step) and **Manim** (3Blue1Brown's Python library for math animations; it renders videos offline, so on the site it would appear as pre-rendered video) on the site. Starting now, whenever planning features or animations, suggest where one of them would fit. Each use still needs my OK.
 
 ## PDF pipeline
 - A LaTeX project on Overleaf syncs to the repo `carsonmit/Mathematics-for-the-GRE`.

@@ -43,14 +43,14 @@ Three faces, by the owner's deliberate choice (design-taste-frontend's rule is t
 | Role | Face | Settings |
 |---|---|---|
 | Headlines | DM Serif Display | 400 (its only weight) |
-| Body text, including links inside sentences | Newsreader | 18.5px; weight 430 at night, 400 by day; line height 1.45 in both modes; italic for math variables in plain text |
+| Body text, including links inside sentences | Newsreader | 18.5px; weight 420 and line height 1.45 in both modes; italic for math variables in plain text |
 | Buttons, top menu, small labels and captions | IBM Plex Sans | 500 for buttons, 400 for labels; about 13.5–14.5px |
 | Math | KaTeX (LaTeX rendered in the browser) | Inherits the text color |
 
 ### Why
 - **Serif body, never sans.** The owner wants a book feel over a tech feel, which matches the LaTeX textbook. Newsreader was chosen over IBM Plex Serif because it contrasts more with the headline; Plex Serif read like a smaller copy of it.
 - **18.5px, not 16px.** Newsreader has short, narrow lowercase letters, so it looks small at the usual size. The owner matched it by eye to IBM Plex Serif at 16px and landed on 18.5–19px.
-- **Heavier at night.** Light text on a dark background looks thinner than it is, so night mode uses weight 430.
+- **Slightly heavy, the same in both modes.** Light text on a dark background looks thinner than it is, so the weight is 420 instead of 400. It must not differ between modes: in a variable font, heavier letters are also wider, so a per-mode weight made lines rewrap when switching modes. Switching modes changes colors only, never layout.
 - **One line height.** The owner liked 1.40 by day and 1.45 at night; 1.45 everywhere was chosen because 1.40 is below design-taste-frontend's 1.45–1.6 range for body text and the difference is under 1px per line.
 - **Sans only for controls.** IBM Plex Sans is limited to buttons, the menu and small labels so it reads as "the controls", not a third voice. Links inside sentences stay in Newsreader, since a sans word mid-sentence looks like a mistake.
 
@@ -87,7 +87,7 @@ Person first: the site introduces a person before it offers a service. Each sect
 
 Each live piece is a self-contained module that plugs into a slot on the page, so any piece can be moved, swapped, or rotated (a different one per visit) later by changing one line. Every piece needs a phone version that works with a thumb, a plain no-script fallback, and must never block reading. One live piece per screen; the quiet dots switch off around it.
 
-- **Hero centerpiece: circles that write his name.** A Fourier series: spinning circles stacked end to end trace the initials C and M. On load it draws once with 40 circles (about 3.6 s); then the circles fade and the real math appears in KaTeX and stays: $z_K(t) = c_0 + \sum_{k \in S_K} c_k e^{ikt}$, with the actual largest $\lvert c_k \rvert$ and a note that the coefficients are the discrete Fourier transform of points on the letter. A "Circles" slider (1–60) redraws once with the new count. It never loops.
+- **Hero centerpiece: circles that write his name.** A Fourier series: spinning circles stacked end to end trace the initials C and M. It draws the true partial sum $z(t) = \sum_{n=-N}^{N} c_n e^{int}$ (coefficients from the discrete Fourier transform of points on each letter). On load it draws once with $N = 20$ (about 3.6 s); then the circles fade, and the equation appears in KaTeX, centered, with one caption line: "Each term is a circle of radius $\lvert c_n \rvert$ turning $n$ times. Together they write my initials." A slider labeled $N$ (1–30) redraws once with the new value. It never loops. Keep the math brief and beautifully typeset: one equation, one sentence. The slider track must be clearly visible in both modes.
 - **About: visual proof** that $1 + 3 + \dots + (2n-1) = n^2$ (L-shaped layers, slider for $n$), and/or **Collatz**: type a number, watch it fall to 1.
 - **Tutoring: a problem that solves itself** as you scroll, one step at a time, with each step's reason ("subtract 7 from both sides").
 - **Projects: a neuron diagram** (tap neurons to fire, linking to the NeuronDiagrams editor) and **a Star Battle puzzle** (linking to StarBattleSolver).
