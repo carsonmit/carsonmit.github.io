@@ -4,11 +4,17 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-21
+
+Stage 2: design decisions finished. No visible change to the live site yet; everything here is the plan in `DESIGN.md` that Stage 3 will build.
+
 ### Added
-- `DESIGN.md`: body font (Newsreader for text, IBM Plex Sans for buttons and the menu), with sizes and the reasons behind them.
-- `DESIGN.md`: page plan in the order Hero, About, Tutoring, GRE textbook, Projects, Contact, with each section's claim and proof; hero button "Get In Touch".
-- `DESIGN.md`: interactive pieces. Spinning circles in the hero that draw Carson's initials as one curve, with a slider and a live measure of how close the drawing is, plus one small live piece each in About, Tutoring and Projects, built so they can be swapped later.
-- `PRODUCT.md`: NeuronDiagrams and StarBattleSolver recorded as real work.
+- Body font: Newsreader for text (18.5px, the same weight in light and dark mode so text never shifts when switching), IBM Plex Sans for buttons and the menu. The reasons are recorded too.
+- Page plan, person first: Hero, About, Tutoring, GRE textbook, Projects, Contact. Each section lists the claim it makes and the real proof behind it. The hero's main button is "Get In Touch".
+- Hero centerpiece: spinning circles (a Fourier series) draw Carson's initials C and M as one curve, lifting the pen between letters. It draws once on load, then shows the two equations behind it, set in LaTeX.
+- A slider in the hero (from 1 to 100) sets how many circles spin, with a live line showing how far the drawing misses the real letters, so students can watch the error shrink.
+- Small live pieces for other sections, one per screen: a picture proof that $1 + 3 + \dots + (2n-1) = n^2$ and the Collatz "pick a number" game in About; an equation that solves itself as you scroll in Tutoring; a neuron diagram and a Star Battle puzzle in Projects. Each is built as a separate module so it can be swapped later.
+- `PRODUCT.md`: NeuronDiagrams and StarBattleSolver recorded as real work the site can show.
 
 ### Changed
 - `CLAUDE.md`: commit messages must be written in plain, beginner-friendly English.
