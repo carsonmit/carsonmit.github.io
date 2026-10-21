@@ -7,7 +7,7 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 ### Added
 - `DESIGN.md`: body font (Newsreader for text, IBM Plex Sans for buttons and the menu), with sizes and the reasons behind them.
 - `DESIGN.md`: page plan in the order Hero, About, Tutoring, GRE textbook, Projects, Contact, with each section's claim and proof; hero button "Get In Touch".
-- `DESIGN.md`: interactive pieces. Spinning circles that draw Carson's initials in the hero, plus one small live piece each in About, Tutoring and Projects, built so they can be swapped later.
+- `DESIGN.md`: interactive pieces. Spinning circles in the hero that draw Carson's initials as one curve, with a slider and a live measure of how close the drawing is, plus one small live piece each in About, Tutoring and Projects, built so they can be swapped later.
 - `PRODUCT.md`: NeuronDiagrams and StarBattleSolver recorded as real work.
 
 ### Changed
