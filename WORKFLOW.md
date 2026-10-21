@@ -31,12 +31,14 @@ Design works best with real words. Collect, in any rough form:
 
 Missing pieces stay as clearly marked placeholders. Nothing gets invented.
 
-## Stage 2: Finish the design decisions (mockup rounds, like the palette)
+## Stage 2: Finish the design decisions (mockup rounds, like the palette) ✅
+
+Done: Newsreader body with IBM Plex Sans buttons; page order Hero, About, Tutoring, GRE textbook, Projects, Contact; spinning-circles centerpiece in the hero, with one small live piece in About, Tutoring and Projects. Details in `DESIGN.md`.
 
 Each is one or two rounds of live mockups:
-1. **Body font**: "Show me body font options to pair with DM Serif."
-2. **Page plan**: "Help me decide which sections the page needs and in what order." (Taste's step 2: every section must earn its place.)
-3. **Interactive centerpiece**: "Show me centerpiece ideas." Candidates so far: a curve you shape, a problem that solves itself as you scroll, your name drawn by equations, a mini GRE question.
+1. ✅ **Body font**: "Show me body font options to pair with DM Serif."
+2. ✅ **Page plan**: "Help me decide which sections the page needs and in what order." (Taste's step 2: every section must earn its place.)
+3. ✅ **Interactive centerpiece**: "Show me centerpiece ideas." Candidates so far: a curve you shape, a problem that solves itself as you scroll, your name drawn by equations, a mini GRE question.
 
 Each answer goes into `DESIGN.md`.
 

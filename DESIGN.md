@@ -11,7 +11,7 @@ description: Personal site of a math tutor; a calm, scholarly voice in a modern,
 
 A scholar with modern tools. A classic serif voice sits in a dark, quiet, precise frame (the "quiet instrument" direction dealt by design-taste-frontend): one narrow column, generous space, and small live math demonstrations instead of decoration. The site has two modes, night (dark) and day (light). They should feel like the same person in a dark outfit and a light outfit, never like two brands.
 
-The page should feel alive and responsive, but with one focal point at a time. There is one interactive centerpiece (not yet chosen; the cursor-shaped sine wave was only an exploration), plus small responsive touches everywhere (Emil's skills lead motion and interaction feel). Background texture never competes with the centerpiece.
+The page should feel alive and responsive, but with one focal point at a time. The hero's interactive centerpiece is spinning circles that draw Carson's initials (see Interactive Pieces), and a few sections each carry one small live piece of their own. There is never more than one per screen, plus small responsive touches everywhere (Emil's skills lead motion and interaction feel). Background texture never competes with the live piece on screen.
 
 ## Colors
 
@@ -38,12 +38,61 @@ Contrast (WCAG): lilac on charcoal is 8.7:1; plum on cream is 6.3:1. Both pass A
 
 ## Typography
 
-- Headlines: DM Serif Display in both modes (chosen for day/night consistency over Fraunces).
-- Body and UI text: [to be resolved during implementation]. Inter Tight was rejected; DM Sans was used as a neutral stand-in in mockups.
+Three faces, by the owner's deliberate choice (design-taste-frontend's rule is two at most; the owner saw both versions and preferred sans buttons):
+
+| Role | Face | Settings |
+|---|---|---|
+| Headlines | DM Serif Display | 400 (its only weight) |
+| Body text, including links inside sentences | Newsreader | 18.5px; weight 430 at night, 400 by day; line height 1.45 in both modes; italic for math variables in plain text |
+| Buttons, top menu, small labels and captions | IBM Plex Sans | 500 for buttons, 400 for labels; about 13.5–14.5px |
+| Math | KaTeX (LaTeX rendered in the browser) | Inherits the text color |
+
+### Why
+- **Serif body, never sans.** The owner wants a book feel over a tech feel, which matches the LaTeX textbook. Newsreader was chosen over IBM Plex Serif because it contrasts more with the headline; Plex Serif read like a smaller copy of it.
+- **18.5px, not 16px.** Newsreader has short, narrow lowercase letters, so it looks small at the usual size. The owner matched it by eye to IBM Plex Serif at 16px and landed on 18.5–19px.
+- **Heavier at night.** Light text on a dark background looks thinner than it is, so night mode uses weight 430.
+- **One line height.** The owner liked 1.40 by day and 1.45 at night; 1.45 everywhere was chosen because 1.40 is below design-taste-frontend's 1.45–1.6 range for body text and the difference is under 1px per line.
+- **Sans only for controls.** IBM Plex Sans is limited to buttons, the menu and small labels so it reads as "the controls", not a third voice. Links inside sentences stay in Newsreader, since a sans word mid-sentence looks like a mistake.
+
+Rejected: Inter Tight, Literata (looks too big), Source Serif 4 (too big, even with letter heights matched), Instrument Sans and Figtree (too techy), any sans body.
+
+### Words
+- American English everywhere ("center", "color").
+- Math is written in rigorous notation, no multiplication dots unless they really help.
+- Buttons use Title Case ("Get In Touch"), by the owner's choice.
 
 ## Layout
 
-Quiet-instrument grammar: a single narrow column placed left of centre, a large headline, a lot of untouched space. Exact measurements are [to be resolved during implementation].
+Quiet-instrument grammar: a single narrow column placed left of center, a large headline, a lot of untouched space. Exact measurements are [to be resolved during implementation].
+
+### Page plan
+
+Person first: the site introduces a person before it offers a service. Each section makes one claim and shows real proof; sections without proof are cut.
+
+| Order | Section | Claim | Proof | Live piece |
+|---|---|---|---|---|
+| 1 | Hero | This is Carson Mitchell, a math tutor who wrote a free GRE textbook. | Name set large, one plain sentence | Circles drawing his initials |
+| 2 | About | Here's who I am. | Photo and bio (pending, Stage 1) | Visual proof or Collatz ("math I find beautiful") |
+| 3 | Tutoring | I tutor math, and here's how to start. | How he teaches, subjects, how to book (pending); the textbook shows he can explain | The problem that solves itself as you scroll |
+| 4 | GRE textbook | There's a free 35-page GRE math textbook, and you can have it now. | The PDF: preview of real pages, download button | None |
+| 5 | Projects | I build tools for mathematical work. | NeuronDiagrams and StarBattleSolver, both live | A neuron diagram and a Star Battle puzzle, each beside its own project |
+| 6 | Contact | Here's how to reach me. | Email, LinkedIn, GitHub (pending); name returns large | None |
+
+- Top menu: About · Tutoring · GRE book · Projects, so each audience can jump to its part.
+- Hero: one main button, **Get In Touch** (goes to Contact; broad on purpose, for now), plus a quiet text link to the GRE textbook. The textbook is not the main button, by the owner's choice.
+- Cut, for lack of real proof: testimonials, prices, "students helped" numbers, FAQ. Any can return once real material exists.
+- Considered and not chosen: leading with tutoring, or with the textbook (the strongest proof).
+
+## Interactive Pieces
+
+Each live piece is a self-contained module that plugs into a slot on the page, so any piece can be moved, swapped, or rotated (a different one per visit) later by changing one line. Every piece needs a phone version that works with a thumb, a plain no-script fallback, and must never block reading. One live piece per screen; the quiet dots switch off around it.
+
+- **Hero centerpiece: circles that write his name.** A Fourier series: spinning circles stacked end to end trace the initials C and M. On load it draws once with 40 circles (about 3.6 s); then the circles fade and the real math appears in KaTeX and stays: $z_K(t) = c_0 + \sum_{k \in S_K} c_k e^{ikt}$, with the actual largest $\lvert c_k \rvert$ and a note that the coefficients are the discrete Fourier transform of points on the letter. A "Circles" slider (1–60) redraws once with the new count. It never loops.
+- **About: visual proof** that $1 + 3 + \dots + (2n-1) = n^2$ (L-shaped layers, slider for $n$), and/or **Collatz**: type a number, watch it fall to 1.
+- **Tutoring: a problem that solves itself** as you scroll, one step at a time, with each step's reason ("subtract 7 from both sides").
+- **Projects: a neuron diagram** (tap neurons to fire, linking to the NeuronDiagrams editor) and **a Star Battle puzzle** (linking to StarBattleSolver).
+- Rejected: a curve you shape, the name drawn by plain equations, a mini GRE question ("not my main niche").
+- Wished for later: Three.js and Manim (see CLAUDE.md).
 
 ## Elevation & Depth
 

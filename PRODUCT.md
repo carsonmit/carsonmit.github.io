@@ -41,13 +41,16 @@ Visual identity chosen with the owner is recorded in `DESIGN.md`. Animation deci
 
 ## Evidence on Hand
 
-- The GRE mathematics textbook PDF (`pdf/GRE-Textbook.pdf`) is the only real proof artifact today.
+- The GRE mathematics textbook PDF (`pdf/GRE-Textbook.pdf`, 35 pages).
+- NeuronDiagrams (confirmed by the owner as real work): a point-and-click editor for the neuron diagrams used in papers on causation. It exports TikZ/LaTeX code or images and runs in any browser and on iPad. Lives in the separate repo `carsonmit/Widgets-and-Miscellaneous`, served at https://carsonmit.github.io/Widgets-and-Miscellaneous/NeuronDiagrams/ (installable web app).
+- StarBattleSolver (confirmed by the owner as real work): a Star Battle puzzle solver with a visual, step-by-step solving window. Same repo, at `StarBattleSolver/`.
 - There are NO testimonials, rates, or reviews. Future work must not invent any; leave them absent until the owner provides real ones.
 - Confirmed name: Carson Mitchell. Bio and social links are still pending from the owner (placeholders for now); do not fabricate them.
 
 ## Product Principles
 
 - One site, several audiences: no visitor type should have to dig past another's content.
+- Person first: the site introduces Carson as a person before it offers a service. When two options are close, the warmer, more personal one wins.
 - Never fabricate proof: no invented testimonials, rates, credentials, or download counts.
 - The GRE textbook is the strongest real asset, so it stays easy to find.
 - Stay simple: plain static HTML/CSS/JS that the owner can read and learn from.

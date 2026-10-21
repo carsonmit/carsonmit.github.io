@@ -5,7 +5,8 @@
 - Repo: `carsonmit/carsonmit.github.io`
 - Stack: plain HTML/CSS/JS, single-file site. No frameworks or build step unless I ask.
 - Aesthetic: a scholarly serif voice in a dark, quiet, interactive frame, with light and dark modes. Palette and fonts are in `DESIGN.md`.
-- Current sections: hero, about, connect/social, footer, with animation effects.
+- Current sections: hero, about, connect/social, footer, with animation effects. The planned redesign (section order, centerpiece) is in `DESIGN.md`.
+- Future wish: I want to use **Three.js** (a JavaScript library for 3D graphics in the browser; loads from a CDN, so no build step) and **Manim** (3Blue1Brown's Python library for math animations; it renders videos offline, so on the site it would appear as pre-rendered video) at some point. When planning features or animations, say when one of them would fit. Each use still needs my OK.
 
 ## PDF pipeline
 - A LaTeX project on Overleaf syncs to the repo `carsonmit/Mathematics-for-the-GRE`.
@@ -16,6 +17,7 @@
 ## Rules
 - Never commit secrets, API keys, or tokens (the repo is public).
 - Prefer low-friction setups with few manual steps.
+- Write all site text and docs in American English ("center", "color").
 - Design/animation decisions: follow the `emil-design-eng` skill (Emil Kowalski) when installed.
 - GitHub Pages deploys can lag and cache; account for that before assuming a change failed.
 - Commit messages must be understandable by me (a beginner): a short first line in plain English saying what changed on the site or in the project (e.g. "Add tutoring section with booking button", not "refactor hero styles"), then a few bullet lines saying what changed and why. Avoid jargon; if a technical term is unavoidable, explain it briefly.
