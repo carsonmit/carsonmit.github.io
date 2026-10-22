@@ -38,7 +38,7 @@ Missing pieces stay as clearly marked placeholders. Nothing gets invented.
 
 ## Stage 2: Finish the design decisions (mockup rounds, like the palette) ✅
 
-Done: Newsreader body with IBM Plex Sans buttons; page order Hero, About, Tutoring, GRE textbook, Projects, Contact; spinning-circles centerpiece in the hero, with one small live piece in About, Tutoring and Projects. Details in `DESIGN.md`.
+Done: Newsreader body with IBM Plex Sans buttons; page order Hero, About, Tutoring, Projects (with the GRE textbook first), Contact; spinning-circles centerpiece in the hero, with one small live piece in About, Tutoring and Projects. Details in `DESIGN.md`.
 
 Each is one or two rounds of live mockups:
 1. ✅ **Body font**: "Show me body font options to pair with DM Serif."
@@ -57,7 +57,11 @@ For each section, top to bottom (hero first):
 5. **Motion**: "Use Emil's skills to refine the animations in the hero."
 6. **Save**: "Commit this section." This makes a checkpoint you can always go back to.
 
+(`/review-animations` is Emil's motion review; only you can start it, by typing it in the chat.)
+
 Then move to the next section. Small steps beat "redesign everything".
+
+Progress: ✅ Hero (v0.6.0) · About · Tutoring · Projects (GRE textbook first) · Contact
 
 **Before building Tutoring and Contact** (Claude: remind Carson at the start of that step):
 - Create the tutoring session types in Cal.com (e.g. a free intro call and a full session). Decide the lengths and whether each is in person, video, or both; Claude can create them through the Cal.com connector once you say so.

@@ -1,508 +1,329 @@
-<!DOCTYPE html>
-
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="night">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Your Name — Personal Site</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-```
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carson Mitchell, Math Tutor</title>
+<meta name="description" content="Carson Mitchell: mathematics tutor, and author of a free textbook for the GRE mathematics test.">
+<meta name="color-scheme" content="dark light">
+<script>
+  // Apply the saved day/night choice before the page paints, so it never flashes the wrong mode.
+  try { if (localStorage.getItem('theme') === 'day') document.documentElement.dataset.theme = 'day'; } catch (e) {}
+  document.documentElement.classList.add('js');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+/* ── Colors (DESIGN.md). Switching modes changes colors only, never layout. ── */
 :root {
-  --cream: #f5f0e8;
-  --ink: #1a1612;
-  --rust: #c4501a;
-  --sand: #e8dcc8;
-  --muted: #7a6e62;
-  --serif: 'DM Serif Display', Georgia, serif;
-  --sans: 'DM Sans', sans-serif;
+  --bg: #151a21;       /* charcoal blue */
+  --ac: #C9ACDE;       /* lilac */
+  --ink: #F2EFE8;
+  --mu: #A19E96;
+  --card: #1d232c;
+  --on: #151a21;       /* text on an accent button */
+  --card2: #2a3240;    /* the spinning circles */
+  --ghost: #2c3441;    /* the true letters, faint underneath */
+  --track: #636e80;    /* slider track (3.4:1 on the ground) */
+
+  --serif-display: 'DM Serif Display', Georgia, serif;
+  --serif: 'Newsreader', Georgia, serif;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+
+  --margin: clamp(20px, 5vw, 64px);
+  --max: 1240px;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+[data-theme="day"] {
+  --bg: #F3EBDD;       /* cream */
+  --ac: #6C4487;       /* plum */
+  --ink: #1f1a14;
+  --mu: #5c5348;
+  --card: #EADFCC;
+  --on: #F3EBDD;
+  --card2: #D6C6AC;
+  --ghost: #DDD0BA;
+  --track: #857865;
 }
 
-html { scroll-behavior: smooth; }
-
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body {
-  background: var(--cream);
+  margin: 0;
+  background: var(--bg);
   color: var(--ink);
-  font-family: var(--sans);
-  font-weight: 300;
-  overflow-x: hidden;
-}
-
-/* ── Noise texture overlay ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.5;
-}
-
-/* ── Nav ── */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 3rem;
-  mix-blend-mode: multiply;
-}
-
-.nav-logo {
   font-family: var(--serif);
-  font-size: 1.1rem;
-  color: var(--ink);
-  text-decoration: none;
-  letter-spacing: 0.02em;
+  font-weight: 420;
+  font-size: 18.5px;
+  line-height: 1.45;
 }
+html.vt body, html.vt body * { transition: none !important; }
+/* Mode switch in browsers without view transitions: every color fades together */
+html.fade *, html.fade *::before, html.fade *::after { transition: color .3s ease, background-color .3s ease, fill .3s ease, stroke .3s ease, transform .24s var(--ease-out) !important; }
+a { color: var(--ac); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--ac); outline-offset: 3px; border-radius: 4px; }
+::selection { background: var(--ac); color: var(--on); }
 
-.nav-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--margin); }
+
+/* ── Top menu ── */
+.top { display: flex; align-items: center; gap: 28px; padding-top: 28px; padding-bottom: 28px; font-family: var(--sans); font-size: 14.5px; }
+.top .mark { font-family: var(--serif-display); font-size: 21px; color: var(--ink); text-decoration: none; margin-right: auto; }
+.top nav { display: flex; gap: 24px; }
+.top nav a { color: var(--mu); text-decoration: none; transition: color .18s ease; padding: 12px 0; margin: -12px 0; }
+.top nav a:hover { color: var(--ink); }
+.mode {
+  /* Day/night switch: a track with a sun (left) and a moon (right); the knob slides onto the current mode */
+  position: relative; width: 58px; height: 30px; flex: none; padding: 0; border: 0; border-radius: 999px;
+  background: var(--card2); color: var(--mu); cursor: pointer;
 }
-
-.nav-links a {
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.2s;
+.mode::before { content: ''; position: absolute; inset: -8px; } /* a bigger tap area than the switch looks */
+.mode .ico { position: absolute; top: 8px; width: 14px; height: 14px; }
+.mode > .sun { left: 8px; }
+.mode > .moon { right: 8px; }
+.knob {
+  position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--ac); color: var(--on); display: grid; place-items: center;
+  transform: translateX(28px); view-transition-name: mode-knob;
+  transition: transform .24s var(--ease-out);
 }
-
-.nav-links a:hover { color: var(--rust); }
+.knob .ico { position: static; }
+[data-theme="day"] .knob { transform: translateX(0); }
+[data-theme="day"] .knob .moon, :root:not([data-theme="day"]) .knob .sun { display: none; }
+.mode { transition: transform .14s var(--ease-out); }
+.mode:active { transform: scale(.95); }
+@media (prefers-reduced-motion: reduce) { .knob { transition: none; } }
 
 /* ── Hero ── */
-#hero {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  position: relative;
-  overflow: hidden;
+.hero { padding-top: clamp(24px, 8vh, 96px); padding-bottom: clamp(64px, 12vh, 140px); }
+.hg { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
+.hero h1 {
+  font-family: var(--serif-display); font-weight: 400;
+  font-size: clamp(52px, 7.2vw, 104px); line-height: .98; letter-spacing: -.01em;
+  margin: 0 0 22px; color: var(--ink);
+}
+.hero p.s { margin: 0 0 30px; max-width: 30ch; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; }
+.pb {
+  display: inline-block; font: 500 14.5px/1 var(--sans); background: var(--ac); color: var(--on);
+  text-decoration: none; border-radius: 999px; padding: 14px 24px;
+  transition: transform .16s var(--ease-out);
+}
+.pb:active { transform: scale(.97); }
+.ql { font-size: 17px; padding: 12px 0; margin: -12px 0; }
+
+/* The centerpiece (design/mockups/hero-fourier.html) */
+.fig svg { width: 100%; height: auto; display: block; }
+.ctl { font-family: var(--sans); font-size: 13px; color: var(--mu); display: flex; gap: 12px; align-items: center; margin: 4px 0 2px; }
+.ctl label { white-space: nowrap; }
+.ctl label .katex { font-size: 1.08em; }
+#rd { font-family: var(--sans); font-size: 13px; line-height: 1.45; color: var(--mu); margin: 0 0 10px; min-height: 19px; text-wrap: pretty; }
+#rd b { font-weight: 500; color: var(--ink); }
+#math { text-align: center; opacity: 0; transform: translateY(6px); transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
+#math.on { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { #math { transform: none; } }
+#math .eq .katex { font-size: 1.32em; }
+#math .eq2 .katex { font-size: 1.02em; color: var(--mu); }
+#math .katex-display { margin: .5em 0; }
+#math .cap { font-style: italic; font-size: 16px; line-height: 1.45; color: var(--mu); margin: 2px auto 0; max-width: 46ch; }
+#math .cap .katex { font-size: 1.02em; font-style: normal; }
+.rng { --th: 16px; position: relative; flex: 1; display: flex; align-items: center; }
+.rng::before, .rng .fill { content: ''; position: absolute; left: 0; height: 3px; border-radius: 2px; pointer-events: none; }
+.rng::before { right: 0; background: var(--track); }
+.rng .fill { width: calc(var(--p, .3) * (100% - var(--th)) + var(--th) / 2); background: var(--ac); }
+input[type=range] { -webkit-appearance: none; appearance: none; position: relative; width: 100%; height: 28px; background: transparent; margin: 0; cursor: pointer; }
+input[type=range]::-webkit-slider-runnable-track { height: 3px; background: transparent; }
+input[type=range]::-moz-range-track { height: 3px; background: transparent; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--ac); border: 0; margin-top: -6.5px; cursor: grab; transition: transform .14s var(--ease-out); }
+input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--ac); border: 0; cursor: grab; }
+input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); cursor: grabbing; }
+input[type=range]:focus-visible { outline-offset: 2px; }
+@media (pointer: coarse) {
+  /* A thumb-sized handle on phones and tablets */
+  .rng { --th: 24px; }
+  input[type=range]::-webkit-slider-thumb { width: 24px; height: 24px; margin-top: -10.5px; }
+  input[type=range]::-moz-range-thumb { width: 24px; height: 24px; }
+}
+/* Without JavaScript: the letters stay drawn, the controls hide, a plain caption shows */
+html:not(.js) .ctl, html:not(.js) #rd, html:not(.js) #math { display: none; }
+.nojs { font-style: italic; font-size: 16px; color: var(--mu); margin: 8px 0 0; text-align: center; }
+
+/* ── Sections not built yet (Stage 3 builds them one at a time) ── */
+.stub { padding-top: 72px; padding-bottom: 72px; }
+.stub h2 { font-family: var(--serif-display); font-weight: 400; font-size: clamp(32px, 3.4vw, 40px); line-height: 1.05; margin: 0 0 10px; }
+.stub p { color: var(--mu); margin: 0; }
+
+/* ── Phone ── */
+@media (max-width: 760px) {
+  .top { flex-wrap: wrap; row-gap: 14px; padding-top: 20px; padding-bottom: 8px; }
+  .top nav { order: 3; width: 100%; gap: 28px; }
+  .hg { grid-template-columns: 1fr; gap: 36px; }
+  .hero h1 { font-size: clamp(48px, 14vw, 72px); }
 }
 
-.hero-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 8rem 3rem 5rem;
-  position: relative;
-  z-index: 2;
-}
-
-.hero-eyebrow {
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--rust);
-  margin-bottom: 1.5rem;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 0.8s 0.2s forwards;
-}
-
-.hero-name {
-  font-family: var(--serif);
-  font-size: clamp(3.5rem, 6vw, 6rem);
-  line-height: 1.0;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  opacity: 0;
-  transform: translateY(30px);
-  animation: fadeUp 0.9s 0.4s forwards;
-}
-
-.hero-name em {
-  font-style: italic;
-  color: var(--rust);
-}
-
-.hero-tagline {
-  margin-top: 2rem;
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: var(--muted);
-  max-width: 380px;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 0.9s 0.6s forwards;
-}
-
-.hero-cta {
-  margin-top: 3rem;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 0.9s 0.8s forwards;
-}
-
-.btn {
-  display: inline-block;
-  padding: 0.85rem 2rem;
-  background: var(--ink);
-  color: var(--cream);
-  font-family: var(--sans);
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border: 2px solid var(--ink);
-  transition: background 0.25s, color 0.25s;
-}
-
-.btn:hover {
-  background: transparent;
-  color: var(--ink);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--ink);
-  margin-left: 1rem;
-}
-
-.btn-ghost:hover {
-  background: var(--ink);
-  color: var(--cream);
-}
-
-.hero-right {
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-blob {
-  position: absolute;
-  inset: 0;
-  background: var(--sand);
-  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
-}
-
-.hero-circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-40%, -50%);
-  width: 340px;
-  height: 340px;
-  border-radius: 50%;
-  background: var(--cream);
-  border: 1px solid rgba(0,0,0,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--serif);
-  font-size: 5rem;
-  opacity: 0;
-  animation: fadeIn 1s 1s forwards;
-}
-
-/* Decorative rule */
-.hero-rule {
-  position: absolute;
-  bottom: 3rem;
-  right: 3rem;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--muted);
-  writing-mode: vertical-rl;
-  opacity: 0;
-  animation: fadeIn 1s 1.2s forwards;
-}
-
-/* ── Section shared ── */
-section {
-  padding: 8rem 3rem;
-}
-
-.section-label {
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--rust);
-  margin-bottom: 1rem;
-}
-
-.section-title {
-  font-family: var(--serif);
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 1.1;
-  color: var(--ink);
-}
-
-/* ── About ── */
-#about {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 6rem;
-  align-items: start;
-  border-top: 1px solid var(--sand);
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.about-body {
-  padding-top: 3rem;
-}
-
-.about-body p {
-  font-size: 1.05rem;
-  line-height: 1.85;
-  color: var(--muted);
-  margin-top: 1.5rem;
-}
-
-.about-body p strong {
-  color: var(--ink);
-  font-weight: 500;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-top: 2.5rem;
-}
-
-.tag {
-  padding: 0.35rem 0.9rem;
-  border: 1px solid var(--ink);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-/* ── Connect ── */
-#connect {
-  background: var(--ink);
-  color: var(--cream);
-  border-top: none;
-}
-
-#connect .section-label { color: var(--rust); }
-
-#connect .section-title { color: var(--cream); }
-
-.connect-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1px;
-  background: rgba(255,255,255,0.08);
-  margin-top: 4rem;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-.connect-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 2.5rem;
-  background: var(--ink);
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.connect-card:hover { background: #2a241e; }
-
-.connect-card-label {
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--rust);
-}
-
-.connect-card-title {
-  font-family: var(--serif);
-  font-size: 1.4rem;
-  color: var(--cream);
-  margin-top: 1.5rem;
-}
-
-.connect-card-arrow {
-  margin-top: 3rem;
-  font-size: 1.4rem;
-  color: rgba(255,255,255,0.3);
-  transition: color 0.2s, transform 0.2s;
-}
-
-.connect-card:hover .connect-card-arrow {
-  color: var(--rust);
-  transform: translateX(4px);
-}
-
-/* ── Footer ── */
-footer {
-  background: var(--ink);
-  color: var(--muted);
-  padding: 2rem 3rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  border-top: 1px solid rgba(255,255,255,0.06);
-}
-
-footer a {
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-footer a:hover { color: var(--cream); }
-
-/* ── Animations ── */
-@keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
-/* ── Responsive ── */
-@media (max-width: 768px) {
-  nav { padding: 1.2rem 1.5rem; }
-  .nav-links { gap: 1.2rem; }
-
-  #hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
-  .hero-left { padding: 7rem 1.5rem 3rem; }
-  .hero-right { height: 250px; }
-  .hero-circle { width: 200px; height: 200px; font-size: 3rem; }
-
-  #about {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 5rem 1.5rem;
-  }
-
-  section { padding: 5rem 1.5rem; }
-
-  .btn-ghost { margin-left: 0; margin-top: 0.75rem; }
-
-  footer { flex-direction: column; gap: 0.5rem; text-align: center; }
-}
-```
-
-  </style>
+/* ── The day/night switch: a circle of the new mode spreads from the button ── */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-group(mode-knob) { animation-duration: .24s; animation-timing-function: var(--ease-out); }
+/* Reduced motion: the new mode fades in over the old one, and the knob doesn't slide */
+@keyframes vt-fade-in { from { opacity: 0; } }
+html.vt-fade::view-transition-new(root) { animation: vt-fade-in .3s ease both; }
+html.vt-fade::view-transition-group(mode-knob) { animation: none; }
+</style>
 </head>
 <body>
 
-  <!-- Nav -->
-
-  <nav>
-    <a class="nav-logo" href="#hero">Your Name</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#connect">Connect</a></li>
-    </ul>
+<header class="wrap top">
+  <a class="mark" href="#top">Carson Mitchell</a>
+  <nav aria-label="Sections">
+    <a href="#about">About</a>
+    <a href="#tutoring">Tutoring</a>
+    <a href="#projects">Projects</a>
   </nav>
+  <button class="mode" id="mode" type="button" role="switch" aria-checked="true" aria-label="Dark mode">
+    <svg class="ico sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="currentColor"/><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 1.2v1.6M8 13.2v1.6M1.2 8h1.6M13.2 8h1.6M3.2 3.2l1.1 1.1M11.7 11.7l1.1 1.1M3.2 12.8l1.1-1.1M11.7 4.3l1.1-1.1"/></g></svg>
+    <svg class="ico moon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M13.6 10.4A6 6 0 0 1 5.6 2.4a6 6 0 1 0 8 8z"/></svg>
+    <span class="knob"><svg class="ico sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="currentColor"/><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 1.2v1.6M8 13.2v1.6M1.2 8h1.6M13.2 8h1.6M3.2 3.2l1.1 1.1M11.7 11.7l1.1 1.1M3.2 12.8l1.1-1.1M11.7 4.3l1.1-1.1"/></g></svg><svg class="ico moon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M13.6 10.4A6 6 0 0 1 5.6 2.4a6 6 0 1 0 8 8z"/></svg></span>
+  </button>
+</header>
 
-  <!-- Hero -->
-
-  <section id="hero">
-    <div class="hero-left">
-      <p class="hero-eyebrow">Hello, I'm</p>
-      <h1 class="hero-name">Your<br/><em>Name</em></h1>
-      <p class="hero-tagline">
-        A short, compelling line about who you are and what you care about. Make it yours.
-      </p>
-      <div class="hero-cta">
-        <a href="#about" class="btn">Learn more</a>
-        <a href="#connect" class="btn btn-ghost">Get in touch</a>
+<main id="top">
+  <section class="wrap hero" aria-labelledby="hero-title">
+    <div class="hg">
+      <div>
+        <h1 id="hero-title">Carson Mitchell</h1>
+        <p class="s">Mathematics tutor, and author of a free textbook for the GRE mathematics test.</p>
+        <div class="actions">
+          <a class="pb" href="#contact">Get In Touch</a>
+          <a class="ql" href="pdf/GRE-Textbook.pdf">GRE textbook (PDF)</a>
+        </div>
       </div>
-    </div>
-    <div class="hero-right">
-      <div class="hero-blob"></div>
-      <div class="hero-circle">👋</div>
-      <span class="hero-rule">Est. 2025 &nbsp;·&nbsp; Based on Earth</span>
-    </div>
-  </section>
 
-  <!-- About -->
-
-  <section id="about">
-    <div class="about-sticky">
-      <p class="section-label">About me</p>
-      <h2 class="section-title">A bit<br/>about<br/>myself</h2>
-    </div>
-    <div class="about-body">
-      <p>
-        <a href="pdf/GRE-Textbook.pdf">
-          Download Fundamentals of Mathematics for the GRE
-        </a>
-      </p>
-      <p>
-        <strong>Write a paragraph about yourself here.</strong> Where are you from? What do you do or study? What are you passionate about? This is your space to introduce yourself to the world in your own words.
-      </p>
-      <p>
-        Feel free to add a second paragraph going a little deeper — your background, your journey, or what you're currently working on. Keep it conversational and genuine.
-      </p>
-      <p>
-        Outside of that, you might mention hobbies, interests, or what you're excited about right now. People connect with people, so don't be shy.
-      </p>
-      <div class="tags">
-        <span class="tag">Curiosity</span>
-        <span class="tag">Design</span>
-        <span class="tag">Technology</span>
-        <span class="tag">Writing</span>
-        <span class="tag">Your Interest</span>
+      <div class="fig">
+        <!-- Spinning circles (a Fourier series) draw the initials C and M as one curve.
+             Approved reference: design/mockups/hero-fourier.html. The two paths below hold the
+             true letters, so they still show if JavaScript is off; the script redraws them. -->
+        <svg viewBox="0 0 300 160" role="img" aria-label="Spinning circles drawing the initials C M as one curve">
+          <path id="gh" fill="none" stroke="var(--ghost)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" d="M125.9 46.1A48 48 0 1 0 125.9 113.9M168 125L168 34L208 92L248 34L248 125"/>
+          <g id="fc"></g>
+          <path id="ft" fill="none" stroke="var(--ac)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M125.9 46.1A48 48 0 1 0 125.9 113.9M168 125L168 34L208 92L248 34L248 125"/>
+          <g id="pens"></g>
+        </svg>
+        <div class="ctl"><label for="fk"><span id="fl" aria-hidden="true">N</span> circles each way</label><span class="rng"><span class="fill"></span><input type="range" id="fk" min="1" max="100" value="30" step="1" aria-label="Number of circles each way"></span></div>
+        <div id="rd"></div>
+        <div id="math"><div class="eq" id="meq"></div><div class="eq2" id="meq2"></div><p class="cap" id="mcap"></p></div>
+        <noscript><p class="nojs">The initials C and M, drawn as one curve.</p></noscript>
       </div>
     </div>
   </section>
 
-  <!-- Connect -->
-
-  <section id="connect">
-    <p class="section-label">Let's talk</p>
-    <h2 class="section-title">Find me<br/>around the web</h2>
-    <div class="connect-grid">
-      <a class="connect-card" href="mailto:you@email.com">
-        <span class="connect-card-label">Email</span>
-        <span class="connect-card-title">you@email.com</span>
-        <span class="connect-card-arrow">→</span>
-      </a>
-      <a class="connect-card" href="https://linkedin.com/in/yourhandle" target="_blank">
-        <span class="connect-card-label">LinkedIn</span>
-        <span class="connect-card-title">yourhandle</span>
-        <span class="connect-card-arrow">→</span>
-      </a>
-      <a class="connect-card" href="https://github.com/yourhandle" target="_blank">
-        <span class="connect-card-label">GitHub</span>
-        <span class="connect-card-title">yourhandle</span>
-        <span class="connect-card-arrow">→</span>
-      </a>
-      <a class="connect-card" href="https://twitter.com/yourhandle" target="_blank">
-        <span class="connect-card-label">Twitter / X</span>
-        <span class="connect-card-title">@yourhandle</span>
-        <span class="connect-card-arrow">→</span>
-      </a>
-    </div>
+  <!-- PLACEHOLDER sections: each is built in its own Stage 3 round. -->
+  <section class="wrap stub" id="about" aria-labelledby="about-title">
+    <h2 id="about-title">About</h2>
+    <p>Placeholder: this section is built next.</p>
   </section>
+  <section class="wrap stub" id="tutoring" aria-labelledby="tutoring-title">
+    <h2 id="tutoring-title">Tutoring</h2>
+    <p>Placeholder: not built yet.</p>
+  </section>
+  <section class="wrap stub" id="projects" aria-labelledby="projects-title">
+    <h2 id="projects-title">Projects</h2>
+    <p>Placeholder: not built yet. It opens with the GRE textbook: <a href="pdf/GRE-Textbook.pdf">GRE textbook (PDF)</a>.</p>
+  </section>
+  <section class="wrap stub" id="contact" aria-labelledby="contact-title">
+    <h2 id="contact-title">Contact</h2>
+    <p>Placeholder: not built yet. Until then: <a href="mailto:carsonm6719@gmail.com">carsonm6719@gmail.com</a>.</p>
+  </section>
+</main>
 
-  <!-- Footer -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 
-  <footer>
-    <span>© 2025 Your Name</span>
-    <a href="#hero">Back to top ↑</a>
-  </footer>
+/* ── Day/night switch ── */
+const root = document.documentElement, modeBtn = document.getElementById('mode');
+function label() { modeBtn.setAttribute('aria-checked', root.dataset.theme === 'day' ? 'false' : 'true'); }
+function apply(t) { root.dataset.theme = t; label(); try { localStorage.setItem('theme', t); } catch (e) {} }
+label();
+modeBtn.addEventListener('click', () => {
+  const next = root.dataset.theme === 'day' ? 'night' : 'day';
+  if (!document.startViewTransition) {
+    // Older browsers: fade every color on the page together for 0.3 s.
+    root.classList.add('fade'); apply(next); setTimeout(() => root.classList.remove('fade'), 350); return;
+  }
+  root.classList.add('vt');
+  if (reduce.matches) {
+    // Reduced motion: no spreading circle, just one gentle crossfade of the whole page.
+    root.classList.add('vt-fade');
+    document.startViewTransition(() => apply(next)).finished.finally(() => root.classList.remove('vt', 'vt-fade'));
+    return;
+  }
+  // Spread the new mode as a circle from the button, covering the farthest corner.
+  const r = modeBtn.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+  // In percentages, not pixels: some browsers (high-density screens, zoom) size the snapshot
+  // differently, and pixel values then put the circle in the wrong place and too small.
+  // A circle's % radius is measured against sqrt(w² + h²) / sqrt(2).
+  const w = innerWidth, h = innerHeight;
+  const end = Math.hypot(Math.max(x, w - x), Math.max(y, h - y)) / (Math.hypot(w, h) / Math.SQRT2) * 100;
+  const at = `at ${x / w * 100}% ${y / h * 100}%`;
+  const vt = document.startViewTransition(() => apply(next));
+  vt.ready.then(() => root.animate(
+    { clipPath: [`circle(0% ${at})`, `circle(${end}% ${at})`] },
+    { duration: 560, easing: 'cubic-bezier(0.77, 0, 0.175, 1)', pseudoElement: '::view-transition-new(root)' }
+  ));
+  vt.finished.finally(() => root.classList.remove('vt'));
+});
 
+/* ── Hero centerpiece: circles that write C M. Logic copied from design/mockups/hero-fourier.html. ── */
+// The true path f: the C (arc), pen up to the M, the M (polyline), pen up back to the start.
+const segs=[];const arc=[];for(let i=0;i<=60;i++){const t=Math.PI/4+i/60*1.5*Math.PI;arc.push([92+48*Math.cos(t),80-48*Math.sin(t)])}
+const Mv=[[168,125],[168,34],[208,92],[248,34],[248,125]];
+function addPoly(pts,pen){for(let i=0;i<pts.length-1;i++)segs.push({a:pts[i],b:pts[i+1],pen})}
+addPoly(arc,true);addPoly([arc[arc.length-1],Mv[0]],false);addPoly(Mv,true);addPoly([Mv[4],arc[0]],false);
+// 720 points evenly spaced by arc length along f.
+const L=segs.map(s=>Math.hypot(s.b[0]-s.a[0],s.b[1]-s.a[1])),TOT=L.reduce((x,y)=>x+y,0),MS=720;
+const F=[],PEN=[];let si=0,acc=0;for(let m=0;m<MS;m++){const d=m/MS*TOT;while(acc+L[si]<d){acc+=L[si];si++}const s=segs[si],f=(d-acc)/L[si];F.push([s.a[0]+(s.b[0]-s.a[0])*f,s.a[1]+(s.b[1]-s.a[1])*f]);PEN.push(s.pen)}
+// Coefficients c_n for n = -100..100 (discrete Fourier transform of the 720 points).
+const NMAX=100,C={};for(let n=-NMAX;n<=NMAX;n++){let re=0,im=0;for(let m=0;m<MS;m++){const a=-2*Math.PI*n*m/MS;re+=F[m][0]*Math.cos(a)-F[m][1]*Math.sin(a);im+=F[m][0]*Math.sin(a)+F[m][1]*Math.cos(a)}C[n]={re:re/MS,im:im/MS,r:Math.hypot(re,im)/MS}}
+// Partial sum z(t) at s = t / 2π, terms ordered 0, 1, -1, 2, -2, ...
+function z(N,s,circ){let x=0,y=0,out=[];for(let j=0;j<=2*N;j++){const n=j===0?0:(j%2?(j+1)/2:-j/2),c=C[n],a=2*Math.PI*n*s;if(circ&&j>0)out.push([x,y,c.r]);x+=c.re*Math.cos(a)-c.im*Math.sin(a);y+=c.re*Math.sin(a)+c.im*Math.cos(a)}return{x,y,out}}
+let ghost='';F.forEach((p,m)=>{const prev=m>0&&PEN[m-1];if(PEN[m])ghost+=(prev?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)});document.getElementById('gh').setAttribute('d',ghost);
+const fk=document.getElementById('fk');let N=30,raf=null;const DUR=5200,fc=document.getElementById('fc'),ft=document.getElementById('ft'),math=document.getElementById('math');
+const T=(s,d)=>window.katex?katex.renderToString(s,{displayMode:!!d,throwOnError:false}):s;
+// Mean distance between z_N and f on the letters, as a percent of the letter height (92).
+function miss(){let e=0,k=0;for(let m=0;m<MS;m+=2){if(!PEN[m])continue;const q=z(N,m/MS,false);e+=Math.hypot(q.x-F[m][0],q.y-F[m][1]);k++}return 100*e/k/92}
+function readout(){document.getElementById('fl').innerHTML=T('N = '+N);const pc=miss(),ps=pc<0.1?pc.toFixed(2):pc.toFixed(1);document.getElementById('rd').innerHTML='<b>'+2*N+' circles</b> · they miss the true letters by <b>'+ps+'%</b> of their height, on average. More circles, sharper corners.';
+fk.setAttribute('aria-valuetext',2*N+' circles, missing the letters by '+ps+' percent');fk.parentNode.style.setProperty('--p',(N-1)/99);eqs()}
+// The equations are typeset from the start (hidden), so they hold their space and nothing jumps when they appear.
+function eqs(){document.getElementById('meq').innerHTML=T('z(t) \\;=\\; \\sum_{n=-'+N+'}^{'+N+'} c_n\\, e^{int}',1)}
+function showMath(){
+document.getElementById('meq2').innerHTML=T('c_n \\;=\\; \\frac{1}{2\\pi}\\int_0^{2\\pi} f(t)\\, e^{-int}\\, dt',1);
+document.getElementById('mcap').innerHTML='One curve '+T('f')+' writes both letters, lifting the pen in between. Each '+T('c_n')+' is '+T('f')+' unwound '+T('n')+' times and averaged, and each term is a circle of radius '+T('\\lvert c_n\\rvert')+'.';math.classList.add('on')}
+// z_N at the 721 sample points, as path pieces, computed once per drawing so each frame only
+// joins the pieces drawn so far (recomputing them every frame made phones stutter at large N).
+let pieces=[];function curve(){pieces=[];for(let i=0;i<=MS;i++){const m=i%MS;if(!PEN[m]){pieces.push('');continue}const q=z(N,i/MS,false);pieces.push((i>0&&PEN[(i-1)%MS]?'L':'M')+q.x.toFixed(1)+' '+q.y.toFixed(1))}}
+// The finished drawing of z_N in one go (used when the visitor prefers reduced motion).
+function still(){cancelAnimationFrame(raf);curve();ft.setAttribute('d',pieces.join(''));fc.innerHTML='';document.getElementById('pens').innerHTML='';showMath()}
+// Draw once over one full period, then fade the circles and show the math.
+function run(){if(reduce.matches){still();return}
+cancelAnimationFrame(raf);curve();fc.style.transition='none';fc.style.opacity=1;const t0=performance.now();
+function fr(now){const p=Math.min(1,(now-t0)/DUR),k=Math.floor(p*MS);let circ='';
+const q=z(N,p,true),path=pieces.slice(0,k+1).join('')+(PEN[Math.min(MS-1,k)]&&k>0?'L'+q.x.toFixed(1)+' '+q.y.toFixed(1):'');q.out.forEach(([x,y,r])=>{if(r>0.4)circ+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r.toFixed(1)+'" fill="none" stroke="var(--card2)" stroke-width="1"/>'});
+const down=PEN[Math.min(MS-1,Math.floor(p*MS))];fc.innerHTML=circ;ft.setAttribute('d',path);
+document.getElementById('pens').innerHTML=p<1?'<circle cx="'+q.x.toFixed(1)+'" cy="'+q.y.toFixed(1)+'" r="3.5" fill="'+(down?'var(--ac)':'none')+'" stroke="var(--ac)" stroke-width="1.5"/>':'';
+if(p<1)raf=requestAnimationFrame(fr);else{fc.style.transition='opacity .6s cubic-bezier(0.23, 1, 0.32, 1)';fc.style.opacity=0;showMath()}}
+raf=requestAnimationFrame(fr)}
+// Slider: redraw once, 300 ms after the last change.
+let deb;fk.oninput=()=>{N=+fk.value;readout();clearTimeout(deb);deb=setTimeout(run,300)};
+// Start the first drawing when fonts and KaTeX are ready and the circles are on screen
+// (on a phone they sit below the name, so they wait until you scroll them fully into view).
+const katexReady=new Promise(r=>{if(window.katex)r();else document.querySelector('script[src*="katex.min.js"]').addEventListener('load',r,{once:true});document.querySelector('script[src*="katex.min.js"]').addEventListener('error',r,{once:true})});
+Promise.all([document.fonts.ready,katexReady]).then(()=>{readout();showMath();math.classList.remove('on');
+  const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();run()}},{threshold:.85});
+  io.observe(document.querySelector('.fig svg'))});
+</script>
 </body>
 </html>

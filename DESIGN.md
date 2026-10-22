@@ -74,11 +74,11 @@ Person first: the site introduces a person before it offers a service. Each sect
 | 1 | Hero | This is Carson Mitchell, a math tutor who wrote a free GRE textbook. | Name set large, one plain sentence | Circles drawing his initials |
 | 2 | About | Here's who I am. | Photo and bio (see PRODUCT.md, Confirmed Content) | Visual proof or Collatz ("math I find beautiful") |
 | 3 | Tutoring | I tutor math, and here's how to start. | Subjects (`content/subjects.md`), levels, online or in person, rates, how to book (see PRODUCT.md); the textbook shows he can explain | The problem that solves itself as you scroll |
-| 4 | GRE textbook | There's a free 35-page GRE math textbook, and you can have it now. | The PDF: preview of real pages, download button | None |
-| 5 | Projects | I build tools for mathematical work. | NeuronDiagrams and StarBattleSolver, both live | A neuron diagram and a Star Battle puzzle, each beside its own project |
-| 6 | Contact | Here's how to reach me. | Email, LinkedIn, GitHub (see PRODUCT.md); name returns large | None |
+| 4 | Projects | I make things for mathematical work, starting with a free GRE textbook. | The GRE textbook first (free 35-page PDF: preview of real pages, download button), then NeuronDiagrams and StarBattleSolver, both live | None for the textbook; a neuron diagram and a Star Battle puzzle, each beside its own project |
+| 5 | Contact | Here's how to reach me. | Email, LinkedIn, GitHub (see PRODUCT.md); name returns large | None |
 
-- Top menu: About · Tutoring · GRE book · Projects, so each audience can jump to its part.
+- Top menu: About · Tutoring · Projects, so each audience can jump to its part.
+- The GRE textbook is the first project in Projects, not a section of its own (owner's choice, 2026-10-22). It stays easy to find through the hero's text link and its place at the top of Projects.
 - Hero: one main button, **Get In Touch** (goes to Contact; broad on purpose, for now), plus a quiet text link to the GRE textbook. The textbook is not the main button, by the owner's choice.
 - Cut, for lack of real proof: testimonials, "students helped" numbers, FAQ. Any can return once real material exists. Prices were cut at first but return now that the owner supplied real rates.
 - Considered and not chosen: leading with tutoring, or with the textbook (the strongest proof).
@@ -93,6 +93,7 @@ Each live piece is a self-contained module that plugs into a slot on the page, s
   - On load it draws once with $N = 30$ (60 circles, about 5 s, one full period). It never loops. The true letters sit faintly underneath the whole time, so you can compare.
   - Then the circles fade and two KaTeX equations appear, centered: the sum (large, showing the live value of $N$) and, smaller and muted, $c_n = \frac{1}{2\pi}\int_0^{2\pi} f(t)\, e^{-int}\, dt$. Caption (Newsreader italic): "One curve $f$ writes both letters, lifting the pen in between. Each $c_n$ is $f$ unwound $n$ times and averaged, and each term is a circle of radius $\lvert c_n\rvert$."
   - A slider labeled $N$ (1–100) redraws once with the new value. Under it, a live readout explains why the slider matters: "60 circles · they miss the true letters by X% of their height, on average. More circles, sharper corners." X is the measured mean distance between the drawing and the true letters, divided by the letter height.
+  - Built-site changes from the mockup, approved by the owner (2026-10-22): the drawing starts once the figure is fully on screen; the circles' fade-out and the equations' fade-in keep 0.6 s but use Emil's strong ease-out curve `cubic-bezier(0.23, 1, 0.32, 1)` instead of `ease`; the equations stay visible during slider redraws; the slider label reads "$N$ = 30 circles each way", with a filled track.
   - Goal: impressive for younger students. They watch the error shrink as circles are added. Keep the math brief, rigorous and beautifully typeset. The slider track must be clearly visible in both modes.
 - **About: visual proof** that $1 + 3 + \dots + (2n-1) = n^2$ (L-shaped layers, slider for $n$), and/or **Collatz**: type a number, watch it fall to 1.
 - **Tutoring: a problem that solves itself** as you scroll, one step at a time, with each step's reason ("subtract 7 from both sides").

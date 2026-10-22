@@ -4,7 +4,7 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 
 **Live site:** https://carsonmit.github.io
 
-> Status: a redesign is in progress (see [Roadmap](#roadmap)). The live site still shows the original template.
+> Status: a redesign is in progress (see [Roadmap](#roadmap)). The new hero is built (v0.6.0); the other sections are still marked placeholders.
 
 ## Contents
 
@@ -130,6 +130,6 @@ Tracked in [WORKFLOW.md](WORKFLOW.md):
 - [x] Stage 0: setup, design skills, palette, notes
 - [x] Stage 1: real bio, links, tutoring details, photo (v0.5.0; a few bio lines, booking link and contact form come later)
 - [x] Stage 2: body font, page plan, interactive centerpiece (v0.4.0)
-- [ ] Stage 3: build section by section
+- [ ] Stage 3: build section by section (hero done in v0.6.0; next: About, Tutoring, Projects with the GRE textbook, Contact)
 - [ ] Stage 4: polish (accessibility, mobile, motion)
 - [ ] Stage 5: launch v1.0.0

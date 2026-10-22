@@ -4,6 +4,24 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-10-22
+
+Stage 3 begins: the hero, the first section of the redesigned site, is built. The rest of the page shows clearly marked placeholders until each section is built.
+
+### Added
+- The new hero: "Carson Mitchell" set large, a one-sentence introduction, a **Get In Touch** button and a link to the GRE textbook PDF.
+- The hero centerpiece: spinning circles (a Fourier series) draw the initials C and M, then the equations behind them appear. A slider sets how many circles spin (from 1 to 100 each way), with a live line showing how closely they match the real letters. Built to match the approved mockup.
+- A sliding day/night switch with a sun and a moon. Switching spreads the new colors out in a circle from the switch.
+- New top menu: About · Tutoring · Projects.
+- Works for everyone: phones get a bigger slider handle and the drawing waits until it's on screen; visitors who turn on "reduce motion" see the finished drawing and a gentle fade instead of movement; screen readers hear plain descriptions; without JavaScript the letters still show.
+
+### Changed
+- The GRE textbook is now the first item in Projects instead of a section of its own (`DESIGN.md`, `WORKFLOW.md`).
+- After a design review (Impeccable) and a motion review (Emil Kowalski's standards): the page no longer jumps when the equations appear, the slider track is easier to see, the equations stay visible while you move the slider, links are easier to tap, the drawing runs smoothly on phones, and fades use a crisper curve.
+
+### Removed
+- The original template page ("Your Name" and its sample sections).
+
 ## [0.5.0] - 2026-10-22
 
 Stage 1: real content gathered. Before this release the plan had only placeholders for Carson's bio, links, tutoring details and photo; now the real ones are recorded and ready for Stage 3 to build with. Also: the approved hero animation saved as a reference page, and booking and contact-form choices. No visible change to the live site yet.
@@ -71,7 +89,8 @@ Setup for the redesign. No visible change to the live site.
 - First version of the site from a template: hero, about, and connect sections, with animation effects.
 - A custom domain file (`CNAME`) was added and then removed the same day.
 
-[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.2.0...v0.3.0
