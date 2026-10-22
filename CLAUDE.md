@@ -7,6 +7,8 @@
 - Aesthetic: a scholarly serif voice in a dark, quiet, interactive frame, with light and dark modes. Palette and fonts are in `DESIGN.md`.
 - Current sections: hero, about, connect/social, footer, with animation effects. The planned redesign (section order, centerpiece) is in `DESIGN.md`.
 - I want to use **Three.js** (a JavaScript library for 3D graphics in the browser; loads from a CDN, so no build step) and **Manim** (3Blue1Brown's Python library for math animations; it renders videos offline, so on the site it would appear as pre-rendered video) on the site. Starting now, whenever planning features or animations, suggest where one of them would fit. Each use still needs my OK.
+- Tools: `gh` (GitHub CLI), Manim (in `~/.venvs/manim`; render with `~/.venvs/manim/bin/manim`), and Lighthouse (`npx lighthouse`). Setup and commands are in README "Tools". Run Lighthouse before and after big changes; scores must not drop below the baseline listed there.
+- Booking: tutoring sessions are booked through Cal.com (chosen 2026-10-22); Carson creates the account and gives me the booking link. Contact form service: not chosen yet.
 
 ## PDF pipeline
 - A LaTeX project on Overleaf syncs to the repo `carsonmit/Mathematics-for-the-GRE`.

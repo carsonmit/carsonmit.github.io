@@ -12,6 +12,7 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 - [Project structure](#project-structure)
 - [Preview locally](#preview-locally)
 - [Making changes](#making-changes)
+- [Tools](#tools)
 - [GRE textbook pipeline](#gre-textbook-pipeline)
 - [Design system](#design-system)
 - [Version history](#version-history)
@@ -58,15 +59,40 @@ Then open http://localhost:8000. Stop it with Ctrl+C. (Opening `index.html` dire
 
 To change a design decision (a color or a font), update `DESIGN.md` first, then the site.
 
-### Restoring the AI design tools on a new computer
+## Tools
 
-The compiled Impeccable engine isn't stored in git (it's large). After cloning, run:
+Setup for a new computer (macOS with [Homebrew](https://brew.sh)). Node.js 22 or newer is required.
+
+| Tool | What it's for | Setup |
+|---|---|---|
+| Impeccable engine | The AI design checker (not stored in git; it's large) | `npx impeccable install` |
+| GitHub CLI (`gh`) | Check Pages deploys and the PDF pipeline's runs, make releases | `brew install gh`, then `gh auth login` |
+| Manim | Pre-rendered math animation videos for the site | See below |
+| Lighthouse | Score speed, accessibility, best practices, SEO | Nothing to install (runs via `npx`) |
+
+**Manim** (3Blue1Brown's Python animation library) lives in its own Python environment, so its packages don't clash with anything else:
 
 ```bash
-npx impeccable install
+brew install cairo pango pkg-config
+python3 -m venv ~/.venvs/manim
+~/.venvs/manim/bin/pip install manim
 ```
 
-It requires Node.js 22 or newer.
+Render a scene (`-ql` = quick low-quality preview, `-qh` = final high quality):
+
+```bash
+~/.venvs/manim/bin/manim -ql scene.py SceneName
+```
+
+Equations need LaTeX installed (e.g. TeX Live or MacTeX).
+
+**Lighthouse** on the live site (Chrome must be installed):
+
+```bash
+npx lighthouse https://carsonmit.github.io --view
+```
+
+Baseline before the redesign (2026-10-22): performance 98, accessibility 100, best practices 96, SEO 90.
 
 ## GRE textbook pipeline
 
