@@ -23,11 +23,16 @@ How we customize the site, step by step. Your job is to decide and react; Claude
 ## Stage 1: Gather real content (you, any time)
 
 Design works best with real words. Collect, in any rough form:
-- [ ] A short bio (a few sentences, messy is fine; Claude edits)
-- [ ] Your links: LinkedIn, GitHub, email, others
-- [ ] Tutoring details: subjects, levels, online or in person, how to book
-- [ ] The photo of you
-- [ ] Optional: a favorite theorem, how you teach, anything that's "only you"
+- [x] A short bio (a few sentences, messy is fine; Claude edits): education done
+  - [ ] Later: what drew you to math
+  - [ ] Later: what you do now, life outside math
+- [x] Your links: LinkedIn, GitHub, email (no Twitter)
+- [x] Tutoring details: subjects (in `content/subjects.md`), levels, online or in person, rates
+  - [ ] Later: booking page (Cal.com tutoring session types; see the checklist before the Tutoring section below)
+- [x] The photo of you (`images/carson.jpg`)
+- [ ] Later, optional: a favorite theorem, how you teach, anything that's "only you"
+
+Everything collected is recorded in `PRODUCT.md` under "Confirmed Content".
 
 Missing pieces stay as clearly marked placeholders. Nothing gets invented.
 

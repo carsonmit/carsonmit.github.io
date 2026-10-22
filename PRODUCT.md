@@ -30,9 +30,7 @@ Undecided. Not yet discussed with the owner.
 
 ## Capabilities and Constraints
 
-- Current sections: hero, about, connect/social, footer, with animation effects.
-- Name, bio, and social links are still template placeholders ("Your Name", `yourhandle`); the real values are coming from the owner.
-- Tutoring details (subjects, availability, how to inquire) exist but have not been supplied yet.
+- Current sections: hero, about, connect/social, footer, with animation effects. The live `index.html` still shows template placeholders ("Your Name", `yourhandle`); the confirmed content below replaces them in Stage 3.
 - Math notation is written in LaTeX.
 
 ## Brand Commitments
@@ -44,8 +42,47 @@ Visual identity chosen with the owner is recorded in `DESIGN.md`. Animation deci
 - The GRE mathematics textbook PDF (`pdf/GRE-Textbook.pdf`, 35 pages).
 - NeuronDiagrams (confirmed by the owner as real work): a point-and-click editor for the neuron diagrams used in papers on causation. It exports TikZ/LaTeX code or images and runs in any browser and on iPad. Lives in the separate repo `carsonmit/Widgets-and-Miscellaneous`, served at https://carsonmit.github.io/Widgets-and-Miscellaneous/NeuronDiagrams/ (installable web app).
 - StarBattleSolver (confirmed by the owner as real work): a Star Battle puzzle solver with a visual, step-by-step solving window. Same repo, at `StarBattleSolver/`.
-- There are NO testimonials, rates, or reviews. Future work must not invent any; leave them absent until the owner provides real ones.
-- Confirmed name: Carson Mitchell. Bio and social links are still pending from the owner (placeholders for now); do not fabricate them.
+- There are NO testimonials or reviews. Future work must not invent any; leave them absent until the owner provides real ones. The only real rates are the two listed under Confirmed Content.
+- Confirmed name: Carson Mitchell.
+
+## Confirmed Content
+
+Supplied by the owner in Stage 1 (2026-10-22). Use these words and facts as written; anything marked PLACEHOLDER stays a visible placeholder until the owner supplies it. Never fill a placeholder with invented text.
+
+### Bio (About section)
+
+Approved draft, first person:
+
+> I'm Carson Mitchell. I started at Santa Barbara City College, where from 2019 to 2021 I earned five associate's degrees, in math, physics, engineering, economics, and accounting. I went on to UC Berkeley and finished my bachelor's in mathematics in 2023, then spent 2024–2025 as a PhD student in mathematics at USC.
+
+- PLACEHOLDER: what drew Carson to math (owner will write it later).
+- PLACEHOLDER: what he does now and his life outside math (owner will write it later).
+
+Facts behind the bio: Santa Barbara City College 2019–2021, five associate's degrees (math, physics, engineering, economics, accounting); UC Berkeley 2021–2023, bachelor's in mathematics; USC 2024–2025, former PhD student in mathematics (he did not finish the PhD; never imply he did).
+
+### Photo
+
+- `images/carson.jpg`: 1200×1600 JPEG made from the owner's own photo, with location (GPS) data removed. The original HEIC is not in the repo, on purpose (browsers other than Safari can't show HEIC, and it carried location data).
+
+### Links (Contact section)
+
+- Email: carsonm6719@gmail.com
+- LinkedIn: https://www.linkedin.com/in/carson-mitchell
+- GitHub: https://github.com/carsonmit
+- Booking page: PLACEHOLDER. Booking goes through Cal.com (`https://cal.com/carsonmitchell/<event-slug>`), but no tutoring session types exist yet; the owner will create them later (account details in `CLAUDE.md`). Until then, booking falls back to email or the contact form.
+- No Twitter/X or other social links (the owner said the site won't use Twitter).
+
+### Tutoring
+
+- Levels: all levels.
+- Format: online, or in person in South Orange County, California.
+- Subjects: listed in `content/subjects.md`, which the owner edits himself; the site reads the list from that file.
+- Rates (real, supplied by the owner): $60 per hour online, $80 per hour in person.
+- How to book: Cal.com booking page (PLACEHOLDER, see Links); email until then.
+
+### "Only you" material (optional)
+
+- PLACEHOLDER: favorite theorem, how he teaches, anything personal. The owner will supply it later.
 
 ## Product Principles
 

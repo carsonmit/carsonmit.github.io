@@ -9,6 +9,13 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 - `DESIGN.md` and `README.md` point to it as the reference.
 - README "Tools" section: how to set up and use the GitHub CLI, Manim (math animation videos), and Lighthouse (page-quality scores), plus the site's Lighthouse scores before the redesign.
 - `CLAUDE.md`: booking through Cal.com (account connected to Claude) and a Formspree contact form chosen for the Tutoring and Contact sections.
+- `PRODUCT.md`: Carson's real content from Stage 1: bio (education), email, LinkedIn and GitHub links (no Twitter), tutoring levels, format (online, or in person in South Orange County), and rates ($60/hour online, $80/hour in person). Parts he'll write later are marked as placeholders.
+- `content/subjects.md`: an easy-to-edit list of tutoring subjects that the site will read from.
+- `images/carson.jpg`: Carson's photo, converted to a web-friendly size and format (JPEG), with its hidden location data removed.
+
+### Changed
+- `WORKFLOW.md`: Stage 1 items supplied so far are checked off; the rest are listed for later.
+- `DESIGN.md`: prices return to the Tutoring section now that real rates exist.
 
 ## [0.4.0] - 2026-10-21
 

@@ -72,15 +72,15 @@ Person first: the site introduces a person before it offers a service. Each sect
 | Order | Section | Claim | Proof | Live piece |
 |---|---|---|---|---|
 | 1 | Hero | This is Carson Mitchell, a math tutor who wrote a free GRE textbook. | Name set large, one plain sentence | Circles drawing his initials |
-| 2 | About | Here's who I am. | Photo and bio (pending, Stage 1) | Visual proof or Collatz ("math I find beautiful") |
-| 3 | Tutoring | I tutor math, and here's how to start. | How he teaches, subjects, how to book (pending); the textbook shows he can explain | The problem that solves itself as you scroll |
+| 2 | About | Here's who I am. | Photo and bio (see PRODUCT.md, Confirmed Content) | Visual proof or Collatz ("math I find beautiful") |
+| 3 | Tutoring | I tutor math, and here's how to start. | Subjects (`content/subjects.md`), levels, online or in person, rates, how to book (see PRODUCT.md); the textbook shows he can explain | The problem that solves itself as you scroll |
 | 4 | GRE textbook | There's a free 35-page GRE math textbook, and you can have it now. | The PDF: preview of real pages, download button | None |
 | 5 | Projects | I build tools for mathematical work. | NeuronDiagrams and StarBattleSolver, both live | A neuron diagram and a Star Battle puzzle, each beside its own project |
-| 6 | Contact | Here's how to reach me. | Email, LinkedIn, GitHub (pending); name returns large | None |
+| 6 | Contact | Here's how to reach me. | Email, LinkedIn, GitHub (see PRODUCT.md); name returns large | None |
 
 - Top menu: About · Tutoring · GRE book · Projects, so each audience can jump to its part.
 - Hero: one main button, **Get In Touch** (goes to Contact; broad on purpose, for now), plus a quiet text link to the GRE textbook. The textbook is not the main button, by the owner's choice.
-- Cut, for lack of real proof: testimonials, prices, "students helped" numbers, FAQ. Any can return once real material exists.
+- Cut, for lack of real proof: testimonials, "students helped" numbers, FAQ. Any can return once real material exists. Prices were cut at first but return now that the owner supplied real rates.
 - Considered and not chosen: leading with tutoring, or with the textbook (the strongest proof).
 
 ## Interactive Pieces

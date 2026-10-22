@@ -32,6 +32,8 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 | `pdf/GRE-Textbook.pdf` | The GRE textbook. **Managed by the pipeline; don't edit by hand.** |
 | `PRODUCT.md` | Who the site is for and what's true about it (no invented claims) |
 | `DESIGN.md` | The design system: colors, fonts, and design rules |
+| `content/subjects.md` | The tutoring subjects list. Edit it to add or remove a subject. |
+| `images/` | Photos used on the site (`carson.jpg`) |
 | `design/mockups/` | Approved interactive pieces as standalone pages (open in a browser). The site must match them. |
 | `WORKFLOW.md` | The step-by-step process for building and changing the site |
 | `CHANGELOG.md` | Version history in plain language |
