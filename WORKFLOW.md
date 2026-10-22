@@ -56,7 +56,7 @@ Then move to the next section. Small steps beat "redesign everything".
 
 **Before building Tutoring and Contact** (Claude: remind Carson at the start of that step):
 - Create the tutoring session types in Cal.com (e.g. a free intro call and a full session). Decide the lengths and whether each is in person, video, or both; Claude can create them through the Cal.com connector once you say so.
-- Check that the Cal.com username and brand colors are set (see `CLAUDE.md`).
+- ✅ Cal.com username set to `carsonmitchell`. Brand colors skipped (paid feature).
 - Have the Formspree form ID ready.
 
 ## Stage 4: Polish the whole page
