@@ -8,6 +8,7 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 - `design/mockups/hero-fourier.html`: the approved hero centerpiece (spinning circles drawing C and M) saved as a page you can open in a browser, so the built site can match it exactly.
 - `DESIGN.md` and `README.md` point to it as the reference.
 - README "Tools" section: how to set up and use the GitHub CLI, Manim (math animation videos), and Lighthouse (page-quality scores), plus the site's Lighthouse scores before the redesign.
+- `CLAUDE.md`: booking through Cal.com (account connected to Claude) and a Formspree contact form chosen for the Tutoring and Contact sections.
 
 ## [0.4.0] - 2026-10-21
 

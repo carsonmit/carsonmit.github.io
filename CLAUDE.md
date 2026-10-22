@@ -8,7 +8,8 @@
 - Current sections: hero, about, connect/social, footer, with animation effects. The planned redesign (section order, centerpiece) is in `DESIGN.md`.
 - I want to use **Three.js** (a JavaScript library for 3D graphics in the browser; loads from a CDN, so no build step) and **Manim** (3Blue1Brown's Python library for math animations; it renders videos offline, so on the site it would appear as pre-rendered video) on the site. Starting now, whenever planning features or animations, suggest where one of them would fit. Each use still needs my OK.
 - Tools: `gh` (GitHub CLI), Manim (in `~/.venvs/manim`; render with `~/.venvs/manim/bin/manim`), and Lighthouse (`npx lighthouse`). Setup and commands are in README "Tools". Run Lighthouse before and after big changes; scores must not drop below the baseline listed there.
-- Booking: tutoring sessions are booked through Cal.com (chosen 2026-10-22); Carson creates the account and gives me the booking link. Contact form service: not chosen yet.
+- Booking: tutoring sessions are booked through Cal.com (chosen 2026-10-22). Carson's Cal.com account is connected to Claude through the Cal.com connector (MCP), so you can read his event types and schedule; ask before changing anything in the account. As of 2026-10-22: username `carson-m-2pfipz` (auto-generated; Carson may rename it, which changes every booking link, so re-check with the connector before embedding), only Cal.com's default event types exist (no tutoring session type yet), availability Mon–Fri 9:00–17:00 Pacific, Google Calendar connected, brand colors not set.
+- Contact form: Formspree (chosen 2026-10-22, for its saved message history and spam filtering). Carson creates the form and gives me its form ID, which is public by design and safe to commit. Form ID: pending.
 
 ## PDF pipeline
 - A LaTeX project on Overleaf syncs to the repo `carsonmit/Mathematics-for-the-GRE`.
