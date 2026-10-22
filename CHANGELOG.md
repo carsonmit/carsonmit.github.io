@@ -4,6 +4,10 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-10-22
+
+Stage 1: real content gathered. Before this release the plan had only placeholders for Carson's bio, links, tutoring details and photo; now the real ones are recorded and ready for Stage 3 to build with. Also: the approved hero animation saved as a reference page, and booking and contact-form choices. No visible change to the live site yet.
+
 ### Added
 - `design/mockups/hero-fourier.html`: the approved hero centerpiece (spinning circles drawing C and M) saved as a page you can open in a browser, so the built site can match it exactly.
 - `DESIGN.md` and `README.md` point to it as the reference.
@@ -67,7 +71,8 @@ Setup for the redesign. No visible change to the live site.
 - First version of the site from a template: hero, about, and connect sections, with animation effects.
 - A custom domain file (`CNAME`) was added and then removed the same day.
 
-[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.1.0...v0.2.0

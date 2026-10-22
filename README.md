@@ -128,7 +128,7 @@ Each release is marked with a git tag (`v0.3.0`, etc.). Details are in [CHANGELO
 Tracked in [WORKFLOW.md](WORKFLOW.md):
 
 - [x] Stage 0: setup, design skills, palette, notes
-- [ ] Stage 1: real bio, links, tutoring details, photo
+- [x] Stage 1: real bio, links, tutoring details, photo (v0.5.0; a few bio lines, booking link and contact form come later)
 - [x] Stage 2: body font, page plan, interactive centerpiece (v0.4.0)
 - [ ] Stage 3: build section by section
 - [ ] Stage 4: polish (accessibility, mobile, motion)
