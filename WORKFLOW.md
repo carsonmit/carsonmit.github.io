@@ -6,7 +6,7 @@ How we customize the site, step by step. Your job is to decide and react; Claude
 - `PRODUCT.md`: who the site is for and what's true (no invented facts).
 - `DESIGN.md`: the look (colors, fonts, rules). Change a decision here first.
 - `CLAUDE.md`: how Claude should work with you.
-- `index.html`: the actual site.
+- `index.html`, `about.html`, `tutoring.html`, `projects.html`, `contact.html`: the site's pages; `styles.css` and `site.js` are shared by all of them.
 
 **Who leads**
 - Look and layout: `design-taste-frontend`
@@ -63,7 +63,7 @@ For each section, top to bottom (hero first):
 
 Then move to the next section. Small steps beat "redesign everything".
 
-Progress: ✅ Hero (v0.6.0) · ✅ About (v0.7.0) · Tutoring · Projects (GRE textbook first) · Contact
+Progress: ✅ Hero (v0.6.0) · ✅ About Me (v0.7.0) · ✅ Separate pages (v0.8.0) · Tutoring · Projects (GRE textbook first) · Contact
 
 **Before building Tutoring and Contact** (Claude: remind Carson at the start of that step):
 - Create the tutoring session types in Cal.com (e.g. a free intro call and a full session). Decide the lengths and whether each is in person, video, or both; Claude can create them through the Cal.com connector once you say so.

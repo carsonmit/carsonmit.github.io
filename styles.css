@@ -1,0 +1,259 @@
+/* Carson Mitchell's site: shared styles for every page. Colors and fonts come from DESIGN.md. */
+
+/* ── Colors (DESIGN.md). Switching modes changes colors only, never layout. ── */
+:root {
+  --bg: #151a21;       /* charcoal blue */
+  --ac: #C9ACDE;       /* lilac */
+  --ink: #F2EFE8;
+  --mu: #A19E96;
+  --card: #1d232c;
+  --on: #151a21;       /* text on an accent button */
+  --card2: #2a3240;    /* the spinning circles */
+  --ghost: #2c3441;    /* the true letters, faint underneath */
+  --track: #636e80;    /* slider track (3.4:1 on the ground) */
+  --s1: #F28DAE; --s2: #7AA9F2; --s3: #E3C77A;  /* permutahedron edges: swaps 1↔2, 2↔3, 3↔4 */
+
+  --serif-display: 'DM Serif Display', Georgia, serif;
+  --serif: 'Newsreader', Georgia, serif;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+
+  --margin: clamp(20px, 5vw, 64px);
+  --max: 1240px;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+[data-theme="day"] {
+  --bg: #F3EBDD;       /* cream */
+  --ac: #6C4487;       /* plum */
+  --ink: #1f1a14;
+  --mu: #5c5348;
+  --card: #EADFCC;
+  --on: #F3EBDD;
+  --card2: #D6C6AC;
+  --ghost: #DDD0BA;
+  --track: #857865;
+  --s1: #B23A62; --s2: #2F62B3; --s3: #8C6A1A;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-weight: 420;
+  font-size: 18.5px;
+  line-height: 1.45;
+}
+html.vt body, html.vt body * { transition: none !important; }
+/* Mode switch in browsers without view transitions: every color fades together */
+html.fade *, html.fade *::before, html.fade *::after { transition: color .3s ease, background-color .3s ease, fill .3s ease, stroke .3s ease, transform .24s var(--ease-out) !important; }
+a { color: var(--ac); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--ac); outline-offset: 3px; border-radius: 4px; }
+::selection { background: var(--ac); color: var(--on); }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--margin); }
+
+/* ── Top menu ── */
+.top { display: flex; align-items: center; gap: 28px; padding-top: 28px; padding-bottom: 28px; font-family: var(--sans); font-size: 14.5px; }
+.top .mark { font-family: var(--serif-display); font-size: 21px; color: var(--ink); text-decoration: none; margin-right: auto; }
+.top nav { display: flex; gap: 24px; }
+.top nav a { color: var(--mu); text-decoration: none; transition: color .18s ease; padding: 12px 0; margin: -12px 0; }
+.top nav a:hover { color: var(--ink); }
+.mode {
+  /* Day/night switch: a track with a sun (left) and a moon (right); the knob slides onto the current mode */
+  position: relative; width: 58px; height: 30px; flex: none; padding: 0; border: 0; border-radius: 999px;
+  background: var(--card2); color: var(--mu); cursor: pointer;
+}
+.mode::before { content: ''; position: absolute; inset: -8px; } /* a bigger tap area than the switch looks */
+.mode .ico { position: absolute; top: 8px; width: 14px; height: 14px; }
+.mode > .sun { left: 8px; }
+.mode > .moon { right: 8px; }
+.knob {
+  position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--ac); color: var(--on); display: grid; place-items: center;
+  transform: translateX(28px); view-transition-name: mode-knob;
+  transition: transform .24s var(--ease-out);
+}
+.knob .ico { position: static; }
+[data-theme="day"] .knob { transform: translateX(0); }
+[data-theme="day"] .knob .moon, :root:not([data-theme="day"]) .knob .sun { display: none; }
+.mode { transition: transform .14s var(--ease-out); }
+.mode:active { transform: scale(.95); }
+@media (prefers-reduced-motion: reduce) { .knob { transition: none; } }
+
+/* ── Hero ── */
+.hero { padding-top: clamp(24px, 8vh, 96px); padding-bottom: clamp(32px, 6vh, 64px); }
+.hg { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
+.hero h1 {
+  font-family: var(--serif-display); font-weight: 400;
+  font-size: clamp(52px, 7.2vw, 104px); line-height: .98; letter-spacing: -.01em;
+  margin: 0 0 22px; color: var(--ink);
+}
+.hero-pic { display: block; width: clamp(64px, 6.5vw, 96px); height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; margin: 0 0 22px; }
+.hero p.s { margin: 0 0 30px; max-width: 30ch; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; }
+.pb {
+  display: inline-block; font: 500 14.5px/1 var(--sans); background: var(--ac); color: var(--on);
+  text-decoration: none; border-radius: 999px; padding: 14px 24px;
+  transition: transform .16s var(--ease-out);
+}
+.pb:active { transform: scale(.97); }
+.ql { font-size: 17px; padding: 12px 0; margin: -12px 0; }
+
+/* The centerpiece (design/mockups/hero-fourier.html) */
+.fig svg { width: 100%; height: auto; display: block; }
+.ctl { font-family: var(--sans); font-size: 13px; color: var(--mu); display: flex; gap: 12px; align-items: center; margin: 4px 0 2px; }
+.ctl label { white-space: nowrap; }
+.ctl label .katex { font-size: 1.08em; }
+#rd { font-family: var(--sans); font-size: 13px; line-height: 1.45; color: var(--mu); margin: 0 0 10px; min-height: 19px; text-wrap: pretty; }
+#rd b { font-weight: 500; color: var(--ink); }
+#math { text-align: center; opacity: 0; transform: translateY(6px); transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
+#math.on { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { #math { transform: none; } }
+#math .eq .katex { font-size: 1.32em; }
+#math .eq2 .katex { font-size: 1.02em; color: var(--mu); }
+#math .katex-display { margin: .5em 0; }
+#math .cap { font-style: italic; font-size: 16px; line-height: 1.45; color: var(--mu); margin: 2px auto 0; max-width: 46ch; }
+#math .cap .katex { font-size: 1.02em; font-style: normal; }
+.rng { --th: 16px; position: relative; flex: 1; display: flex; align-items: center; }
+.rng::before, .rng .fill { content: ''; position: absolute; left: 0; height: 3px; border-radius: 2px; pointer-events: none; }
+.rng::before { right: 0; background: var(--track); }
+.rng .fill { width: calc(var(--p, .3) * (100% - var(--th)) + var(--th) / 2); background: var(--ac); }
+input[type=range] { -webkit-appearance: none; appearance: none; position: relative; width: 100%; height: 28px; background: transparent; margin: 0; cursor: pointer; }
+input[type=range]::-webkit-slider-runnable-track { height: 3px; background: transparent; }
+input[type=range]::-moz-range-track { height: 3px; background: transparent; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--ac); border: 0; margin-top: -6.5px; cursor: grab; transition: transform .14s var(--ease-out); }
+input[type=range]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--ac); border: 0; cursor: grab; }
+input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); cursor: grabbing; }
+input[type=range]:focus-visible { outline-offset: 2px; }
+@media (pointer: coarse) {
+  /* A thumb-sized handle on phones and tablets */
+  .rng { --th: 24px; }
+  input[type=range]::-webkit-slider-thumb { width: 24px; height: 24px; margin-top: -10.5px; }
+  input[type=range]::-moz-range-thumb { width: 24px; height: 24px; }
+}
+/* Without JavaScript: the letters stay drawn, the controls hide, a plain caption shows */
+html:not(.js) .ctl, html:not(.js) #rd, html:not(.js) #math { display: none; }
+.nojs { font-style: italic; font-size: 16px; color: var(--mu); margin: 8px 0 0; text-align: center; }
+
+/* ── Section headings ── */
+.sec { padding-top: clamp(24px, 8vh, 96px); } /* each page's title sits as far below the menu as the home page's name */
+.sec > h1, .sec > h2 { font-family: var(--serif-display); font-weight: 400; font-size: clamp(36px, 4vw, 52px); line-height: 1.02; margin: 0 0 clamp(28px, 4vw, 48px); }
+.sec .ab-row h2 { font-family: var(--serif-display); font-weight: 400; font-size: clamp(26px, 2.6vw, 32px); line-height: 1.08; margin: 0 0 14px; }
+.sec .ab-row h3 { font-family: var(--serif-display); font-weight: 400; font-size: 22px; line-height: 1.1; margin: 28px 0 8px; }
+.sec p { margin: 0 0 16px; max-width: 62ch; }
+.sec p .katex, #ehr-why .katex { font-size: 1.04em; } /* math in sentences matches the text size (KaTeX defaults to 1.21em) */
+
+/* ── About: photo and bio, then Ehrhart's theorem, then math I love ── */
+.ab-row { display: grid; gap: clamp(28px, 5vw, 72px); align-items: start; }
+.ab-intro { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); align-items: center; }
+.sec p.ab-bridge { margin: clamp(96px, 12vw, 150px) 0 0; max-width: 46ch; }
+.ab-ehr { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); margin-top: clamp(40px, 5vw, 64px); }
+.ab-love { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin-top: clamp(96px, 12vw, 150px); }
+.portrait { margin: 0; }
+.portrait img { display: block; width: 100%; height: auto; border-radius: 12px; }
+
+.stage { position: relative; aspect-ratio: 1 / 1; width: 100%; border-radius: 12px; overflow: hidden; touch-action: pan-y; cursor: grab; }
+.stage:active { cursor: grabbing; }
+.stage canvas { display: block; width: 100% !important; height: 100% !important; }
+.stage .still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--bg); }
+.stage.live .still { display: none; }
+.lbl { position: absolute; left: 0; top: 0; font: 500 13px/1 var(--sans); color: var(--ink); background: var(--card); padding: 4px 7px; border-radius: 6px; pointer-events: none; white-space: nowrap; transform: translate(-50%, -140%); }
+.lbl.hl { color: var(--ac); }
+.lbl.tmp { background: var(--card2); }
+.stage-foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px 16px; font: 400 13px var(--sans); color: var(--mu); margin: 10px 0 0; }
+.stage-foot .key { display: flex; gap: 12px; flex-wrap: wrap; }
+.stage-foot .key i { display: inline-block; width: 16px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+html:not(.js) .stage-foot, html:not(.js) .ehr-ctl { display: none; }
+#ehr-count { font: 400 13px/1.55 var(--sans); color: var(--mu); margin: 0 0 12px; min-height: 40px; }
+#ehr-count b { font-weight: 500; color: var(--ink); }
+#ehr-count b.hl { color: var(--ac); }
+.poly { text-align: center; font-size: 1.25em; margin: 10px 0 4px; }
+.poly .nw { white-space: nowrap; } /* the polynomial stays on one line; L(−t) may wrap below it */
+.poly button { font: inherit; color: var(--ac); background: none; border: 0; padding: 6px 3px; margin: -6px 0; cursor: pointer; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 5px; border-radius: 6px; transition: transform .14s var(--ease-out); }
+.poly button:active { transform: scale(.95); }
+.poly button[aria-pressed="true"] { background: var(--ac); color: var(--on); text-decoration: none; padding: 8px 12px; margin: -8px 0; }
+.focus-btn { font: 500 13.5px/1 var(--sans); color: var(--ink); background: var(--card2); border: 0; border-radius: 999px; padding: 10px 16px; cursor: pointer; margin: 0 0 8px; transition: transform .14s var(--ease-out); }
+.focus-btn:active { transform: scale(.97); }
+.focus-btn[aria-pressed="true"] { background: var(--ac); color: var(--on); }
+#ehr-why { font-size: 17px; background: var(--card); border-radius: 12px; padding: 14px 18px; margin: 12px 0 0; min-height: 3.2em; }
+#ehr-why .mu { color: var(--mu); font-style: italic; }
+
+.bt { margin: 0; }
+.bt-frame { position: relative; }
+.bt video { display: block; width: 100%; height: auto; border-radius: 12px; background: var(--bg); }
+.bt .pp { position: absolute; left: 12px; bottom: 12px; font: 500 13px/1 var(--sans); background: var(--card2); color: var(--ink); border: 0; border-radius: 999px; padding: 9px 14px; cursor: pointer; transition: transform .14s var(--ease-out); }
+.bt .pp:active { transform: scale(.97); }
+html:not(.js) .bt .pp, html:not(.js) .bt-steps { display: none; }
+.bt-steps { display: flex; gap: 6px; margin: 12px 0 0; }
+.bt-steps span { width: 28px; height: 3px; border-radius: 2px; background: var(--card2); transition: background-color .25s ease; }
+.bt-steps span.on { background: var(--ac); }
+#bt-cap { font-style: italic; font-size: 17px; color: var(--mu); min-height: 5.4em; margin: 10px 0 0; transition: opacity .25s ease; }
+#bt-cap.out { opacity: 0; }
+
+/* ── Home: a door to each page ── */
+.doors { padding-top: 0; padding-bottom: clamp(40px, 8vh, 96px); }
+.door { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto; gap: 12px clamp(24px, 4vw, 64px); align-items: baseline;
+  padding: 26px 0; color: var(--ink); text-decoration: none; }
+.door-t { font-family: var(--serif-display); font-size: clamp(32px, 3.6vw, 48px); line-height: 1.05; transition: color .18s ease; }
+.door-d { color: var(--ink); max-width: 46ch; }
+.door-go { font-family: var(--sans); font-size: 20px; color: var(--ac); transition: transform .2s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .door:hover .door-t { color: var(--ac); }
+  .door:hover .door-go { transform: translateX(6px); }
+}
+.door:active .door-go { transform: translateX(6px); }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ── Home page footer: a light note on how the site was made ── */
+.foot { padding-top: clamp(48px, 8vh, 96px); padding-bottom: 40px; }
+.foot p { margin: 0; font-style: italic; font-size: 16px; color: var(--mu); }
+
+/* ── The menu marks the page you're on ── */
+.top nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 6px; text-decoration-color: var(--ac); }
+
+/* ── Changing pages (menu or doors): the menu bar stays still while the page underneath
+   fades out with a slight lift and the new one rises into place. Browsers without
+   cross-page transitions just switch; reduced motion switches instantly. ── */
+@view-transition { navigation: auto; }
+@media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+.top { view-transition-name: site-header; }
+html.vt .top { view-transition-name: none; } /* the day/night circle covers the menu too */
+::view-transition-old(root) { animation: page-out .16s var(--ease-out) both; }
+::view-transition-new(root) { animation: page-in .26s var(--ease-out) both; }
+@keyframes page-out { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes page-in { from { opacity: 0; transform: translateY(10px); } }
+
+/* ── Sections not built yet (Stage 3 builds them one at a time) ── */
+.stub { padding-top: 72px; padding-bottom: 72px; }
+.stub h2 { font-family: var(--serif-display); font-weight: 400; font-size: clamp(32px, 3.4vw, 40px); line-height: 1.05; margin: 0 0 10px; }
+.stub p { color: var(--mu); margin: 0; }
+
+/* ── Tablet held upright and smaller: About Me's rows stack in one column ── */
+@media (max-width: 900px) {
+  .ab-intro, .ab-ehr, .ab-love { grid-template-columns: 1fr; }
+  .ab-intro .portrait { max-width: 360px; }
+  .stage, .stage-foot, .ehr-ctl, .bt { max-width: 600px; }
+}
+
+/* ── Phone ── */
+@media (max-width: 760px) {
+  .poly { font-size: 1.02em; }
+  .top { flex-wrap: wrap; row-gap: 14px; padding-top: 20px; padding-bottom: 8px; }
+  .top nav { order: 3; width: 100%; gap: 10px 20px; flex-wrap: wrap; }
+  .hg { grid-template-columns: 1fr; gap: 36px; }
+  .hero h1 { font-size: clamp(48px, 14vw, 72px); }
+  .door { grid-template-columns: 1fr auto; }
+  .door-d { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* ── The day/night switch: a circle of the new mode spreads from the button ── */
+html.vt::view-transition-old(root), html.vt::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-group(mode-knob) { animation-duration: .24s; animation-timing-function: var(--ease-out); }
+/* Reduced motion: the new mode fades in over the old one, and the knob doesn't slide */
+@keyframes vt-fade-in { from { opacity: 0; } }
+html.vt-fade::view-transition-new(root) { animation: vt-fade-in .3s ease both; }
+html.vt-fade::view-transition-group(mode-knob) { animation: none; }

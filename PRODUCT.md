@@ -24,13 +24,13 @@ Undecided. Not yet discussed with the owner.
 
 ## Operating Context
 
-- Hosted on GitHub Pages as a single static `index.html` (plain HTML/CSS/JS, no framework or build step unless the owner asks).
+- Hosted on GitHub Pages as static pages (plain HTML/CSS/JS: one file per page plus shared `styles.css` and `site.js`; no framework or build step unless the owner asks).
 - The GRE textbook is written in LaTeX on Overleaf; a GitHub Actions workflow in `carsonmit/Mathematics-for-the-GRE` copies the PDF into this repo at `pdf/GRE-Textbook.pdf`, which the site links to. Do not edit that PDF by hand.
 - GitHub Pages deploys can lag and cache.
 
 ## Capabilities and Constraints
 
-- Current sections: hero, about, connect/social, footer, with animation effects. The live `index.html` still shows template placeholders ("Your Name", `yourhandle`); the confirmed content below replaces them in Stage 3.
+- Pages: Home (hero and doors), About Me, Tutoring, Projects (GRE textbook first), Contact. Home and About Me are built; the rest are marked placeholders.
 - Math notation is written in LaTeX.
 
 ## Brand Commitments
@@ -58,7 +58,7 @@ Owner's wording (2026-10-24, replaces the Stage 1 draft), first person, use as w
 - What drew Carson to math: left out for now, by the owner's choice (2026-10-24). Don't add a placeholder for it.
 - Life outside math (owner, 2026-10-24, general for now): reading, especially philosophy; gaming; music; movies; walking his dog; going to the beach. His dog is named Dexter. Site wording (owner, 2026-10-24): "I enjoy reading (especially books on math and philosophy), playing video games, listening to music, watching movies, going on walks with my dog Dexter, and going to the beach."
 - What he works on now (owner, 2026-10-24): combinatorics, logic, probability, and the philosophy of mathematics, primarily. Site wording: "I work mostly in combinatorics, logic, probability, and the philosophy of mathematics."
-- Lead-in before the math examples (owner, 2026-10-24): "Here are a few examples of results I find particularly interesting and beautiful."
+- Lead-in before the math examples (owner, 2026-10-24): "Here are a few examples of results I find particularly interesting and beautiful:"
 - Voice rule (owner, 2026-10-24): the math explanations (Ehrhart's theorem, Gödel, Banach–Tarski) never use "I", "me" or "my"; first person is only for the bio and interests, plus one exception the owner allowed: the sentences about his own research in the Ehrhart block (owner's wording, 2026-10-24: "I study polytopes like this, generated from permutations of the form $Ln1$ using the stack-sorting algorithm. This specific one has Ehrhart polynomial $(t+1)^3$, the same as the unit cube, lecture hall simplices, and many other well-studied geometric structures.").
 
 Facts behind the bio: Santa Barbara City College 2019–2021, five associate's degrees (math, physics, engineering, economics, accounting); UC Berkeley 2021–2023, bachelor's in mathematics; USC 2024–2025, former PhD student in mathematics (he did not finish the PhD; never imply he did).
@@ -69,7 +69,7 @@ Facts behind the bio: Santa Barbara City College 2019–2021, five associate's d
 
 ### Links (Contact section)
 
-- Email: carsonm6719@gmail.com
+- Email: carsonm6719 [at] gmail [dot] com. Never write it out in full in the site's HTML or in docs: the page shows this "[at]/[dot]" form, and `site.js` builds the real address only when someone clicks it (owner, 2026-10-24, to keep it away from spam bots).
 - LinkedIn: https://www.linkedin.com/in/carson-mitchell
 - GitHub: https://github.com/carsonmit
 - Booking page: PLACEHOLDER. Booking goes through Cal.com (`https://cal.com/carsonmitchell/<event-slug>`), but no tutoring session types exist yet; the owner will create them later (account details in `CLAUDE.md`). Until then, booking falls back to email or the contact form.

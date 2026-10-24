@@ -4,7 +4,7 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 
 **Live site:** https://carsonmit.github.io
 
-> Status: a redesign is in progress (see [Roadmap](#roadmap)). The hero (v0.6.0) and About (v0.7.0) are built; the other sections are still marked placeholders.
+> Status: a redesign is in progress (see [Roadmap](#roadmap)). The home page with the hero (v0.6.0), About Me (v0.7.0) and the split into separate pages (v0.8.0) are built; Tutoring, Projects and Contact are still marked placeholders.
 
 ## Contents
 
@@ -20,7 +20,7 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 
 ## How it works
 
-- **Plain HTML, CSS, and JavaScript** in a single file, `index.html`. No framework and no build step: what's in the file is what visitors get.
+- **Plain HTML, CSS, and JavaScript**: one HTML file per page, plus one shared stylesheet (`styles.css`) and one shared script (`site.js`). No framework and no build step: what's in the files is what visitors get.
 - **Libraries loaded from the web (CDNs):** KaTeX typesets the math; Three.js draws the 3D permutahedron in About, and only loads when you scroll near it.
 - **Hosting:** [GitHub Pages](https://pages.github.com/) serves the `main` branch automatically. Every push to `main` redeploys the site, usually within a few minutes. Pages caches aggressively, so hard-refresh (Cmd+Shift+R) before deciding a change didn't work.
 - **The GRE textbook PDF** is written elsewhere and copied in automatically (see [below](#gre-textbook-pipeline)).
@@ -29,7 +29,11 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 
 | Path | What it is |
 |---|---|
-| `index.html` | The whole website: content, styles, and scripts |
+| `index.html` | Home page: the hero (name, photo, the spinning circles) and a "door" to each page |
+| `about.html` | About Me: bio, Ehrhart's theorem (3D permutahedron), Gödel, Banach–Tarski |
+| `tutoring.html`, `projects.html`, `contact.html` | The other pages (placeholders until each is built) |
+| `styles.css` | Shared look for every page: colors, fonts, layout, motion |
+| `site.js` | Shared script for every page: the day/night switch and the bot-proof email link |
 | `pdf/GRE-Textbook.pdf` | The GRE textbook. **Managed by the pipeline; don't edit by hand.** |
 | `PRODUCT.md` | Who the site is for and what's true about it (no invented claims) |
 | `DESIGN.md` | The design system: colors, fonts, and design rules |
@@ -52,11 +56,11 @@ From the repo folder, start a tiny local web server:
 python3 -m http.server 8000
 ```
 
-Then open http://localhost:8000. Stop it with Ctrl+C. (Opening `index.html` directly also works, but a server behaves more like the real site.)
+Then open http://localhost:8000. Stop it with Ctrl+C. (Opening the HTML files directly mostly works, but a server behaves like the real site; the page-to-page animation needs it.)
 
 ## Making changes
 
-1. Edit `index.html` (or ask Claude Code, following [WORKFLOW.md](WORKFLOW.md)).
+1. Edit the page's HTML file, or `styles.css` for the look (or ask Claude Code, following [WORKFLOW.md](WORKFLOW.md)).
 2. Preview locally.
 3. Commit with a clear message, e.g. `Add tutoring section`.
 4. Add a line to [CHANGELOG.md](CHANGELOG.md) under **Unreleased**.
@@ -95,11 +99,11 @@ To remake the Banach–Tarski video after editing `design/manim/banach_tarski.py
 
 ```bash
 ~/.venvs/manim/bin/manim -qh --fps 30 --media_dir media banach_tarski.py BanachTarskiNight BanachTarskiDay
-~/.venvs/manim/bin/python encode.py media/videos/banach_tarski/1080p30/BanachTarskiNight.mp4 ../../media/banach-tarski-night.mp4 out/night-poster.png 30 1200 26
+~/.venvs/manim/bin/python encode.py media/videos/banach_tarski/1080p30/BanachTarskiNight.mp4 ../../media/banach-tarski-night.mp4 out/night-poster.png 30 1200 26 2,2,-1
 ~/.venvs/manim/bin/python encode.py media/videos/banach_tarski/1080p30/BanachTarskiDay.mp4 ../../media/banach-tarski-day.mp4 out/day-poster.png 30 1200 26
 ```
 
-The page's captions are timed to the video's steps (the `beats` list in `index.html`), so update those times if the animation's timing changes.
+The last argument on the night line (`2,2,-1`) nudges the colors so the video's dark background lands exactly on the page's background after compression. The page's captions are timed to the video's steps (the `beats` list in `about.html`), so update those times if the animation's timing changes.
 
 **Lighthouse** on the live site (Chrome must be installed):
 
@@ -143,6 +147,6 @@ Tracked in [WORKFLOW.md](WORKFLOW.md):
 - [x] Stage 0: setup, design skills, palette, notes
 - [x] Stage 1: real bio, links, tutoring details, photo (v0.5.0; a few bio lines, booking link and contact form come later)
 - [x] Stage 2: body font, page plan, interactive centerpiece (v0.4.0)
-- [ ] Stage 3: build section by section (hero v0.6.0, About v0.7.0; next: split into pages, then Tutoring, Projects with the GRE textbook, Contact)
+- [ ] Stage 3: build section by section (hero v0.6.0, About Me v0.7.0, separate pages v0.8.0; next: Tutoring, Projects with the GRE textbook, Contact)
 - [ ] Stage 4: polish (accessibility, mobile, motion)
 - [ ] Stage 5: launch v1.0.0

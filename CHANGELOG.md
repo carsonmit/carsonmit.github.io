@@ -4,9 +4,29 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-10-24
+
+The site is now split into separate pages, so each audience goes straight to its part.
+
+### Added
+- Separate pages: Home, About Me, Tutoring, Projects and Contact, each reached from the top menu (which now includes Home and Contact and underlines the page you're on). Tutoring, Projects and Contact are marked placeholders until they're built.
+- Home page: Carson's photo above his name, and a short "door" to each page under the hero.
+- A gentle animation between pages: the menu stays still while the page fades and rises into place (instant for visitors who prefer reduced motion).
+- A note at the bottom of the home page: "This website is a proud product of extensive vibe-coding with the help of Claude Code."
+- `styles.css` and `site.js`, shared by every page.
+
+### Changed
+- The email address is shown as "carsonm6719 [at] gmail [dot] com" and only becomes a real address when clicked, to keep it away from spam bots.
+- Every title uses Title Case ("About Me", "Ehrhart's Theorem").
+- The hero's equations show from the start instead of appearing after the drawing.
+- About Me works better on tablets (one column when held upright) and no longer scrolls sideways there.
+- The 3D permutahedron and the Banach–Tarski video now sit on the page's own background color in both modes.
+- Smaller gaps under the menu and between the hero and the doors.
+- Fixed the order of About Me's headings for screen readers, and added a colon to the lead-in before the math examples.
+
 ## [0.7.0] - 2026-10-24
 
-The About section is built: Carson's photo and bio, then three pieces of math he finds beautiful.
+The About section is built: Carson's photo and bio, then three pieces of math he finds beautiful. This version was tagged but published together with 0.8.0.
 
 ### Added
 - About: Carson's photo, bio, research areas (combinatorics, logic, probability, philosophy of mathematics) and life outside math (books, video games, music, movies, walks with his dog Dexter, the beach).
@@ -19,7 +39,7 @@ The About section is built: Carson's photo and bio, then three pieces of math he
 - `PRODUCT.md`: Carson's new bio wording, research, interests and the name "stack-sorting simplex"; the math explanations avoid "I/me/my" (except his research sentence).
 - `DESIGN.md`: About's live pieces, as decided over several mockup rounds.
 - `CLAUDE.md`: Claude may use Three.js and Manim wherever it judges them tasteful.
-- Video files are now color-labeled, so the animation's background matches the page exactly.
+- Video files are now color-labeled, so the animation's background closely matches the page (fine-tuned further in 0.8.0).
 
 ## [0.6.0] - 2026-10-22
 
@@ -106,7 +126,8 @@ Setup for the redesign. No visible change to the live site.
 - First version of the site from a template: hero, about, and connect sections, with animation effects.
 - A custom domain file (`CNAME`) was added and then removed the same day.
 
-[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.4.0...v0.5.0

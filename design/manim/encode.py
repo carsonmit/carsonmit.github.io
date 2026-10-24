@@ -10,6 +10,10 @@ src, out, poster = sys.argv[1:4]
 crf = sys.argv[4] if len(sys.argv) > 4 else "30"
 width = int(sys.argv[5]) if len(sys.argv) > 5 else 1200
 poster_t = float(sys.argv[6]) if len(sys.argv) > 6 else 15.0
+# Optional "r,g,b" nudge added to every pixel before encoding. Dark colors round slightly
+# during compression, so the night video needs a tiny correction to land exactly on the
+# page's background color (measured in the browser; see README "Tools").
+nudge = [int(v) for v in sys.argv[7].split(",")] if len(sys.argv) > 7 else None
 height = width * 3 // 4
 
 inp = av.open(src)
@@ -28,6 +32,10 @@ for i, frame in enumerate(inp.decode(vin)):
     # no longer matches the page.
     rgb = frame.reformat(width=width, height=height, format="rgb24", src_colorspace="ITU601",
                          interpolation="LANCZOS")
+    if nudge:
+        import numpy as np
+        arr = np.clip(rgb.to_ndarray().astype(np.int16) + np.array(nudge, np.int16), 0, 255).astype(np.uint8)
+        rgb = av.VideoFrame.from_ndarray(arr, format="rgb24")
     img = rgb.reformat(format="yuv420p", dst_colorspace="ITU709")
     img.pts = i
     img.time_base = 1 / fps
