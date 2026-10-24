@@ -18,3 +18,7 @@
 
 # Duplicate skill copies made by the skills installer for another tool
 agent/
+
+# Manim working files: the render cache and raw outputs (the finished videos live in media/)
+design/manim/media/
+design/manim/out/

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banach–Tarski (About mockup)</title>
+<!-- MOCKUP (round 1): the Banach–Tarski loop from design/manim/, with captions that change on time. Not approved yet. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root { --bg:#151a21; --ac:#C9ACDE; --ink:#F2EFE8; --mu:#A19E96; --card2:#2a3240; --on:#151a21; }
+[data-theme="day"] { --bg:#F3EBDD; --ac:#6C4487; --ink:#1f1a14; --mu:#5c5348; --card2:#D6C6AC; --on:#F3EBDD; }
+body { margin:0; padding:24px clamp(20px,5vw,64px) 64px; background:var(--bg); color:var(--ink); font-family:'Newsreader',Georgia,serif; font-weight:420; font-size:18.5px; line-height:1.45; }
+#mt { font:500 13px/1 'IBM Plex Sans',sans-serif; background:var(--card2); color:var(--ink); border:0; border-radius:999px; padding:9px 14px; cursor:pointer; margin:0 0 28px; }
+.piece { max-width:620px; }
+h2 { font-family:'DM Serif Display',serif; font-weight:400; font-size:36px; line-height:1.05; margin:0 0 12px; }
+.frame { position:relative; }
+video { width:100%; height:auto; display:block; border-radius:12px; }
+.pp { position:absolute; left:12px; bottom:12px; font:500 13px/1 'IBM Plex Sans',sans-serif; background:var(--card2); color:var(--ink); border:0; border-radius:999px; padding:9px 14px; cursor:pointer; transition:transform .14s cubic-bezier(.23,1,.32,1); }
+.pp:active { transform:scale(.97); }
+#cap { font-style:italic; font-size:17px; color:var(--mu); min-height:5.2em; margin:12px 0 0; transition:opacity .25s ease; }
+#cap.out { opacity:0; }
+.steps { font:400 13px 'IBM Plex Sans',sans-serif; color:var(--mu); display:flex; gap:6px; margin:10px 0 0; }
+.steps span { width:28px; height:3px; border-radius:2px; background:var(--card2); }
+.steps span.on { background:var(--ac); }
+</style>
+</head>
+<body>
+<button id="mt" type="button">Switch to day</button>
+<div class="piece">
+  <h2>One ball becomes two</h2>
+  <div class="frame">
+    <video id="v" muted loop playsinline autoplay preload="auto" width="1200" height="900"
+      poster="../../media/banach-tarski-night-poster.jpg" src="../../media/banach-tarski-night.mp4?v=2"
+      aria-describedby="cap"></video>
+    <button class="pp" id="pp" type="button">Pause</button>
+  </div>
+  <div class="steps" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <p id="cap" aria-live="off"></p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script>
+const K = s => katex.renderToString(s, { throwOnError: false });
+// Caption for each beat of the video (start times in seconds, from the Manim scene).
+const beats = [
+  [0,  'Take a solid ball.'],
+  [4,  'Pick two rotations of the ball; together with their reverses, call them up, down, left and right. Applying them in every possible order sends one point to a whole tree of points that never repeats. Each step is colored by its direction.'],
+  [10, 'Sort every point by its first move: four pieces, one for each direction, plus one leftover point.'],
+  [17, 'Rotate the left piece to the right, and it becomes everything except the right piece. So those two pieces together make a whole tree. Rotating the down piece up does the same for the up piece.'],
+  [24, 'Two pieces rebuild one ball and two rebuild another, each as big as the first. It needs the axiom of choice: the pieces are too wild to have a volume.'],
+]
+const v = document.getElementById('v'), cap = document.getElementById('cap'), pp = document.getElementById('pp'), dots = document.querySelectorAll('.steps span');
+let cur = -1;
+function show(i) { if (i === cur) return; cur = i; cap.classList.add('out'); setTimeout(() => { cap.innerHTML = beats[i][1]; cap.classList.remove('out'); }, 180); dots.forEach((d, j) => d.classList.toggle('on', j <= i)); }
+v.addEventListener('timeupdate', () => { let i = 0; beats.forEach(([t], j) => { if (v.currentTime >= t) i = j; }); show(i); });
+show(0);
+pp.onclick = () => { if (v.paused) { v.play(); pp.textContent = 'Pause'; } else { v.pause(); pp.textContent = 'Play'; } };
+if (matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); pp.textContent = 'Play'; }
+const mt = document.getElementById('mt'), root = document.documentElement;
+mt.onclick = () => {
+  const day = root.dataset.theme !== 'day'; root.dataset.theme = day ? 'day' : 'night'; mt.textContent = day ? 'Switch to night' : 'Switch to day';
+  const t = v.currentTime, playing = !v.paused, m = day ? 'day' : 'night';
+  v.poster = `../../media/banach-tarski-${m}-poster.jpg`; v.src = `../../media/banach-tarski-${m}.mp4?v=2`;
+  v.addEventListener('loadedmetadata', () => { v.currentTime = t; if (playing) v.play(); }, { once: true });
+};
+</script>
+</body>
+</html>

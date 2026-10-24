@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ehrhart's theorem (About mockup)</title>
+<!--
+  MOCKUP (round 2) for the About section's live piece: Ehrhart's theorem, with the 3D permutahedron
+  as its worked example and Carson's stack-sort tetrahedron highlighted inside. Not approved yet.
+  Three.js draws the shape; KaTeX sets the math. Every number shown is computed live and was checked
+  by brute force: L(t) = 16t^3 + 15t^2 + 6t + 1 and, for the tetrahedron, (t + 1)^3.
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root { --bg:#151a21; --ac:#C9ACDE; --ink:#F2EFE8; --mu:#A19E96; --card:#1d232c; --card2:#2a3240; --track:#636e80; --on:#151a21;
+  --s1:#E8A0B4; --s2:#8FB4E8; --s3:#E2CF9E; }   /* edge colors: swaps of 1↔2, 2↔3, 3↔4 */
+[data-theme="day"] { --bg:#F3EBDD; --ac:#6C4487; --ink:#1f1a14; --mu:#5c5348; --card:#EADFCC; --card2:#D6C6AC; --track:#857865; --on:#F3EBDD;
+  --s1:#9E4A62; --s2:#4D5B94; --s3:#7D6943; }
+*,*::before,*::after { box-sizing:border-box; }
+body { margin:0; padding:24px clamp(20px,5vw,64px) 64px; background:var(--bg); color:var(--ink); font-family:'Newsreader',Georgia,serif; font-weight:420; font-size:18.5px; line-height:1.45; transition:background-color .3s ease, color .3s ease; }
+#mt { font:500 13px/1 'IBM Plex Sans',sans-serif; background:var(--card2); color:var(--ink); border:0; border-radius:999px; padding:9px 14px; cursor:pointer; margin:0 0 28px; }
+.piece { max-width:640px; }
+h2 { font-family:'DM Serif Display',serif; font-weight:400; font-size:36px; line-height:1.05; margin:0 0 12px; }
+h3 { font-family:'DM Serif Display',serif; font-weight:400; font-size:24px; line-height:1.1; margin:30px 0 8px; }
+p { margin:0 0 14px; max-width:60ch; }
+.stage { position:relative; aspect-ratio:1/1; max-height:500px; width:100%; border-radius:12px; background:var(--card); overflow:hidden; touch-action:pan-y; cursor:grab; margin:8px 0 0; }
+.stage:active { cursor:grabbing; }
+.stage canvas { display:block; width:100% !important; height:100% !important; }
+.lbl { position:absolute; left:0; top:0; font:500 13px/1 'IBM Plex Sans',sans-serif; color:var(--ink); background:var(--card); padding:4px 7px; border-radius:6px; pointer-events:none; white-space:nowrap; transform:translate(-50%,-140%); }
+.lbl.hl { color:var(--ac); }
+.lbl.tmp { background:var(--card2); }
+.hint { position:absolute; right:14px; bottom:12px; font:400 13px 'IBM Plex Sans',sans-serif; color:var(--mu); pointer-events:none; }
+.key { position:absolute; left:14px; bottom:12px; font:400 13px 'IBM Plex Sans',sans-serif; color:var(--mu); pointer-events:none; display:flex; gap:12px; flex-wrap:wrap; max-width:60%; }
+.key i { display:inline-block; width:14px; height:3px; border-radius:2px; vertical-align:middle; margin-right:5px; }
+.ctl { font:400 13px 'IBM Plex Sans',sans-serif; color:var(--mu); display:flex; gap:12px; align-items:center; margin:14px 0 4px; }
+.ctl label { white-space:nowrap; }
+.rng { --th:16px; position:relative; flex:1; display:flex; align-items:center; }
+.rng::before,.rng .fill { content:''; position:absolute; left:0; height:3px; border-radius:2px; pointer-events:none; }
+.rng::before { right:0; background:var(--track); }
+.rng .fill { width:calc(var(--p,0) * (100% - var(--th)) + var(--th) / 2); background:var(--ac); }
+input[type=range] { -webkit-appearance:none; appearance:none; position:relative; width:100%; height:28px; background:transparent; margin:0; cursor:pointer; }
+input[type=range]::-webkit-slider-runnable-track { height:3px; background:transparent; }
+input[type=range]::-moz-range-track { height:3px; background:transparent; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--ac); margin-top:-6.5px; }
+input[type=range]::-moz-range-thumb { width:16px; height:16px; border:0; border-radius:50%; background:var(--ac); }
+@media (pointer:coarse){ .rng{--th:24px} input[type=range]::-webkit-slider-thumb{width:24px;height:24px;margin-top:-10.5px} input[type=range]::-moz-range-thumb{width:24px;height:24px} }
+#count { font:400 13px/1.55 'IBM Plex Sans',sans-serif; color:var(--mu); margin:0 0 12px; }
+#count b { font-weight:500; color:var(--ink); }
+#count b.hl { color:var(--ac); }
+.poly { text-align:center; font-size:1.25em; margin:10px 0 4px; white-space:nowrap; }
+@media (max-width:480px) { .poly { font-size:1.02em; } }
+.poly button { font:inherit; color:var(--ac); background:none; border:0; padding:6px 3px; margin:-6px 0; cursor:pointer; text-decoration:underline; text-decoration-thickness:1.5px; text-underline-offset:5px; border-radius:6px; transition:transform .14s cubic-bezier(.23,1,.32,1); }
+.poly button:active { transform:scale(.95); }
+.poly button[aria-pressed="true"] { background:var(--ac); color:var(--on); text-decoration:none; padding:8px 12px; margin:-8px 0; }
+#why { font-size:17px; color:var(--ink); background:var(--card); border-radius:12px; padding:14px 18px; margin:12px 0 0; min-height:3.2em; }
+#why .mu { color:var(--mu); font-style:italic; }
+</style>
+</head>
+<body>
+<button id="mt" type="button">Switch to day</button>
+<div class="piece">
+  <h2>Ehrhart's theorem</h2>
+  <p>Take a polytope whose corners all sit on integer points, and stretch it by a whole number \(t\). Count the integer points it contains. However strange the shape, that count is always a polynomial in \(t\), and its degree is the polytope's dimension.</p>
+  <p>So a count of separate points secretly knows the smooth geometry: the leading coefficient is the volume, the next is half the surface area, the constant term is always \(1\), and plugging in \(-t\) counts the points strictly inside. Tap a coefficient below to see each one.</p>
+
+  <div class="stage" id="stage">
+    <div class="key" id="key"></div>
+    <span class="hint">Drag to turn · tap a corner</span>
+  </div>
+  <div class="ctl"><label for="tk"><span id="tl"></span> stretch</label><span class="rng"><span class="fill"></span><input type="range" id="tk" min="1" max="5" value="2" step="1" aria-label="Stretch factor t"></span></div>
+  <p id="count"></p>
+  <div class="poly" id="poly"></div>
+  <div id="why" aria-live="polite"><span class="mu">Tap a coefficient to see what it measures.</span></div>
+
+  <h3>The example: a permutahedron</h3>
+  <p>Its 24 corners are the permutations of 1234, and two corners share an edge exactly when they differ by swapping two neighboring values; the edge colors show which swap. So walking along edges is sorting: each step up undoes one inversion, from 4321 at the bottom to 1234 at the top. Its edges are a picture of the symmetric group \(S_4\), generated by those swaps.</p>
+  <p>Highlighted inside is the tetrahedron traced by stack-sorting 2341: 2341 → 2314 → 2134 → 1234. In my research I study polytopes formed this way, from permutations that end in \(n\) then \(1\). This one obeys its own polynomial, \((t+1)^3\).</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const root = document.documentElement, mt = document.getElementById('mt');
+const css = n => getComputedStyle(root).getPropertyValue(n).trim();
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const K = (s, d) => katex.renderToString(s, { displayMode: !!d, throwOnError: false });
+document.querySelectorAll('.piece > p').forEach(el => renderMathInElement(el, { delimiters: [{ left: '\\(', right: '\\)', display: false }] }));
+
+/* ── The math ── */
+const perms = []; (function p(a, r) { if (!r.length) perms.push(a); r.forEach((v, i) => p([...a, v], r.filter((_, j) => j !== i))); })([], [1, 2, 3, 4]);
+const name = p => p.join('');
+const subsets = []; for (let m = 1; m < 15; m++) subsets.push([0, 1, 2, 3].filter(i => m >> i & 1));
+// The stack-sort tetrahedron: corners 2341, 2314, 2134, 1234. A point y = x − t·(1,2,3,4) is in t·T
+// when y = λ1(1,1,1,−3) + λ2(1,1,−2,0) + λ3(1,−1,0,0) with every λ ≥ 0 and λ1 + λ2 + λ3 ≤ t.
+const TET = ['2341', '2314', '2134', '1234'];
+function inTet(x, t) {
+  const y = x.map((v, i) => v - t * (i + 1)), l1 = -y[3] / 3, l2 = (l1 - y[2]) / 2, l3 = l1 + l2 - y[1], e = 1e-9;
+  return l1 > -e && l2 > -e && l3 > -e && l1 + l2 + l3 < t + e;
+}
+// Lattice points of tΠ: integer x with sum 10t and, for each set S of k positions, sum over S ≥ t·k(k+1)/2.
+function points(t) {
+  const out = [];
+  for (let a = t; a <= 4 * t; a++) for (let b = t; b <= 4 * t; b++) for (let c = t; c <= 4 * t; c++) {
+    const d = 10 * t - a - b - c, x = [a, b, c, d]; if (d < t || d > 4 * t) continue;
+    let ok = true, inner = true;
+    for (const S of subsets) { const s = S.reduce((u, i) => u + x[i], 0), lo = t * S.length * (S.length + 1) / 2; if (s < lo) { ok = false; break; } if (s === lo) inner = false; }
+    if (ok) out.push({ x, inner, tet: inTet(x, t) });
+  }
+  return out;
+}
+const L = t => 16 * t ** 3 + 15 * t ** 2 + 6 * t + 1;
+// Upright frame: "up" is the direction from 4321 to 1234, so every edge step up undoes one inversion.
+const U = [[1, -1, -1, 1].map(v => v / 2), [-3, -1, 1, 3].map(v => v / Math.sqrt(20)), [1, -3, 3, -1].map(v => v / Math.sqrt(20))];
+const R = 1 / Math.sqrt(5); // corners sit 1 unit from the center
+const to3 = (x, t) => new THREE.Vector3(...U.map(u => u.reduce((s, ui, i) => s + ui * (x[i] - 2.5 * t), 0))).multiplyScalar(R / t);
+
+/* ── The scene ── */
+const stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+stage.prepend(renderer.domElement);
+const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(30, 1, .1, 100);
+camera.position.set(0, .9, 5.6);
+const controls = new OrbitControls(camera, renderer.domElement);
+// Turn around the vertical axis only (a little tilt allowed), so 1234 always stays on top.
+Object.assign(controls, { enableZoom: false, enablePan: false, enableDamping: true, dampingFactor: .08, autoRotate: !reduce, autoRotateSpeed: .5, minPolarAngle: 1.1, maxPolarAngle: 1.75 });
+renderer.domElement.style.touchAction = 'pan-y';
+controls.addEventListener('start', () => { controls.autoRotate = false; });
+
+const V = {}; perms.forEach(p => { V[name(p)] = to3(p, 1); });
+// Faces: for each set S of positions, the corners that put the |S| smallest values on S.
+// |S| = 1 or 3 gives the 8 hexagons, |S| = 2 the 6 squares.
+function facePolys() {
+  return subsets.filter(S => S.length < 4).map(S => {
+    const k = S.length, vs = perms.filter(p => S.every(i => p[i] <= k)).map(p => V[name(p)]);
+    const c = vs.reduce((a, v) => a.add(v), new THREE.Vector3()).divideScalar(vs.length), n = c.clone().normalize();
+    const e1 = vs[0].clone().sub(c).normalize(), e2 = n.clone().cross(e1);
+    const ang = v => Math.atan2(v.clone().sub(c).dot(e2), v.clone().sub(c).dot(e1));
+    vs.sort((a, b) => ang(a) - ang(b));
+    return { hex: vs.length === 6, vs };
+  });
+}
+const fanGeo = polys => { const pos = []; polys.forEach(vs => { for (let i = 1; i < vs.length - 1; i++) pos.push(...vs[0].toArray(), ...vs[i].toArray(), ...vs[i + 1].toArray()); }); const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); return g; };
+const faces = facePolys();
+const hexMat = new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, side: THREE.DoubleSide });
+const sqMat = new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, side: THREE.DoubleSide });
+scene.add(new THREE.Mesh(fanGeo(faces.filter(f => f.hex).map(f => f.vs)), hexMat));
+scene.add(new THREE.Mesh(fanGeo(faces.filter(f => !f.hex).map(f => f.vs)), sqMat));
+// Edges join permutations that differ by swapping the values k and k+1; colored by k.
+const edgeMats = [1, 2, 3].map(() => new THREE.LineBasicMaterial());
+const edgeSets = [[], [], []];
+perms.forEach((p, i) => perms.forEach((q, j) => { if (j <= i) return; const d = p.map((v, k) => [v, q[k]]).filter(([a, b]) => a !== b); if (d.length === 2 && Math.abs(d[0][0] - d[0][1]) === 1) edgeSets[Math.min(d[0][0], d[0][1]) - 1].push(V[name(p)], V[name(q)]); }));
+edgeSets.forEach((pts, k) => scene.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), edgeMats[k])));
+// The highlighted tetrahedron.
+const tv = TET.map(n => V[n]);
+const tetMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: .28, depthWrite: false, side: THREE.DoubleSide });
+scene.add(new THREE.Mesh(fanGeo([[tv[0], tv[1], tv[2]], [tv[0], tv[1], tv[3]], [tv[0], tv[2], tv[3]], [tv[1], tv[2], tv[3]]]), tetMat));
+const tetLine = new THREE.LineBasicMaterial();
+scene.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints([0, 1, 0, 2, 0, 3, 1, 2, 1, 3, 2, 3].map(i => tv[i])), tetLine));
+
+const dotGeo = new THREE.SphereGeometry(1, 14, 10);
+const mats = { surf: new THREE.MeshBasicMaterial(), in: new THREE.MeshBasicMaterial(), tet: new THREE.MeshBasicMaterial() };
+let meshes = [], mode = null, T = 2;
+const tk = document.getElementById('tk');
+
+function setT(t) {
+  T = t; meshes.forEach(m => scene.remove(m)); meshes = [];
+  const pts = points(t), r = .03 / Math.sqrt(t), m4 = new THREE.Matrix4();
+  const groups = { tet: pts.filter(p => p.tet), surf: pts.filter(p => !p.tet && !p.inner), in: pts.filter(p => !p.tet && p.inner) };
+  for (const [k, list] of Object.entries(groups)) {
+    const m = new THREE.InstancedMesh(dotGeo, mats[k], Math.max(1, list.length)); m.count = list.length;
+    const rr = k === 'tet' ? r * 1.35 : r;
+    list.forEach((p, i) => m.setMatrixAt(i, m4.makeScale(rr, rr, rr).setPosition(to3(p.x, t)))); scene.add(m); meshes.push(m);
+  }
+  const inside = pts.filter(p => p.inner).length, nt = groups.tet.length;
+  document.getElementById('tl').innerHTML = K('t = ' + t);
+  document.getElementById('count').innerHTML =
+    `<b>${pts.length} points</b> in the permutahedron · ${pts.length - inside} on its surface, ${inside} inside · ` + K(`L(${t}) = ${L(t)}`) +
+    `<br><b class="hl">${nt} points</b> in the highlighted tetrahedron · ` + K(`(${t}+1)^3 = ${(t + 1) ** 3}`);
+  tk.parentNode.style.setProperty('--p', (t - 1) / 4);
+  tk.setAttribute('aria-valuetext', `t equals ${t}: ${pts.length} points in the permutahedron, ${nt} in the tetrahedron`);
+  if (mode) explain(mode);
+}
+function paint() {
+  const f = mode === '15', v = mode === '16', rec = mode === 'rec';
+  hexMat.color.set(css(f ? '--s2' : '--card2')); sqMat.color.set(css(f ? '--s3' : '--card2'));
+  hexMat.opacity = sqMat.opacity = f ? .55 : v ? .6 : .2;
+  ['--s1', '--s2', '--s3'].forEach((c, k) => edgeMats[k].color.set(css(c)));
+  tetMat.color.set(css('--ac')); tetLine.color.set(css('--ac'));
+  mats.surf.color.set(css(rec ? '--track' : '--ink')); mats.in.color.set(css(rec ? '--ac' : '--mu')); mats.tet.color.set(css('--ac'));
+  document.getElementById('key').innerHTML = f
+    ? `<span><i style="background:var(--s2)"></i>hexagon, area 3</span><span><i style="background:var(--s3)"></i>square, area 1</span>`
+    : ['--s1', '--s2', '--s3'].map((c, k) => `<span><i style="background:var(${c})"></i>swap ${k + 1}↔${k + 2}</span>`).join('');
+}
+tk.oninput = () => setT(+tk.value);
+
+/* ── Labels: the two poles and the tetrahedron's corners; tap any other corner to see its name ── */
+const fixed = ['1234', '4321', '2341', '2314', '2134'];
+const labels = {};
+function addLabel(n, cls) { const el = document.createElement('span'); el.className = 'lbl ' + cls; el.textContent = n; stage.appendChild(el); labels[n] = el; return el; }
+fixed.forEach(n => addLabel(n, TET.includes(n) ? 'hl' : ''));
+let tmp = null, tmpTimer;
+function place() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  for (const [n, el] of Object.entries(labels)) { const p = V[n].clone().project(camera); el.style.left = (p.x + 1) / 2 * w + 'px'; el.style.top = (1 - p.y) / 2 * h + 'px'; }
+}
+function dropTmp() { if (tmp) { tmp.remove(); delete labels[tmp.textContent]; tmp = null; } }
+renderer.domElement.addEventListener('pointerup', e => {
+  const b = stage.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
+  let best = null, bd = 22;
+  for (const p of perms) { const n = name(p), q = V[n].clone().project(camera), d = Math.hypot((q.x + 1) / 2 * b.width - x, (1 - q.y) / 2 * b.height - y); if (d < bd) { bd = d; best = n; } }
+  if (!best || fixed.includes(best)) return;
+  dropTmp(); tmp = addLabel(best, 'tmp'); clearTimeout(tmpTimer); tmpTimer = setTimeout(dropTmp, 3000);
+});
+
+function size() { const w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+new ResizeObserver(size).observe(stage); size();
+(function loop() { controls.update(); renderer.render(scene, camera); place(); requestAnimationFrame(loop); })();
+
+/* ── The polynomial: each coefficient explained, for every lattice polytope ── */
+const poly = document.getElementById('poly'), why = document.getElementById('why');
+const btn = (m, s, label) => `<button type="button" data-m="${m}" aria-pressed="false" aria-label="${label}">${s}</button>`;
+poly.innerHTML = K('L(t) =') + ' ' + btn('16', '16', 'the volume') + K('t^3 + {}') + btn('15', '15', 'half the surface area') + K('t^2 + {}') + btn('6', '6', 'the middle coefficient') + K('t + {}') + btn('1', '1', 'the constant term') + '&ensp;' + btn('rec', K('L(-t)'), 'reciprocity');
+function explain(m) {
+  const t = T, txt = {
+    '16': `<b>Volume.</b> The leading coefficient is always the volume, measured in cells of the grid. The permutahedron fills 16 cells, and stretching by ${K('t')} multiplies volume by ${K('t^3')}: that's why ${K('t^3')} leads. (The tetrahedron fills 1 cell, hence the ${K('t^3')} in ${K('(t+1)^3')}.)`,
+    '15': `<b>Half the surface area,</b> each face measured in its own grid. The 8 hexagons have area 3 and the 6 squares area 1: ${K('\\tfrac12(8\\cdot 3 + 6\\cdot 1) = 15')}.`,
+    '6': `<b>The middle coefficient</b> has no simple geometric meaning in general; that's one of the theorem's open puzzles. For permutahedra there's a surprise: every coefficient counts forests on 4 labeled points (Stanley), and ${K('6')} is the number of ways to draw one edge.`,
+    '1': `<b>Always 1.</b> At ${K('t = 0')} the polytope shrinks to a single point, so the constant term of every Ehrhart polynomial is ${K('1')}.`,
+    'rec': `<b>Reciprocity.</b> Plug in ${K('-t')} and flip the sign: ${K('-L(-t) = 16t^3 - 15t^2 + 6t - 1')} counts the points strictly inside, shown in color now. At ${K('t = ' + t)} that's ${16 * t ** 3 - 15 * t ** 2 + 6 * t - 1}.`,
+  };
+  why.innerHTML = txt[m];
+}
+poly.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const on = b.getAttribute('aria-pressed') !== 'true';
+  poly.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', 'false'));
+  mode = on ? b.dataset.m : null;
+  if (on) { b.setAttribute('aria-pressed', 'true'); explain(mode); } else why.innerHTML = '<span class="mu">Tap a coefficient to see what it measures.</span>';
+  paint();
+});
+
+paint(); setT(2);
+mt.onclick = () => { root.dataset.theme = root.dataset.theme === 'day' ? 'night' : 'day'; mt.textContent = root.dataset.theme === 'day' ? 'Switch to night' : 'Switch to day'; paint(); };
+</script>
+</body>
+</html>

@@ -4,6 +4,23 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-10-24
+
+The About section is built: Carson's photo and bio, then three pieces of math he finds beautiful.
+
+### Added
+- About: Carson's photo, bio, research areas (combinatorics, logic, probability, philosophy of mathematics) and life outside math (books, video games, music, movies, walks with his dog Dexter, the beach).
+- Ehrhart's theorem, with a live 3D permutahedron (drawn with Three.js): stretch it with a slider and watch the grid points inside follow the polynomial $16t^3 + 15t^2 + 6t + 1$; tap each coefficient to see what it measures (volume, half the surface area, the constant 1, reciprocity). Corners are labeled, edges are colored by which swap they make, and Carson's research example, the stack-sorting simplex of $2341$ with polynomial $(t+1)^3$, can be tapped to see it alone.
+- Gödel's completeness and incompleteness, with the independence of the continuum hypothesis (Gödel and Cohen).
+- The Banach–Tarski paradox as a 55-second silent animation made with Manim, opening with the chocolate-bar illusion, in a night and a day version, with captions timed to each step; it plays only while on screen.
+- `media/` (videos), `design/manim/` (the animation's source), `design/mockups/about-*.html` (the About mockups), web-sized photo and a still of the 3D shape for visitors without JavaScript.
+
+### Changed
+- `PRODUCT.md`: Carson's new bio wording, research, interests and the name "stack-sorting simplex"; the math explanations avoid "I/me/my" (except his research sentence).
+- `DESIGN.md`: About's live pieces, as decided over several mockup rounds.
+- `CLAUDE.md`: Claude may use Three.js and Manim wherever it judges them tasteful.
+- Video files are now color-labeled, so the animation's background matches the page exactly.
+
 ## [0.6.0] - 2026-10-22
 
 Stage 3 begins: the hero, the first section of the redesigned site, is built. The rest of the page shows clearly marked placeholders until each section is built.
@@ -89,7 +106,8 @@ Setup for the redesign. No visible change to the live site.
 - First version of the site from a template: hero, about, and connect sections, with animation effects.
 - A custom domain file (`CNAME`) was added and then removed the same day.
 
-[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.3.0...v0.4.0

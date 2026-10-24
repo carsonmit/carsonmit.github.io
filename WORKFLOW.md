@@ -24,13 +24,15 @@ How we customize the site, step by step. Your job is to decide and react; Claude
 
 Design works best with real words. Collect, in any rough form:
 - [x] A short bio (a few sentences, messy is fine; Claude edits): education done
-  - [ ] Later: what drew you to math
-  - [ ] Later: what you do now, life outside math
+  - [x] What drew you to math: left out for now (your choice)
+  - [x] Life outside math (general for now)
+  - [ ] Later, optional: what you do now
 - [x] Your links: LinkedIn, GitHub, email (no Twitter)
 - [x] Tutoring details: subjects (in `content/subjects.md`), levels, online or in person, rates
   - [ ] Later: booking page (Cal.com tutoring session types; see the checklist before the Tutoring section below)
 - [x] The photo of you (`images/carson.jpg`)
-- [ ] Later, optional: a favorite theorem, how you teach, anything that's "only you"
+- [x] A theorem that matters to you: Ehrhart's theorem (informed your research)
+- [ ] Later: how you teach (goes in Tutoring)
 
 Everything collected is recorded in `PRODUCT.md` under "Confirmed Content".
 
@@ -61,7 +63,7 @@ For each section, top to bottom (hero first):
 
 Then move to the next section. Small steps beat "redesign everything".
 
-Progress: ✅ Hero (v0.6.0) · About · Tutoring · Projects (GRE textbook first) · Contact
+Progress: ✅ Hero (v0.6.0) · ✅ About (v0.7.0) · Tutoring · Projects (GRE textbook first) · Contact
 
 **Before building Tutoring and Contact** (Claude: remind Carson at the start of that step):
 - Create the tutoring session types in Cal.com (e.g. a free intro call and a full session). Decide the lengths and whether each is in person, video, or both; Claude can create them through the Cal.com connector once you say so.

@@ -51,12 +51,15 @@ Supplied by the owner in Stage 1 (2026-10-22). Use these words and facts as writ
 
 ### Bio (About section)
 
-Approved draft, first person:
+Owner's wording (2026-10-24, replaces the Stage 1 draft), first person, use as written:
 
-> I'm Carson Mitchell. I started at Santa Barbara City College, where from 2019 to 2021 I earned five associate's degrees, in math, physics, engineering, economics, and accounting. I went on to UC Berkeley and finished my bachelor's in mathematics in 2023, then spent 2024–2025 as a PhD student in mathematics at USC.
+> I graduated from UC Berkeley in 2023 with a bachelor's degree in mathematics. I formerly attended the University of Southern California as a PhD candidate in the mathematics department. I'm also a proud product of the community college system; I attended Santa Barbara City College, where I earned associate's degrees in math, physics, engineering, economics, and accounting.
 
-- PLACEHOLDER: what drew Carson to math (owner will write it later).
-- PLACEHOLDER: what he does now and his life outside math (owner will write it later).
+- What drew Carson to math: left out for now, by the owner's choice (2026-10-24). Don't add a placeholder for it.
+- Life outside math (owner, 2026-10-24, general for now): reading, especially philosophy; gaming; music; movies; walking his dog; going to the beach. His dog is named Dexter. Site wording (owner, 2026-10-24): "I enjoy reading (especially books on math and philosophy), playing video games, listening to music, watching movies, going on walks with my dog Dexter, and going to the beach."
+- What he works on now (owner, 2026-10-24): combinatorics, logic, probability, and the philosophy of mathematics, primarily. Site wording: "I work mostly in combinatorics, logic, probability, and the philosophy of mathematics."
+- Lead-in before the math examples (owner, 2026-10-24): "Here are a few examples of results I find particularly interesting and beautiful."
+- Voice rule (owner, 2026-10-24): the math explanations (Ehrhart's theorem, Gödel, Banach–Tarski) never use "I", "me" or "my"; first person is only for the bio and interests, plus one exception the owner allowed: the sentences about his own research in the Ehrhart block (owner's wording, 2026-10-24: "I study polytopes like this, generated from permutations of the form $Ln1$ using the stack-sorting algorithm. This specific one has Ehrhart polynomial $(t+1)^3$, the same as the unit cube, lecture hall simplices, and many other well-studied geometric structures.").
 
 Facts behind the bio: Santa Barbara City College 2019–2021, five associate's degrees (math, physics, engineering, economics, accounting); UC Berkeley 2021–2023, bachelor's in mathematics; USC 2024–2025, former PhD student in mathematics (he did not finish the PhD; never imply he did).
 
@@ -82,7 +85,11 @@ Facts behind the bio: Santa Barbara City College 2019–2021, five associate's d
 
 ### "Only you" material (optional)
 
-- PLACEHOLDER: favorite theorem, how he teaches, anything personal. The owner will supply it later.
+- Ehrhart's theorem: not his favorite, but it has informed much of his research (owner, 2026-10-24).
+- His research (owner, 2026-10-24): the subpolytope of the permutahedron formed by the permutations reached by running permutations of the form $Ln1$ (ending in $n$ then $1$) through the stack-sorting algorithm, i.e. their stack-sort orbits. Example he'd like highlighted: the orbit of $23\cdots n1$, which he calls the **stack-sorting simplex** (use that name on the site); for $n = 4$, $2341 \to 2314 \to 2134 \to 1234$, a tetrahedron whose Ehrhart polynomial is $(t+1)^3$ (computed by Claude, brute force $t = 0..5$).
+- Theorems he loves (owner, 2026-10-24): Gödel's incompleteness and completeness theorems, taken together; Cohen's independence proofs; the Banach–Tarski paradox. Independence (a proof that neither a proof nor a disproof exists) is, in his words, the most impressive part. The About block is titled "Gödel's Completeness and Incompleteness" (owner, 2026-10-24).
+- How he teaches: belongs in the Tutoring section, not About (owner's choice). PLACEHOLDER until he writes it.
+- Anything else personal: not decided yet.
 
 ## Product Principles
 

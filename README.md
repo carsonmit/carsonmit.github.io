@@ -4,7 +4,7 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 
 **Live site:** https://carsonmit.github.io
 
-> Status: a redesign is in progress (see [Roadmap](#roadmap)). The new hero is built (v0.6.0); the other sections are still marked placeholders.
+> Status: a redesign is in progress (see [Roadmap](#roadmap)). The hero (v0.6.0) and About (v0.7.0) are built; the other sections are still marked placeholders.
 
 ## Contents
 
@@ -21,6 +21,7 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 ## How it works
 
 - **Plain HTML, CSS, and JavaScript** in a single file, `index.html`. No framework and no build step: what's in the file is what visitors get.
+- **Libraries loaded from the web (CDNs):** KaTeX typesets the math; Three.js draws the 3D permutahedron in About, and only loads when you scroll near it.
 - **Hosting:** [GitHub Pages](https://pages.github.com/) serves the `main` branch automatically. Every push to `main` redeploys the site, usually within a few minutes. Pages caches aggressively, so hard-refresh (Cmd+Shift+R) before deciding a change didn't work.
 - **The GRE textbook PDF** is written elsewhere and copied in automatically (see [below](#gre-textbook-pipeline)).
 
@@ -33,8 +34,10 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 | `PRODUCT.md` | Who the site is for and what's true about it (no invented claims) |
 | `DESIGN.md` | The design system: colors, fonts, and design rules |
 | `content/subjects.md` | The tutoring subjects list. Edit it to add or remove a subject. |
-| `images/` | Photos used on the site (`carson.jpg`) |
-| `design/mockups/` | Approved interactive pieces as standalone pages (open in a browser). The site must match them. |
+| `images/` | Pictures used on the site: `carson.jpg` (original photo), `carson-1000.jpg` (the web-sized copy the page shows), `permutahedron-still.jpg` (shown instead of the 3D shape when JavaScript is off) |
+| `media/` | Videos on the site: the Banach–Tarski animation in a night and a day version, with a still "poster" image for each |
+| `design/manim/` | Source of the Banach–Tarski animation (`banach_tarski.py`) and `encode.py`, which shrinks a render into the web videos in `media/` |
+| `design/mockups/` | Interactive pieces as standalone pages (open in a browser): the hero circles and the About pieces. The site must match the approved ones. |
 | `WORKFLOW.md` | The step-by-step process for building and changing the site |
 | `CHANGELOG.md` | Version history in plain language |
 | `CLAUDE.md` | Instructions for Claude Code, the AI assistant used to build the site |
@@ -88,6 +91,16 @@ Render a scene (`-ql` = quick low-quality preview, `-qh` = final high quality):
 
 Equations need LaTeX installed (e.g. TeX Live or MacTeX).
 
+To remake the Banach–Tarski video after editing `design/manim/banach_tarski.py` (run from `design/manim/`; Manim's working files go to `design/manim/media/` and are not stored in git):
+
+```bash
+~/.venvs/manim/bin/manim -qh --fps 30 --media_dir media banach_tarski.py BanachTarskiNight BanachTarskiDay
+~/.venvs/manim/bin/python encode.py media/videos/banach_tarski/1080p30/BanachTarskiNight.mp4 ../../media/banach-tarski-night.mp4 out/night-poster.png 30 1200 26
+~/.venvs/manim/bin/python encode.py media/videos/banach_tarski/1080p30/BanachTarskiDay.mp4 ../../media/banach-tarski-day.mp4 out/day-poster.png 30 1200 26
+```
+
+The page's captions are timed to the video's steps (the `beats` list in `index.html`), so update those times if the animation's timing changes.
+
 **Lighthouse** on the live site (Chrome must be installed):
 
 ```bash
@@ -130,6 +143,6 @@ Tracked in [WORKFLOW.md](WORKFLOW.md):
 - [x] Stage 0: setup, design skills, palette, notes
 - [x] Stage 1: real bio, links, tutoring details, photo (v0.5.0; a few bio lines, booking link and contact form come later)
 - [x] Stage 2: body font, page plan, interactive centerpiece (v0.4.0)
-- [ ] Stage 3: build section by section (hero done in v0.6.0; next: About, Tutoring, Projects with the GRE textbook, Contact)
+- [ ] Stage 3: build section by section (hero v0.6.0, About v0.7.0; next: split into pages, then Tutoring, Projects with the GRE textbook, Contact)
 - [ ] Stage 4: polish (accessibility, mobile, motion)
 - [ ] Stage 5: launch v1.0.0
