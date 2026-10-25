@@ -6,6 +6,7 @@
 - Stack: plain HTML/CSS/JS, one HTML file per page (`index.html`, `about.html`, `tutoring.html`, `projects.html`, `contact.html`) sharing `styles.css` and `site.js` (decided 2026-10-24). No frameworks or build step unless I ask.
 - Aesthetic: a scholarly serif voice in a dark, quiet, interactive frame, with light and dark modes. Palette and fonts are in `DESIGN.md`.
 - Pages must feel designed, dynamic and alive, never plain single-column "headers, text, headers, text" (Carson, 2026-10-25, rejecting the first Tutoring draft): use layout, cards, scale and motion, and make the main actions (e.g. both booking buttons) clear focal points.
+- Carson's photo appears only on Home and About Me. Don't add it to other pages, even when a design blueprint calls for a portrait (Carson said so for Tutoring and again for Contact, 2026-10-25).
 - Current sections: hero, about, connect/social, footer, with animation effects. The planned redesign (section order, centerpiece) is in `DESIGN.md`.
 - I want to use **Three.js** (a JavaScript library for 3D graphics in the browser; loads from a CDN, so no build step) and **Manim** (3Blue1Brown's Python library for math animations; it renders videos offline, so on the site it would appear as pre-rendered video) on the site. Starting now, whenever planning features or animations, suggest where one of them would fit. Standing OK (2026-10-24): use either wherever you judge it tasteful, and ask me questions to narrow each piece down.
 - Tools: `gh` (GitHub CLI), Manim (in `~/.venvs/manim`; render with `~/.venvs/manim/bin/manim`), and Lighthouse (`npx lighthouse`). Setup and commands are in README "Tools". Run Lighthouse before and after big changes; scores must not drop below the baseline listed there.
@@ -18,7 +19,7 @@
   - Video is Zoom (connected; Carson's Cal.com default), never Cal Video (no whiteboard). Every new lesson type gets Zoom as its video location. Free Zoom cuts meetings at 40 min.
   - The connector's `create_event_type` tool rejects location and booking-field objects; use `call_api_operation` with `EventTypesController_2026_06_12_createEventType`, then set `bookingProposalCount` with an update (create doesn't accept it).
 - Payment (Carson, 2026-10-25): separate from booking for now; students pay after the lesson by Zelle, PayPal or Apple Cash. Later: add in-platform payment as a convenience option, Wyzant-style (a valid card on file to book, charged only after the lesson).
-- Contact form: Formspree (chosen 2026-10-22, for its saved message history and spam filtering). Carson creates the form and gives me its form ID, which is public by design and safe to commit. Form ID: pending.
+- Contact form: Formspree (chosen 2026-10-22, for its saved message history and spam filtering). Carson creates the form and gives me its form ID, which is public by design and safe to commit. Form ID: `mrppewpn` (endpoint `https://formspree.io/f/mrppewpn`, given 2026-10-25). Test the form by intercepting the request in the test browser; never send a real message unless Carson says so.
 
 ## PDF pipeline
 - A LaTeX project on Overleaf syncs to the repo `carsonmit/Mathematics-for-the-GRE`.

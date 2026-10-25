@@ -4,7 +4,7 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 
 **Live site:** https://carsonmit.github.io
 
-> Status: a redesign is in progress (see [Roadmap](#roadmap)). The home page with the hero (v0.6.0), About Me (v0.7.0), the split into separate pages (v0.8.0) and Tutoring (v0.9.0) and Projects (v0.10.0) are built; Contact is still a marked placeholder.
+> Status: a redesign is in progress (see [Roadmap](#roadmap)). The home page with the hero (v0.6.0), About Me (v0.7.0), the split into separate pages (v0.8.0) Tutoring (v0.9.0), Projects (v0.10.0) and Contact are built; Stage 4 (polish) is next.
 
 ## Contents
 
@@ -33,7 +33,7 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 | `about.html` | About Me: bio, Ehrhart's theorem (3D permutahedron), Gödel, Banach–Tarski |
 | `tutoring.html` | Tutoring: rates, booking (Cal.com), subjects, how I teach (placeholder), a problem that solves itself as you scroll, textbook sample |
 | `projects.html` | Projects: the free GRE textbook (download and page preview), the Neuron Diagram Maker with a live diagram, and the Star Battle Solver with a playable puzzle |
-| `contact.html` | Contact (a placeholder until it's built) |
+| `contact.html` | Contact: where to find me (email, LinkedIn, GitHub), a graph of the ways to reach me, a message form (Formspree), and the booking cards |
 | `data/star-battle-easy.json` | The Star Battle Solver's real steps for the puzzle on Projects, exported from its `solver.py` (in `carsonmit/Widgets-and-Miscellaneous`) |
 | `styles.css` | Shared look for every page: colors, fonts, layout, motion |
 | `site.js` | Shared script for every page: the day/night switch and the bot-proof email link |
@@ -71,7 +71,7 @@ Then open http://localhost:8000. Stop it with Ctrl+C. (Opening the HTML files di
 
 To change a design decision (a color or a font), update `DESIGN.md` first, then the site.
 
-**After editing `styles.css` or `site.js`,** change the version tag where every page links them (`styles.css?v=2026-10-25-2g`, `site.js?v=…`) to something new, for example today's date. Browsers keep old copies of these files; a new tag makes them fetch the new one. Find and replace across the five HTML files does it in one go.
+**After editing `styles.css` or `site.js`,** change the version tag where every page links them (`styles.css?v=2026-10-25-3r`, `site.js?v=…`) to something new, for example today's date. Browsers keep old copies of these files; a new tag makes them fetch the new one. Find and replace across the five HTML files does it in one go.
 
 **Tutoring subjects** live in `content/subjects.md`: one per line starting with `- `, below the `## Subjects` line. **Textbook pictures** in `images/gre/` are made from the PDF and don't update when the book changes; ask Claude to re-render them if the pages change. The same goes for `data/star-battle-easy.json` (made by running the solver) and the program screenshots in `images/projects/`.
 
@@ -120,6 +120,14 @@ npx lighthouse https://carsonmit.github.io --view
 
 Baseline before the redesign (2026-10-22): performance 98, accessibility 100, best practices 96, SEO 90.
 
+## Contact form
+
+The message form on `contact.html` sends to [Formspree](https://formspree.io), a service that emails each message to Carson and keeps a history of them (with spam filtering). The form's address is `https://formspree.io/f/mrppewpn`; the ID is public by design, so it's safe in the code.
+
+- The page's script checks the boxes, then sends the message in the background, so the page never reloads. Without JavaScript the form still works: the browser checks the boxes and Formspree shows its own thank-you page.
+- To test changes without emailing Carson, catch the request in the test browser (Playwright's `page.route('**/formspree.io/**', …)`) and answer it yourself.
+- To change where messages go, or to see past messages, sign in at formspree.io.
+
 ## GRE textbook pipeline
 
 1. The book is written in LaTeX on Overleaf, which syncs to [`carsonmit/Mathematics-for-the-GRE`](https://github.com/carsonmit/Mathematics-for-the-GRE).
@@ -154,6 +162,6 @@ Tracked in [WORKFLOW.md](WORKFLOW.md):
 - [x] Stage 0: setup, design skills, palette, notes
 - [x] Stage 1: real bio, links, tutoring details, photo (v0.5.0; a few bio lines, booking link and contact form come later)
 - [x] Stage 2: body font, page plan, interactive centerpiece (v0.4.0)
-- [ ] Stage 3: build section by section (hero v0.6.0, About Me v0.7.0, separate pages v0.8.0, Tutoring v0.9.0, Projects v0.10.0; next: Contact)
+- [ ] Stage 3: build section by section (hero v0.6.0, About Me v0.7.0, separate pages v0.8.0, Tutoring v0.9.0, Projects v0.10.0, Contact)
 - [ ] Stage 4: polish (accessibility, mobile, motion)
 - [ ] Stage 5: launch v1.0.0

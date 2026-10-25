@@ -30,7 +30,7 @@ Undecided. Not yet discussed with the owner.
 
 ## Capabilities and Constraints
 
-- Pages: Home (hero and doors), About Me, Tutoring, Projects (GRE textbook first), Contact. Home, About Me, Tutoring and Projects are built; Contact is a marked placeholder.
+- Pages: Home (hero and doors), About Me, Tutoring, Projects (GRE textbook first), Contact. All five are built.
 - Math notation is written in LaTeX.
 
 ## Brand Commitments

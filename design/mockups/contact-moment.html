@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: Contact Personal Moment</title>
+<script>try { if (localStorage.getItem('theme') === 'day') document.documentElement.dataset.theme = 'day'; } catch (e) {} document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../styles.css?v=2026-10-25-3g">
+<style>
+  /* Mockup only: three ideas for the empty space under the Contact page's opening sentence. */
+  .mk-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font: 500 14px var(--sans); color: var(--mu); }
+  .mk-bar button { font: 500 14px/1 var(--sans); color: var(--mu); background: transparent; border: 1.5px solid var(--track); border-radius: 999px; padding: 10px 14px; cursor: pointer; }
+  .mk-bar button[aria-pressed="true"] { background: var(--ac); border-color: var(--ac); color: var(--on); }
+  .mk-bar .mode-t { margin-left: auto; }
+  .opt { display: none; margin-top: 30px; }
+  .opt.on { display: block; }
+  /* A: the C and M, drawn once like a signature */
+  .sig { display: block; width: 190px; height: auto; }
+  .sig path { fill: none; stroke: var(--ac); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .opt.on .sig path { animation: draw 1.6s cubic-bezier(.77, 0, .175, 1) .2s forwards; }
+  .opt.on .sig path + path { animation-delay: 1s; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .sig-cap { font: italic 16px/1.4 var(--serif); color: var(--mu); margin: 8px 0 0; }
+  /* B: every way to reach me, as a graph from you to me */
+  .gr { display: block; width: 100%; max-width: 440px; height: auto; }
+  .gr .e { fill: none; stroke: var(--track); stroke-width: 1.6; transition: stroke .2s ease, stroke-width .2s ease; }
+  .gr .e.hot { stroke: var(--ac); stroke-width: 2.6; }
+  .gr .n { fill: var(--bg); stroke: var(--ink); stroke-width: 1.6; }
+  .gr .n.me { fill: var(--ac); stroke: var(--ac); }
+  .gr text { font: 400 13px var(--sans); fill: var(--mu); }
+  .gr text.big { font: italic 19px var(--serif); fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
+  .gr text.big.me { fill: var(--on); }
+  .gr text.hot { fill: var(--ac); }
+  /* C: a note in the margin */
+  .note { font: italic 22px/1.35 var(--serif); max-width: 26ch; margin: 0; padding-left: 0; }
+  .note::before { content: 'P.S. '; font-style: normal; font: 500 14px var(--sans); color: var(--ac); }
+  .note-cap { font: 400 14px var(--sans); color: var(--mu); margin: 12px 0 0; }
+  @media (prefers-reduced-motion: reduce) { .sig path { stroke-dashoffset: 0; } .opt.on .sig path { animation: none; } }
+</style>
+</head>
+<body>
+<div class="wrap" style="padding-top: 28px;">
+  <div class="mk-bar" role="group" aria-label="Options">
+    Mockup: personal moment under the opening sentence ·
+    <button type="button" data-o="a" aria-pressed="true">A · The C and M, Signed</button>
+    <button type="button" data-o="b" aria-pressed="false">B · Paths to Me, as a Graph</button>
+    <button type="button" data-o="c" aria-pressed="false">C · A Note in the Margin</button>
+    <button type="button" class="mode-t" id="mode-t">Switch Day/Night</button>
+  </div>
+</div>
+
+<section class="wrap ct-hero">
+  <h1>Here's How to Reach Me</h1>
+  <div class="ct-lead">
+    <p class="ct-say">Write to me about tutoring, the GRE textbook, or any math you'd like to talk through.</p>
+    <p class="ct-jump"><a href="#">Ready to book? Choose times below <span aria-hidden="true">↓</span></a></p>
+
+    <div class="opt on" id="o-a">
+      <svg class="sig" viewBox="26 28 228 100" aria-label="The initials C M, drawn as one stroke">
+        <path pathLength="1" d="M125.9 46.1A48 48 0 1 0 125.9 113.9"/>
+        <path pathLength="1" d="M168 125L168 34L208 92L248 34L248 125"/>
+      </svg>
+      <p class="sig-cap">The same C and M the circles draw on the home page, as a signature.</p>
+    </div>
+
+    <div class="opt" id="o-b">
+      <svg class="gr" viewBox="0 0 440 210" aria-label="A graph: five paths from you to Carson">
+        <g id="edges"></g>
+        <circle class="n" cx="40" cy="105" r="26"/><text class="big" x="40" y="105">you</text>
+        <circle class="n me" cx="400" cy="105" r="26"/><text class="big me" x="400" y="105">CM</text>
+      </svg>
+      <p class="sig-cap">Point at a link on the right and its path lights up.</p>
+    </div>
+
+    <div class="opt" id="o-c">
+      <p class="note">No question is too basic. Bring the one you're stuck on.</p>
+      <p class="note-cap">Example wording only: you'd write your own line.</p>
+    </div>
+  </div>
+  <div class="ct-where">
+    <h2 class="ct-q">Where to Find Me</h2>
+    <ul class="ct-links">
+      <li><a class="ct-link" href="#" data-p="1"><span class="ct-k">Email</span><span class="ct-v">carsonm6719 [at]&nbsp;gmail [dot]&nbsp;com</span><span class="ct-go" aria-hidden="true">→</span></a></li>
+      <li><a class="ct-link" href="#" data-p="2"><span class="ct-k">LinkedIn</span><span class="ct-v">carson-mitchell</span><span class="ct-go" aria-hidden="true">→</span></a></li>
+      <li><a class="ct-link" href="#" data-p="3"><span class="ct-k">GitHub</span><span class="ct-v">carsonmit</span><span class="ct-go" aria-hidden="true">→</span></a></li>
+    </ul>
+    <p class="ct-place">South Orange County, California</p>
+  </div>
+</section>
+
+<script>
+const root = document.documentElement;
+document.querySelectorAll('.mk-bar [data-o]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.mk-bar [data-o]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  document.querySelectorAll('.opt').forEach(o => o.classList.toggle('on', o.id === 'o-' + b.dataset.o));
+}));
+document.getElementById('mode-t').addEventListener('click', () => {
+  root.dataset.theme = root.dataset.theme === 'day' ? 'night' : 'day';
+  try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+});
+// B: five curved edges from "you" to "CM", one per way to reach me.
+const P = ['Message', 'Email', 'LinkedIn', 'GitHub', 'Book'], g = document.getElementById('edges');
+P.forEach((name, i) => {
+  const bend = (i - 2) * 46, mid = 105 + bend * 1.9;
+  g.insertAdjacentHTML('beforeend', `<path class="e" data-i="${i}" d="M66 105 Q220 ${mid} 374 105"/><text data-i="${i}" x="220" y="${105 + bend * .95 - 6}" text-anchor="middle">${name}</text>`);
+});
+function hot(i) { g.querySelectorAll('[data-i]').forEach(el => el.classList.toggle('hot', +el.dataset.i === i)); }
+document.querySelectorAll('[data-p]').forEach(a => { a.addEventListener('mouseenter', () => hot(+a.dataset.p)); a.addEventListener('focus', () => hot(+a.dataset.p)); a.addEventListener('mouseleave', () => hot(-1)); });
+</script>
+</body>
+</html>

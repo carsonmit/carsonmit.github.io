@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact · Carson Mitchell</title>
-<meta name="description" content="How to reach Carson Mitchell: email, LinkedIn, and GitHub.">
+<meta name="description" content="How to reach Carson Mitchell: send a message, email, LinkedIn, GitHub, or book a lesson or intro call.">
 <meta name="color-scheme" content="dark light">
 <script>
   // Apply the saved day/night choice before the page paints, so it never flashes the wrong mode.
@@ -14,8 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
-<link rel="stylesheet" href="styles.css?v=2026-10-25-2g">
+<link rel="stylesheet" href="styles.css?v=2026-10-25-3r">
 </head>
 <body>
 
@@ -36,14 +35,283 @@
 </header>
 
 <main id="top">
-  <!-- PLACEHOLDER: the Contact page is built in its own Stage 3 round. -->
-  <section class="wrap sec" id="contact" aria-labelledby="contact-title">
-    <h1 id="contact-title">Contact</h1>
-    <p>Placeholder: not built yet. Until then: <a class="email" href="#contact" data-user="carsonm6719" data-host="gmail.com">carsonm6719 [at] gmail [dot] com</a>.</p>
+  <!-- First screen (design-taste-frontend's "Sentence, portrait, two links", without the portrait: no photo on this page, by Carson's choice): one sentence and where to find me. -->
+  <section class="wrap ct-hero" aria-labelledby="contact-title">
+    <h1 id="contact-title" class="rise">Here's How to Reach Me</h1>
+    <div class="ct-lead rise">
+      <p class="ct-say">Write to me about tutoring, the GRE textbook, or any math you'd like to talk through.</p>
+      <p class="ct-jump"><a href="#book" data-edge="book">Ready to book? Choose times below <span aria-hidden="true">↓</span></a></p>
+      <!-- Every way to reach me, as a directed graph from you to me. Drawn by the script below; pointing at a link lights its path. -->
+      <figure class="ct-graph" id="ct-graph" aria-hidden="true"><svg viewBox="0 0 440 224"></svg><figcaption>Five paths, one destination.<span class="ct-hint"> Point at one, then click to follow it.</span><span class="ct-hint-touch"> Tap one to follow it.</span></figcaption></figure>
+    </div>
+    <div class="ct-where rise">
+      <h2 class="ct-q">Where to Find Me</h2>
+      <ul class="ct-links">
+        <li class="ct-mail"><a class="ct-link email" href="#message" data-edge="email" data-user="carsonm6719" data-host="gmail.com"><span class="ct-k">Email</span><span class="ct-v">carsonm6719 [at]&nbsp;gmail [dot]&nbsp;com</span></a><button class="ct-copy" id="ct-copy" type="button" aria-label="Copy my email address">Copy</button></li>
+        <li><a class="ct-link" href="https://www.linkedin.com/in/carson-mitchell" data-edge="linkedin"><span class="ct-k">LinkedIn</span><span class="ct-v">carson-mitchell</span><span class="ct-go" aria-hidden="true">→</span></a></li>
+        <li><a class="ct-link" href="https://github.com/carsonmit" data-edge="github"><span class="ct-k">GitHub</span><span class="ct-v">carsonmit</span><span class="ct-go" aria-hidden="true">→</span></a></li>
+      </ul>
+      <p class="ct-place">South Orange County, California</p>
+      <p class="vh" id="ct-copied" role="status"></p>
+    </div>
+  </section>
+
+  <!-- The form: messages go to Formspree (form mrppewpn), which emails them to Carson. -->
+  <section class="wrap tu-band ct-band" id="message" aria-labelledby="message-title">
+    <div class="tu-side rise">
+      <h2 id="message-title">Send a Message</h2>
+      <p>It comes straight to my inbox, and I'll reply by email.</p>
+    </div>
+    <div class="ct-card rise">
+      <form class="ct-form" id="ct-form" action="https://formspree.io/f/mrppewpn" method="POST">
+        <fieldset class="ct-topics">
+          <legend>What's It About?</legend>
+          <label><input type="radio" name="topic" value="Tutoring" checked><span>Tutoring</span></label>
+          <label><input type="radio" name="topic" value="The GRE Textbook"><span>The GRE Textbook</span></label>
+          <label><input type="radio" name="topic" value="A Website Bug or Idea"><span>A Website Bug or Idea</span></label>
+          <label><input type="radio" name="topic" value="Something Else"><span>Something Else</span></label>
+        </fieldset>
+        <div class="ct-two">
+          <div class="ct-field">
+            <label for="ct-first">First Name</label>
+            <input id="ct-first" name="first_name" type="text" autocomplete="given-name" maxlength="100" required aria-describedby="ct-first-err">
+            <p class="ct-err" id="ct-first-err"></p>
+          </div>
+          <div class="ct-field">
+            <label for="ct-last">Last Name</label>
+            <input id="ct-last" name="last_name" type="text" autocomplete="family-name" maxlength="100" required aria-describedby="ct-last-err">
+            <p class="ct-err" id="ct-last-err"></p>
+          </div>
+        </div>
+        <div class="ct-field">
+          <label for="ct-email">Email</label>
+          <input id="ct-email" name="email" type="email" autocomplete="email" inputmode="email" spellcheck="false" maxlength="254" required aria-describedby="ct-email-err">
+          <p class="ct-err" id="ct-email-err"></p>
+        </div>
+        <div class="ct-field">
+          <label for="ct-msg">Message</label>
+          <textarea id="ct-msg" name="message" rows="6" maxlength="10000" required aria-describedby="ct-msg-err" placeholder="What are you studying, and what would help most?"></textarea>
+          <p class="ct-err" id="ct-msg-err"></p>
+        </div>
+        <!-- Spam trap: people never see or fill this; bots that fill every box get filtered out by Formspree. -->
+        <div class="ct-trap" aria-hidden="true"><label for="ct-gotcha">Leave this empty</label><input id="ct-gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+        <input type="hidden" name="_subject" id="ct-subject" value="Website message: Tutoring">
+        <div class="ct-send">
+          <button class="pb" id="ct-btn" type="submit">Send Message</button>
+          <p class="ct-status" id="ct-status" role="alert"></p>
+        </div>
+      </form>
+      <div class="ct-done" id="ct-done" hidden>
+        <svg class="ct-tick" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21"/><path d="M14 24.5l7 7 13-14"/></svg>
+        <h3 class="ct-done-t" id="ct-done-t" tabindex="-1">Thank You<span id="ct-done-name"></span></h3>
+        <p>Your message is on its way. I'll reply by email.</p>
+        <p class="ct-sooner">Want to talk sooner? <a href="https://cal.com/carsonmitchell/intro-call">Book a fifteen-minute intro call&nbsp;<span aria-hidden="true">→</span></a></p>
+        <button class="sb" id="ct-again" type="button">Write Another</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking: the same two doors as the Tutoring page. -->
+  <section class="wrap tu-band ct-band ct-last" id="book" aria-labelledby="book-title">
+    <div class="tu-side rise">
+      <h2 id="book-title">Or Book a Time</h2>
+      <p>Pick times that work for you, up to three, and I'll confirm one.</p>
+    </div>
+    <div class="doors2 rise">
+      <a class="door2 door2-main" href="https://cal.com/carsonmitchell/tutoring-session">
+        <span class="d2-t">Book a Lesson</span>
+        <span class="d2-d">One, one and a half, or two hours, online or in person.</span>
+        <span class="d2-go">Choose Times on Cal.com <span aria-hidden="true">→</span></span>
+      </a>
+      <a class="door2" href="https://cal.com/carsonmitchell/intro-call">
+        <span class="d2-t">Book an Intro Call</span>
+        <span class="d2-d">Fifteen minutes over Zoom or by phone, to talk about goals first.</span>
+        <span class="d2-go">Choose Times on Cal.com <span aria-hidden="true">→</span></span>
+      </a>
+    </div>
   </section>
 
 </main>
 
-<script src="site.js?v=2026-10-25-2g"></script>
+<script src="site.js?v=2026-10-25-3r"></script>
+<script>
+/* ── Blocks rise into place as they come on screen. ── */
+(() => {
+  if (!('IntersectionObserver' in window)) return;
+  root.classList.add('rising');
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.rise').forEach(el => io.observe(el));
+})();
+
+/* ── The graph: five curved arrows from "you" to "CM", one per way to reach me. ── */
+(() => {
+  const fig = document.getElementById('ct-graph'), svg = fig.querySelector('svg'), NS = 'http://www.w3.org/2000/svg';
+  const YOU = [34, 112], ME = [404, 112], R1 = 26, R2 = 30;
+  const EDGES = [['message', 'Message', '#message'], ['email', 'Email', '#top'], ['linkedin', 'LinkedIn', 'https://www.linkedin.com/in/carson-mitchell'], ['github', 'GitHub', 'https://github.com/carsonmit'], ['book', 'Book', '#book']];
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+  const q = (c, t) => [(1 - t) ** 2 * YOU[0] + 2 * (1 - t) * t * c[0] + t * t * ME[0], (1 - t) ** 2 * YOU[1] + 2 * (1 - t) * t * c[1] + t * t * ME[1]];
+  const edges = {};
+  EDGES.forEach(([key, name, href], i) => {
+    const bend = (i - 2) * 47, c = [219, 112 + bend * 2];
+    // Points along the curve, trimmed so it starts at the edge of "you" and stops just short of "CM" for the arrowhead.
+    const pts = [];
+    for (let k = 0; k <= 160; k++) {
+      const p = q(c, k / 160), d1 = Math.hypot(p[0] - YOU[0], p[1] - YOU[1]), d2 = Math.hypot(p[0] - ME[0], p[1] - ME[1]);
+      if (d1 >= R1 + 3 && d2 >= R2 + 11) pts.push(p);
+    }
+    // Each whole path is a link: pointing at it lights it, clicking it goes where that path leads.
+    const g = el('g', { class: 'edge', 'data-k': key }, svg), link = el('a', { href, tabindex: -1 }, g);
+    const d = 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L');
+    el('path', { class: 'hit', d }, link); // a wide invisible band, so the thin line is easy to hit
+    el('path', { class: 'line', pathLength: 1, d }, link);
+    // The arrowhead points along the curve's last stretch.
+    const [a, b] = [pts[pts.length - 4], pts[pts.length - 1]], ang = Math.atan2(b[1] - a[1], b[0] - a[0]);
+    const tip = [b[0] + Math.cos(ang) * 9, b[1] + Math.sin(ang) * 9], side = (s) => [b[0] + Math.cos(ang + s * Math.PI / 2) * 4.6, b[1] + Math.sin(ang + s * Math.PI / 2) * 4.6];
+    el('path', { class: 'head', d: `M${tip.join(' ')}L${side(1).join(' ')}L${side(-1).join(' ')}Z` }, link);
+    const mid = q(c, .5);
+    el('text', { x: mid[0], y: mid[1], class: 'lab' }, link).textContent = name;
+    edges[key] = { g, pts, link };
+  });
+  el('circle', { class: 'halo', cx: ME[0], cy: ME[1], r: R2 + 6 }, svg);
+  el('circle', { class: 'node', cx: YOU[0], cy: YOU[1], r: R1 }, svg);
+  el('text', { class: 'who', x: YOU[0], y: YOU[1] }, svg).textContent = 'you';
+  el('circle', { class: 'node me', cx: ME[0], cy: ME[1], r: R2 }, svg);
+  el('text', { class: 'who me', x: ME[0], y: ME[1] + 1 }, svg).textContent = 'CM';
+  const dot = el('circle', { class: 'dot', r: 4 }, svg);
+
+  // Lighting a path changes its color. The first time the mouse lights each path, a dot also runs along it toward me,
+  // to show which way the arrows point. Never on keyboard focus, never twice, and not when motion is reduced.
+  let raf = 0, on = null;
+  const ran = new Set();
+  function light(key, byMouse) {
+    if (key === on) return; on = key;
+    Object.entries(edges).forEach(([k, e]) => e.g.classList.toggle('hot', k === key));
+    svg.classList.toggle('lit', !!key);
+    cancelAnimationFrame(raf); dot.classList.remove('run');
+    if (!key || !byMouse || ran.has(key) || reduce.matches) return;
+    ran.add(key);
+    const pts = edges[key].pts, t0 = performance.now(), DUR = 420;
+    const ease = t => t < .5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2; // ease-in-out: the dot moves across the screen
+    dot.classList.add('run');
+    (function step(now) {
+      const t = Math.min(1, (now - t0) / DUR), p = pts[Math.round(ease(t) * (pts.length - 1))];
+      dot.setAttribute('cx', p[0]); dot.setAttribute('cy', p[1]);
+      if (t > .85) dot.classList.remove('run'); // starts fading just before it reaches me
+      if (t < 1) raf = requestAnimationFrame(step);
+    })(t0);
+  }
+  document.querySelectorAll('[data-edge]').forEach(a => {
+    a.addEventListener('mouseenter', () => light(a.dataset.edge, true));
+    a.addEventListener('focus', () => light(a.dataset.edge, false));
+    ['mouseleave', 'blur'].forEach(ev => a.addEventListener(ev, () => light(null)));
+  });
+  Object.entries(edges).forEach(([k, e]) => { e.link.addEventListener('mouseenter', () => light(k, true)); e.link.addEventListener('mouseleave', () => light(null)); });
+  // The Email path opens a new email, built only on click like every email link on the site.
+  edges.email.link.addEventListener('click', ev => { const a = document.querySelector('.ct-mail .email'); ev.preventDefault(); location.href = 'mailto:' + a.dataset.user + '@' + a.dataset.host; });
+
+  // The paths draw themselves once, one after another, when the graph first comes on screen.
+  if (!('IntersectionObserver' in window)) return fig.classList.add('drawn');
+  // Once drawn, the stagger delays are cleared, so lighting a path later responds at once.
+  const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { fig.classList.add('drawn'); io.disconnect(); setTimeout(() => fig.classList.add('settled'), 1300); } }, { rootMargin: '0px 0px -10% 0px' });
+  io.observe(fig);
+})();
+
+/* ── Copy: puts the email address on the clipboard, for anyone without a mail app set up. ── */
+(() => {
+  const btn = document.getElementById('ct-copy'), say = document.getElementById('ct-copied'), a = document.querySelector('.ct-mail .email');
+  let t;
+  btn.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(a.dataset.user + '@' + a.dataset.host); btn.textContent = 'Copied'; say.textContent = 'Email address copied.'; }
+    catch (e) { btn.textContent = 'Couldn\'t Copy'; say.textContent = 'Couldn\'t copy. The address is carsonm6719 at gmail dot com.'; }
+    btn.classList.add('done'); clearTimeout(t);
+    t = setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('done'); say.textContent = ''; }, 2000);
+  });
+})();
+
+/* ── The message form: checks the boxes, then sends to Formspree in the background, so the page never reloads. ── */
+(() => {
+  const form = document.getElementById('ct-form'), btn = document.getElementById('ct-btn'), status = document.getElementById('ct-status');
+  const done = document.getElementById('ct-done'), subject = document.getElementById('ct-subject');
+  const first = document.getElementById('ct-first'), last = document.getElementById('ct-last'), email = document.getElementById('ct-email'), msg = document.getElementById('ct-msg');
+  // Each topic suggests what to write.
+  const HINTS = { 'Tutoring': 'What are you studying, and what would help most?', 'The GRE Textbook': 'A question, a mistake you spotted, or a topic you would like covered?', 'A Website Bug or Idea': 'What went wrong, on which page and on what device? Or what would you like the site to do?', 'Something Else': 'Hello!' };
+  // The script checks the boxes itself, with friendlier messages. Without the script, the browser's own checks still run.
+  form.noValidate = true;
+  form.querySelectorAll('[name=topic]').forEach(r => r.addEventListener('change', () => {
+    msg.placeholder = HINTS[r.value]; subject.value = 'Website message: ' + r.value;
+  }));
+  // A half-written message survives a reload or a trip back to this page (kept only in this browser tab).
+  const DRAFT = 'ct-draft', boxes = [first, last, email, msg];
+  function saveDraft() {
+    try { sessionStorage.setItem(DRAFT, JSON.stringify({ topic: form.querySelector('[name=topic]:checked').value, v: boxes.map(b => b.value) })); } catch (e) {}
+  }
+  try {
+    const d = JSON.parse(sessionStorage.getItem(DRAFT) || 'null');
+    if (d) {
+      boxes.forEach((b, i) => { b.value = d.v[i] || ''; });
+      const r = [...form.querySelectorAll('[name=topic]')].find(x => x.value === d.topic);
+      if (r) { r.checked = true; r.dispatchEvent(new Event('change')); }
+    }
+  } catch (e) {}
+  form.addEventListener('input', saveDraft); form.addEventListener('change', saveDraft);
+  const CHECKS = [
+    [first, v => v.trim() ? '' : 'Please add your first name.'],
+    [last, v => v.trim() ? '' : 'Please add your last name.'],
+    [email, v => !v.trim() ? 'Please add your email, so I can reply.' : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'That email doesn\'t look complete. Check for a typo?'],
+    [msg, v => v.trim() ? '' : 'Please write a message.'],
+  ];
+  function check(el, rule) {
+    const text = rule(el.value), err = document.getElementById(el.id + '-err');
+    err.textContent = text; el.setAttribute('aria-invalid', text ? 'true' : 'false');
+    return !text;
+  }
+  // After a box has been left once, it rechecks as you type, so a fixed mistake clears right away.
+  CHECKS.forEach(([el, rule]) => {
+    el.addEventListener('blur', () => { if (el.value) { el.dataset.seen = 1; check(el, rule); } });
+    el.addEventListener('input', () => { if (el.dataset.seen) check(el, rule); });
+  });
+  // The failure message carries its own email link, built on click like every email link on the site.
+  // `why` says what went wrong when it's known (offline, too slow, or Formspree's own reason). Your message stays in the boxes.
+  function failed(why) {
+    status.textContent = (why ? why + ' ' : 'Sorry, that didn\'t send. ') + 'Please try again, or email me at ';
+    const a = document.createElement('a');
+    a.className = 'email'; a.href = '#message'; a.innerHTML = 'carsonm6719 [at]&nbsp;gmail [dot]&nbsp;com';
+    a.addEventListener('click', e => { e.preventDefault(); location.href = 'mailto:carsonm6719' + '@' + 'gmail.com'; });
+    status.append(a, '.'); status.classList.add('bad');
+  }
+  let busy = false;
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (busy) return;
+    const bad = CHECKS.filter(([el, rule]) => { el.dataset.seen = 1; return !check(el, rule); });
+    if (bad.length) { status.textContent = ''; bad[0][0].focus(); return; }
+    busy = true; btn.setAttribute('aria-disabled', 'true'); btn.textContent = 'Sending…'; status.textContent = ''; status.classList.remove('bad');
+    const stop = new AbortController(), timer = setTimeout(() => stop.abort(), 20000); // give up after 20 seconds rather than spin forever
+    try {
+      if (!navigator.onLine) { failed('You seem to be offline, so that didn\'t send.'); return; }
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' }, signal: stop.signal });
+      if (!res.ok) {
+        // Formspree explains rejections (for example, too many messages at once); show its reason when it gives one.
+        const data = await res.json().catch(() => ({}));
+        const why = (data.errors || []).map(x => x.message).filter(Boolean).join(' ');
+        failed(why ? 'That didn\'t send (the form service said: "' + why.replace(/\.$/, '') + '").' : '');
+        return;
+      }
+      const firstName = first.value.trim();
+      document.getElementById('ct-done-name').textContent = firstName ? ', ' + firstName : '';
+      form.reset(); msg.placeholder = HINTS['Tutoring']; subject.value = 'Website message: Tutoring';
+      CHECKS.forEach(([el]) => { delete el.dataset.seen; el.removeAttribute('aria-invalid'); });
+      done.style.minHeight = Math.min(form.offsetHeight, 440) + 'px'; // close to the form's height, so the page barely jumps, without a big empty card
+      form.hidden = true; done.hidden = false; document.getElementById('ct-done-t').focus(); // the thank-you heading, so screen readers announce it
+      try { sessionStorage.removeItem(DRAFT); } catch (e) {}
+    } catch (err) {
+      failed(err.name === 'AbortError' ? 'That took too long, so it may not have sent.' : '');
+    } finally {
+      clearTimeout(timer); busy = false; btn.removeAttribute('aria-disabled'); btn.textContent = 'Send Message';
+    }
+  });
+  document.getElementById('ct-again').addEventListener('click', () => { done.hidden = true; form.hidden = false; first.focus(); });
+})();
+</script>
 </body>
 </html>

@@ -389,6 +389,108 @@ svg.nd { display: block; width: 100%; max-width: 620px; height: auto; margin: 0 
 .stb-msg { font-size: 17px; margin: 0 0 12px; min-height: 5.9em; max-width: 60ch; text-wrap: pretty; }
 .stb-count { font: 400 13px/1.4 var(--sans); color: var(--mu); margin: 0 0 16px; }
 
+/* ── Contact (design-taste-frontend's "Sentence, portrait, two links" band, then the form, the booking doors,
+   and the name returning large to close the site) ── */
+.ct-hero { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2vw, 32px); align-items: start; padding-top: clamp(24px, 8vh, 96px); }
+.ct-hero h1 { grid-column: 1 / -1; font-family: var(--serif-display); font-weight: 400; font-size: clamp(44px, 5.6vw, 84px); line-height: .98; letter-spacing: -.012em; margin: 0 0 clamp(36px, 5vw, 72px); }
+.ct-lead { grid-column: 1 / 7; }
+.ct-say { font-size: clamp(26px, 2.5vw, 34px); line-height: 1.2; margin: 0; text-wrap: balance; }
+.ct-jump { margin: 26px 0 0; }
+.ct-jump a { display: inline-block; font: 500 15px/1 var(--sans); padding: 12px 0; margin: -12px 0; }
+.ct-graph { margin: 40px 0 0; max-width: 460px; }
+.ct-graph svg { display: block; width: 100%; height: auto; overflow: visible; }
+.ct-graph figcaption { font: italic 16px/1.4 var(--serif); color: var(--mu); margin: 10px 0 0; }
+.ct-graph .edge { color: var(--track); transition: color .2s ease; }
+.ct-graph .edge.hot { color: var(--ac); }
+.ct-graph .line { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; transition: stroke-width .2s ease; }
+.ct-graph .hot .line { stroke-width: 2.4; }
+.ct-graph .head { fill: currentColor; }
+.ct-graph a { color: inherit; cursor: pointer; outline: none; } /* each path takes its own gray or lit color, not the link accent */
+.ct-graph .hit { fill: none; stroke: transparent; stroke-width: 22px; pointer-events: stroke; }
+.ct-graph .lab { font: 400 13px var(--sans); fill: var(--mu); text-anchor: middle; dominant-baseline: central; paint-order: stroke; stroke: var(--bg); stroke-width: 7px; stroke-linejoin: round; cursor: pointer; transition: fill .2s ease; }
+.ct-graph .hot .lab { fill: var(--ac); }
+.ct-graph .node { fill: var(--bg); stroke: var(--ink); stroke-width: 1.6; }
+.ct-graph .node.me { fill: var(--ac); stroke: none; }
+.ct-graph .who { font: italic 19px var(--serif); fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
+.ct-graph .who.me { font: 400 19px var(--serif-display); fill: var(--on); }
+.ct-graph .halo { fill: none; stroke: var(--ac); stroke-width: 1.4; opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.9); transition: opacity .2s ease, transform .2s var(--ease-out); }
+.ct-graph .lit .halo { opacity: .5; transform: none; }
+.ct-graph .dot { fill: var(--ac); opacity: 0; transition: opacity .12s ease; }
+.ct-graph .dot.run { opacity: 1; }
+html:not(.js) .ct-graph, html:not(.js) .ct-copy { display: none; }
+.ct-graph.settled * { transition-delay: 0s !important; }
+@media (prefers-reduced-motion: reduce) { .ct-graph .halo { transform: none; } } /* the ring only fades */
+@media (hover: none) { .ct-hint { display: none; } } /* touch screens have no pointing */
+@media (hover: hover) { .ct-hint-touch { display: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  html.js .ct-graph .line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .8s var(--ease-out), stroke-width .2s ease; }
+  html.js .ct-graph .head, html.js .ct-graph .lab { opacity: 0; transition: opacity .3s ease, fill .2s ease; }
+  html.js .ct-graph.drawn .line { stroke-dashoffset: 0; }
+  html.js .ct-graph.drawn .head, html.js .ct-graph.drawn .lab { opacity: 1; transition-delay: .45s; }
+  html.js .ct-graph.drawn .edge:nth-of-type(2) .line { transition-delay: .07s; } html.js .ct-graph.drawn .edge:nth-of-type(2) :is(.head, .lab) { transition-delay: .52s; }
+  html.js .ct-graph.drawn .edge:nth-of-type(3) .line { transition-delay: .14s; } html.js .ct-graph.drawn .edge:nth-of-type(3) :is(.head, .lab) { transition-delay: .59s; }
+  html.js .ct-graph.drawn .edge:nth-of-type(4) .line { transition-delay: .21s; } html.js .ct-graph.drawn .edge:nth-of-type(4) :is(.head, .lab) { transition-delay: .66s; }
+  html.js .ct-graph.drawn .edge:nth-of-type(5) .line { transition-delay: .28s; } html.js .ct-graph.drawn .edge:nth-of-type(5) :is(.head, .lab) { transition-delay: .73s; }
+}
+.ct-mail { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; }
+.ct-mail .ct-link { flex: 1 1 310px; min-width: 0; } /* Copy sits beside the address when both fit, under it when not */
+.ct-copy { flex: none; font: 500 13.5px/1 var(--sans); color: var(--ink); background: var(--card2); border: 0; border-radius: 999px; padding: 10px 14px; min-width: 76px; cursor: pointer; transition: transform .14s var(--ease-out), background-color .18s ease, color .18s ease; }
+.ct-copy:active { transform: scale(.96); }
+.ct-copy.done { background: var(--ac); color: var(--on); }
+.ct-sooner a { white-space: nowrap; }
+.ct-where { grid-column: 8 / 13; }
+.ct-q { font-family: var(--serif-display); font-weight: 400; font-size: 24px; line-height: 1.1; margin: 0 0 10px; }
+.ct-links { list-style: none; margin: 0; padding: 0; }
+.ct-link { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 2px 12px; padding: 9px 0; min-height: 48px; /* the label sits above its value, so the address gets the full width */ color: var(--ink); text-decoration: none; }
+.ct-k { grid-column: 1 / -1; font: 400 14px/1.3 var(--sans); color: var(--mu); }
+.ct-v { font-size: 18.5px; line-height: 1.3; overflow-wrap: anywhere; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: var(--ac); transition: color .18s ease; }
+.ct-go { font: 400 16px/1 var(--sans); color: var(--ac); transition: transform .2s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .ct-link:hover .ct-v { color: var(--ac); } .ct-link:hover .ct-go { transform: translateX(4px); } }
+.ct-link:active .ct-go { transform: translateX(4px); }
+.ct-place { font: 400 14px/1.4 var(--sans); color: var(--mu); margin: 12px 0 0; }
+
+.ct-band .tu-side p { max-width: 30ch; }
+.ct-card { background: var(--card); border-radius: 18px; padding: clamp(22px, 3vw, 40px); min-width: 0; }
+.ct-topics { border: 0; padding: 0; margin: 0 0 24px; min-width: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.ct-topics legend, .ct-field label { display: block; font: 500 15px/1.3 var(--sans); color: var(--ink); padding: 0; margin: 0 0 10px; }
+.ct-topics label { position: relative; display: inline-flex; }
+.ct-topics input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.ct-topics span { font: 500 14px/1 var(--sans); color: var(--mu); padding: 9.5px 13.5px; border: 1.5px solid var(--track); border-radius: 999px; transition: background-color .18s ease, color .18s ease, border-color .18s ease, transform .14s var(--ease-out); pointer-events: none; }
+.ct-topics input:checked + span { background: var(--ac); color: var(--on); border-color: var(--ac); }
+.ct-topics input:focus-visible + span { outline: 2px solid var(--ac); outline-offset: 3px; }
+.ct-topics label:active span { transform: scale(.96); }
+@media (hover: hover) and (pointer: fine) { .ct-topics input:not(:checked):hover + span { color: var(--ink); border-color: var(--mu); } }
+.ct-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 18px; }
+.ct-field { margin: 0 0 18px; min-width: 0; }
+.ct-field input, .ct-field textarea { display: block; width: 100%; font: 400 18px/1.4 var(--serif); color: var(--ink); background: var(--bg); border: 1.5px solid var(--track); border-radius: 10px; padding: 12px 14px; transition: border-color .18s ease; }
+.ct-field textarea { resize: vertical; min-height: 160px; }
+.ct-field ::placeholder { color: var(--mu); opacity: 1; font-style: italic; }
+.ct-field input:focus-visible, .ct-field textarea:focus-visible { border-color: var(--ac); border-radius: 10px; outline-offset: 2px; }
+.ct-field [aria-invalid="true"] { border-color: var(--ac); border-style: dashed; }
+.ct-err, .ct-status { font: 400 14.5px/1.4 var(--sans); color: var(--ink); margin: 0; }
+.ct-err:not(:empty) { margin-top: 8px; }
+.ct-err:not(:empty)::before, .ct-status.bad::before { content: '!' / ''; display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 8px; border-radius: 50%; background: var(--ac); color: var(--on); font-weight: 500; font-size: 12px; vertical-align: 1px; }
+.ct-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ct-send { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 20px; margin-top: 6px; }
+#ct-btn[aria-disabled="true"] { opacity: .7; cursor: progress; }
+.ct-status { flex: 1 1 240px; }
+.ct-done { outline: none; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+.ct-done p { margin: 0 0 18px; }
+.ct-done .ct-done-t { outline: none; font-weight: 400; overflow-wrap: anywhere; font-family: var(--serif-display); font-size: clamp(32px, 3.2vw, 44px); line-height: 1.05; margin: 14px 0 10px; }
+.ct-done .sb { border: 0; cursor: pointer; }
+.ct-tick { width: 52px; height: 52px; fill: none; stroke: var(--ac); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+@media (prefers-reduced-motion: no-preference) {
+  .ct-tick circle { stroke-dasharray: 132; animation: ct-draw .5s var(--ease-out) both; }
+  .ct-tick path { stroke-dasharray: 32; animation: ct-draw .35s var(--ease-out) .35s both; }
+  .ct-done:not([hidden]) > :not(svg) { animation: ct-up .4s var(--ease-out) .2s both; }
+}
+@keyframes ct-draw { from { stroke-dashoffset: var(--len, 132); } }
+.ct-tick path { --len: 32; }
+@keyframes ct-up { from { opacity: 0; transform: translateY(8px); } }
+
+.ct-last { padding-bottom: clamp(64px, 10vh, 120px); } /* the last band on the page */
+@media (pointer: coarse) { .ct-send .pb { min-height: 48px; } .ct-topics span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14.5px; } .ct-copy { min-height: 44px; } .ct-jump a { padding: 14.5px 0; margin: -14.5px 0; } }
+
 /* Entrances: each block rises into place once as it comes on screen (only once the script is running,
    and only when motion is welcome; with reduced motion everything is simply there) */
 @media (prefers-reduced-motion: no-preference) {
@@ -458,6 +560,8 @@ html.vt .top { view-transition-name: none; } /* the day/night circle covers the 
   .pj-piece { order: 1; margin-top: 32px; } .pj-shot { order: 2; margin-top: 24px; }
   .pj-preview { max-width: 600px; }
   .pj-shot { max-width: 340px; }
+  .ct-lead { grid-column: 1 / -1; margin-bottom: 40px; }
+  .ct-where { grid-column: 1 / 9; }
 }
 @media (pointer: coarse) { .pj-ctl .sb, .pj-book .pb, .pj-side .pb { min-height: 44px; display: inline-flex; align-items: center; } }
 .stb-frame { max-width: 500px; }
@@ -488,6 +592,13 @@ html.vt .top { view-transition-name: none; } /* the day/night circle covers the 
   .stb-cols, .stb-rows { font-size: 10px; }
   .nd-piece .solve-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: -14px; padding-inline: 14px; } /* one row that scrolls sideways */
   .nd-piece .solve-tabs::-webkit-scrollbar { display: none; }
+  .ct-hero { grid-template-columns: minmax(0, 1fr); }
+  .ct-lead { margin-bottom: 32px; } .ct-say { font-size: 24px; }
+  .ct-graph .lab { font-size: 16.5px; stroke-width: 8px; } .ct-graph .who { font-size: 21px; } /* the drawing is scaled down on phones; labels stay ≥13px on screen */
+  .ct-mail { padding-bottom: 8px; }
+  .ct-where { grid-column: 1; }
+  .ct-two { grid-template-columns: minmax(0, 1fr); }
+  .ct-card { padding: 18px; border-radius: 14px; }
 }
 
 /* ── Phone ── */

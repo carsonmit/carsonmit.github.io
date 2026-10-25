@@ -4,6 +4,27 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-10-25
+
+The Contact page is built: every way to reach Carson, a message form that emails him, and the two booking cards.
+
+### Added
+- The Contact page. First screen: "Here's How to Reach Me", one sentence on what to write about, a "Ready to book?" link, and "Where to Find Me": email (still shown as "[at]/[dot]" and built only on click), with a **Copy** button for computers with no mail app, LinkedIn, GitHub, and "South Orange County, California".
+- A directed graph under the opening sentence: five arrows (Message, Email, LinkedIn, GitHub, Book) from "you" to "CM". The paths draw themselves once; pointing at a path or a matching link lights it, and the first time a small dot runs along it toward CM. Each path is clickable and goes where it says. Mockup: `design/mockups/contact-moment.html`.
+- **Send a Message**: a form that sends to Formspree (form `mrppewpn`), which emails Carson. Pick a topic (Tutoring, The GRE Textbook, A Website Bug or Idea, Something Else) and the hint and email subject change to match; first name, last name, email and message are required, with friendly notes beside each box. After sending: a check mark and "Thank You, <first name>", with a link to book an intro call.
+- **Or Book a Time**: the same two booking cards as the Tutoring page.
+
+### Changed
+- After a design review (Impeccable critique, 25/32), hardening, a technical audit, phone checks and an animation review:
+  - The form keeps a half-written message through a reload, gives up after 20 seconds instead of spinning, says when you're offline, shows Formspree's reason when it refuses a message, and still checks the boxes when JavaScript is off.
+  - The "didn't send" message carries its own email link; the thank-you card no longer leaves a big empty space.
+  - Touch targets are at least 44px on phones; the email stays on one line at every width, with Copy beside or under it.
+  - The page no longer loads the math stylesheet it doesn't use: Lighthouse performance went from 74 to 99.
+  - The dot on the graph runs only once per path and never on keyboard focus; it fades out as it reaches CM.
+  - After the final review (Impeccable critique, 30/36): screen readers hear the thank-you heading after sending and hear a failed send right away; the email row's arrow is gone, so Copy lines up with the other rows' arrows.
+- `CLAUDE.md`: the Formspree form ID, and Carson's photo appears only on Home and About Me.
+- `styles.css`/`site.js` version tag is now `?v=2026-10-25-3r`.
+
 ## [0.10.0] - 2026-10-25
 
 The Projects page is built: the free GRE textbook first, then the Neuron Diagram Maker and the Star Battle Solver, each with a live piece you can play with.

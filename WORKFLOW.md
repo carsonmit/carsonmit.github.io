@@ -63,12 +63,12 @@ For each section, top to bottom (hero first):
 
 Then move to the next section. Small steps beat "redesign everything".
 
-Progress: ✅ Hero (v0.6.0) · ✅ About Me (v0.7.0) · ✅ Separate pages (v0.8.0) · ✅ Tutoring (v0.9.0) · ✅ Projects (v0.10.0) · Contact
+Progress: ✅ Hero (v0.6.0) · ✅ About Me (v0.7.0) · ✅ Separate pages (v0.8.0) · ✅ Tutoring (v0.9.0) · ✅ Projects (v0.10.0) · ✅ Contact
 
 **Before building Tutoring and Contact** (Claude: remind Carson at the start of that step):
 - ✅ Tutoring session types created in Cal.com (Intro Call, Tutoring Session).
 - ✅ Cal.com username set to `carsonmitchell`. Brand colors skipped (paid feature).
-- Have the Formspree form ID ready.
+- ✅ Formspree form ID (`mrppewpn`).
 
 ## Stage 4: Polish the whole page
 
