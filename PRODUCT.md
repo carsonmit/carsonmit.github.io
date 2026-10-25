@@ -30,7 +30,7 @@ Undecided. Not yet discussed with the owner.
 
 ## Capabilities and Constraints
 
-- Pages: Home (hero and doors), About Me, Tutoring, Projects (GRE textbook first), Contact. Home, About Me and Tutoring are built; Projects and Contact are marked placeholders.
+- Pages: Home (hero and doors), About Me, Tutoring, Projects (GRE textbook first), Contact. Home, About Me, Tutoring and Projects are built; Contact is a marked placeholder.
 - Math notation is written in LaTeX.
 
 ## Brand Commitments
@@ -39,9 +39,9 @@ Visual identity chosen with the owner is recorded in `DESIGN.md`. Animation deci
 
 ## Evidence on Hand
 
-- The GRE mathematics textbook PDF (`pdf/GRE-Textbook.pdf`, 35 pages).
+- The GRE mathematics textbook PDF (`pdf/GRE-Textbook.pdf`, 35 pages). It is partly written (checked 2026-10-25): chapters 1–3 (Logic, Set Theory, Standard Arithmetic; pages 10–24) have content; chapters 4–8 are headings only and Part III (Algebra) is empty. The site calls it "Free, and still growing" (owner's choice).
 - NeuronDiagrams (confirmed by the owner as real work): a point-and-click editor for the neuron diagrams used in papers on causation. It exports TikZ/LaTeX code or images and runs in any browser and on iPad. Lives in the separate repo `carsonmit/Widgets-and-Miscellaneous`, served at https://carsonmit.github.io/Widgets-and-Miscellaneous/NeuronDiagrams/ (installable web app).
-- StarBattleSolver (confirmed by the owner as real work): a Star Battle puzzle solver with a visual, step-by-step solving window. Same repo, at `StarBattleSolver/`.
+- StarBattleSolver (confirmed by the owner as real work): a Star Battle puzzle solver with a visual, step-by-step solving window. Same repo, at `StarBattleSolver/`. It is a Python (tkinter) desktop program, not a web page, so the site links to its code.
 - There are NO testimonials or reviews. Future work must not invent any; leave them absent until the owner provides real ones. The only real rates are the two listed under Confirmed Content.
 - Confirmed name: Carson Mitchell.
 

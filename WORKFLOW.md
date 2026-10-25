@@ -63,7 +63,7 @@ For each section, top to bottom (hero first):
 
 Then move to the next section. Small steps beat "redesign everything".
 
-Progress: ✅ Hero (v0.6.0) · ✅ About Me (v0.7.0) · ✅ Separate pages (v0.8.0) · ✅ Tutoring (v0.9.0) · Projects (GRE textbook first) · Contact
+Progress: ✅ Hero (v0.6.0) · ✅ About Me (v0.7.0) · ✅ Separate pages (v0.8.0) · ✅ Tutoring (v0.9.0) · ✅ Projects (v0.10.0) · Contact
 
 **Before building Tutoring and Contact** (Claude: remind Carson at the start of that step):
 - ✅ Tutoring session types created in Cal.com (Intro Call, Tutoring Session).
@@ -73,7 +73,9 @@ Progress: ✅ Hero (v0.6.0) · ✅ About Me (v0.7.0) · ✅ Separate pages (v0.8
 ## Stage 4: Polish the whole page
 
 - "/impeccable audit": accessibility, contrast, mobile, performance
+- Favicon (the little icon on the browser tab): mock up options, e.g. "CM" in DM Serif lilac on charcoal, or the C and M the hero's circles draw (Carson asked to be reminded, 2026-10-25)
 - "/impeccable polish": final pass on spacing and details
+- Restyle Neuron Diagram Maker and Star Battle Solver (in `carsonmit/Widgets-and-Miscellaneous`) to match the site's look, then revisit how the Projects page shows them (Carson's plan, 2026-10-25)
 - "Use review-animations on the whole page"
 - "Test the light/dark switch and the phone layout with Playwright"
 

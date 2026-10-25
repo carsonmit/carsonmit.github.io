@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Projects · Carson Mitchell</title>
-<meta name="description" content="Projects by Carson Mitchell: a free GRE mathematics textbook, and tools for mathematical work.">
+<meta name="description" content="Projects by Carson Mitchell: a free GRE mathematics textbook, an editor for the neuron diagrams of the philosophy of causation, and a Star Battle puzzle solver.">
 <meta name="color-scheme" content="dark light">
 <script>
   // Apply the saved day/night choice before the page paints, so it never flashes the wrong mode.
@@ -14,8 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
-<link rel="stylesheet" href="styles.css?v=2026-10-25t">
+<link rel="stylesheet" href="styles.css?v=2026-10-25-2g">
 </head>
 <body>
 
@@ -36,14 +35,461 @@
 </header>
 
 <main id="top">
-  <!-- PLACEHOLDER: this page is built in its own Stage 3 round. -->
-  <section class="wrap sec" aria-labelledby="projects-title">
-    <h1 id="projects-title">Projects</h1>
-    <p>Placeholder: not built yet. It opens with the GRE textbook: <a href="pdf/GRE-Textbook.pdf">GRE textbook (PDF)</a>.</p>
+  <!-- First screen: the GRE textbook, the strongest project (PRODUCT.md). The download is the focal action; the
+       chapter list beside it previews a real page from each written chapter (pages rendered from pdf/GRE-Textbook.pdf). -->
+  <section class="wrap pj-book" aria-labelledby="projects-title">
+    <div class="pj-book-text">
+      <h1 id="projects-title">Projects</h1>
+      <p class="pj-lede">Things I make for mathematical work, starting with a free textbook for the GRE.</p>
+      <h2 class="pj-book-t">A Free GRE Textbook</h2>
+      <p><i>Fundamentals of Mathematics for the GRE Quantitative Reasoning Section</i>, written in LaTeX. Free, and still growing: logic, set theory and arithmetic are written so far; algebra, geometry and data analysis are planned.</p>
+      <div class="actions pj-get">
+        <a class="pb" href="pdf/GRE-Textbook.pdf" download="Mitchell-GRE-Textbook.pdf">Download the PDF</a>
+        <a class="ql" href="pdf/GRE-Textbook.pdf">Read It in Your Browser</a>
+      </div>
+      <p class="pj-facts">PDF · 35 pages · Free</p>
+      <h3 class="pj-in">Written So Far</h3>
+      <ol class="pj-chapters">
+        <li><a href="pdf/GRE-Textbook.pdf#page=10" data-page="10"><span class="n">1</span><span class="t">Logic</span><span class="p">pp. 10–17</span></a></li>
+        <li><a href="pdf/GRE-Textbook.pdf#page=18" data-page="18"><span class="n">2</span><span class="t">Set Theory</span><span class="p">pp. 18–20</span></a></li>
+        <li><a href="pdf/GRE-Textbook.pdf#page=22" data-page="22"><span class="n">3</span><span class="t">Standard Arithmetic</span><span class="p">pp. 22–24</span></a></li>
+      </ol>
+    </div>
+    <div class="pj-preview rise">
+      <a class="pj-page" id="pj-page" href="pdf/GRE-Textbook.pdf#page=14">
+        <img id="pj-page-img" src="images/gre/page-14.jpg" srcset="images/gre/page-14-600.jpg 600w, images/gre/page-14.jpg 1000w" sizes="(max-width: 900px) 88vw, 40vw" width="1000" height="1294" alt="Textbook page 14: theorems on equivalent logical forms, in shaded boxes">
+      </a>
+      <div class="pj-thumbs" role="group" aria-label="Sample pages">
+        <button type="button" data-page="10" aria-label="Show page 10: the opening of the Logic chapter"><img src="images/gre/page-10-thumb.jpg" width="154" height="200" alt="" loading="lazy"></button>
+        <button type="button" data-page="14" aria-pressed="true" aria-label="Show page 14: equivalent logical forms"><img src="images/gre/page-14-thumb.jpg" width="154" height="200" alt="" loading="lazy"></button>
+        <button type="button" data-page="18" aria-label="Show page 18: the opening of the Set Theory chapter"><img src="images/gre/page-18-thumb.jpg" width="154" height="200" alt="" loading="lazy"></button>
+        <button type="button" data-page="20" aria-label="Show page 20: properties of set operations"><img src="images/gre/page-20-thumb.jpg" width="154" height="200" alt="" loading="lazy"></button>
+        <button type="button" data-page="22" aria-label="Show page 22: the opening of the Standard Arithmetic chapter"><img src="images/gre/page-22-thumb.jpg" width="154" height="200" alt="" loading="lazy"></button>
+      </div>
+      <p class="pj-cap" id="pj-cap">Page 14 · Equivalent logical forms</p>
+    </div>
   </section>
 
+  <!-- Neuron Diagram Maker, with its live piece (design/mockups/projects-neuron.html, approved: option B, lilac).
+       Tap a neuron to fire it; signals travel along the arrows, and a line ending in a dot stops the neuron it reaches. -->
+  <section class="wrap pj-proj" id="neurons" aria-labelledby="nd-title">
+    <div class="pj-side">
+      <h2 id="nd-title">Neuron Diagram Maker</h2>
+      <p>A point-and-click editor for the neuron diagrams used in the philosophy of causation. Draw neurons and connections, then export TikZ code for a LaTeX document, or an image for Word or Google&nbsp;Docs.</p>
+      <p class="pj-facts">Runs in any browser, on a computer, iPad or phone · Works offline · No account</p>
+      <a class="pb" href="https://carsonmit.github.io/Widgets-and-Miscellaneous/NeuronDiagrams/">Open the Editor <span aria-hidden="true">→</span></a>
+      <figure class="pj-shot"><img src="images/projects/neuron-diagram-maker.jpg" width="760" height="528" alt="The Neuron Diagram Maker editor, with tools on the left, a diagram of five neurons in the middle, and the selected neuron's settings on the right" loading="lazy"><figcaption>The editor itself, with the same diagram</figcaption></figure>
+    </div>
+    <div class="pj-piece nd-piece rise">
+      <div class="solve-tabs" role="tablist" aria-label="Cases"></div>
+      <div id="nd-panel" role="tabpanel">
+        <p class="nd-about" id="nd-about"></p>
+        <svg class="nd" id="nd" viewBox="0 0 360 244" role="group" aria-label="Neuron diagram: tap a neuron to fire it"></svg>
+        <p class="nd-cap" id="nd-cap" aria-live="polite"></p>
+      </div>
+      <div class="pj-ctl"><button class="sb" id="nd-reset" type="button">Start Over</button><span class="pj-hint">As in the papers, <i>c</i> is always the cause in question and <i>e</i> the effect. Tap a fired neuron again to take it back.</span></div>
+    </div>
+  </section>
+
+  <!-- Star Battle Solver, with its live piece (design/mockups/projects-starbattle.html, approved: options A and C
+       together). Play the real puzzle, ask for one step, or press Solve to watch. Every step and reason is the solver's
+       own output (data/star-battle-easy.json, exported from StarBattleSolver/solver.py). -->
+  <section class="wrap pj-proj pj-flip" id="star-battle" aria-labelledby="stb-title">
+    <div class="pj-side">
+      <h2 id="stb-title">Star Battle Solver</h2>
+      <p>A solver for Star Battle puzzles, written in Python, with a window where you paint in a puzzle and watch it solved step by step, each step explained in plain English.</p>
+      <p class="pj-facts">Reasons first and guesses only when stuck · 19 of 30 random test puzzles needed no guess at all · Makes new puzzles with exactly one answer</p>
+      <a class="pb" href="https://github.com/carsonmit/Widgets-and-Miscellaneous/tree/main/StarBattleSolver">See the Code on GitHub <span aria-hidden="true">→</span></a>
+      <figure class="pj-shot"><img src="images/projects/star-battle-solver.jpg" width="760" height="717" alt="The Star Battle Solver window part-way through a hard puzzle: a colored 10 by 10 grid with stars and crosses, the controls, and a log of the steps" loading="lazy"><figcaption>The solver's own window, part-way through a hard puzzle</figcaption></figure>
+    </div>
+    <div class="pj-piece stb-piece rise">
+      <p class="stb-rules"><b>The rules:</b> put two stars in every row, every column and every outlined region, and no two stars may touch, not even at a corner.</p>
+      <div class="stb-frame" id="stb-frame">
+        <div class="stb-cols" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+        <div class="stb-rows" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+        <div class="stb-board" id="stb-board" role="group" aria-label="Star Battle puzzle, 10 by 10. Arrow keys move between cells."></div>
+      </div>
+      <div class="stb-side">
+        <p class="stb-msg" id="stb-msg" aria-live="polite">Place stars yourself: tap a cell once to cross it out, twice for a star (its neighbors are crossed out for you). Or press Solve to watch the solver work it out, one reason at a time.</p>
+        <p class="stb-count" id="stb-count"></p>
+        <p class="vh" id="stb-say" aria-live="polite"></p>
+        <div class="pj-ctl">
+          <button class="sb pb" id="stb-solve" type="button">Solve</button>
+          <button class="sb" id="stb-step" type="button">Show Me a Step</button>
+          <button class="sb" id="stb-reset" type="button">Start Over</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap pj-close">
+    <p>More small programs, from a Sudoku solver to a Scrabble scorer, are on <a href="https://github.com/carsonmit/Widgets-and-Miscellaneous">GitHub</a>.</p>
+    <p class="pj-next">Want help with math, or with the GRE? <a href="tutoring.html">Book a lesson or an intro call</a>, or <a href="contact.html">get in&nbsp;touch</a>.</p>
+  </div>
 </main>
 
-<script src="site.js?v=2026-10-25t"></script>
+<script src="site.js?v=2026-10-25-2g"></script>
+<script>
+/* ── Blocks rise into place as they come on screen. ── */
+(() => {
+  if (!('IntersectionObserver' in window)) return;
+  root.classList.add('rising');
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.rise').forEach(el => io.observe(el));
+})();
+
+/* ── The textbook preview: pick a sample page (or point at a chapter) and it comes to the front. ── */
+(() => {
+  const PAGES = { 10: 'The opening of the Logic chapter', 14: 'Equivalent logical forms', 18: 'The opening of the Set Theory chapter', 20: 'Properties of set operations', 22: 'The opening of the Standard Arithmetic chapter' };
+  const link = document.getElementById('pj-page'), img = document.getElementById('pj-page-img'), cap = document.getElementById('pj-cap');
+  const thumbs = document.querySelectorAll('.pj-thumbs button');
+  let cur = 14;
+  // instant: no animation (keyboard focus, or reduced motion). A newer swap cancels one still running, so a quick sweep
+  // down the chapter list lands on the last page without flickering through the others.
+  function show(p, instant) {
+    if (p === cur) return; cur = p;
+    link.getAnimations().forEach(a => a.cancel());
+    thumbs.forEach(b => b.setAttribute('aria-pressed', +b.dataset.page === p));
+    const swap = () => {
+      img.srcset = `images/gre/page-${p}-600.jpg 600w, images/gre/page-${p}.jpg 1000w`; img.src = `images/gre/page-${p}.jpg`;
+      img.alt = `Textbook page ${p}: ${PAGES[p].toLowerCase()}`;
+      link.href = `pdf/GRE-Textbook.pdf#page=${p}`; cap.textContent = `Page ${p} · ${PAGES[p]}`;
+    };
+    if (instant || reduce.matches) return swap();
+    // The old page sinks away, the new one rises into its place.
+    const out = link.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(8px)' }], { duration: 120, easing: 'cubic-bezier(0.23, 1, 0.32, 1)', fill: 'forwards' });
+    out.onfinish = () => {
+      if (cur !== p) return; // a newer page was picked meanwhile
+      swap();
+      const go = () => { out.cancel(); if (cur === p) link.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' }); };
+      img.complete ? go() : img.addEventListener('load', go, { once: true });
+    };
+  }
+  thumbs.forEach(b => b.addEventListener('click', () => show(+b.dataset.page)));
+  // Pointing at a chapter for a moment (80 ms, so passing over it doesn't count) previews its first page; tabbing to it
+  // swaps at once, without animation. Clicking opens the PDF there.
+  let wait;
+  document.querySelectorAll('.pj-chapters a').forEach(a => {
+    a.addEventListener('pointerenter', () => { clearTimeout(wait); wait = setTimeout(() => show(+a.dataset.page), 80); });
+    a.addEventListener('pointerleave', () => clearTimeout(wait));
+    a.addEventListener('focus', () => show(+a.dataset.page, true));
+  });
+})();
+
+/* ── Neuron diagrams. Three classic cases from the philosophy of causation. Edges: [from, to, kind]; 'stim' is an
+   arrow (passes a signal on), 'inhib' a line ending in a dot (stops the neuron it reaches). The tapped neurons fire
+   at time 0; a neuron fires at time t if a neuron with an arrow into it fired at t − 1 and no neuron with a dot into it
+   did. Fired neurons stay shaded, as in the papers. Preemption is the editor's own example diagram. ── */
+(() => {
+  const same = (a, b) => a.length === b.length && b.every(x => a.includes(x));
+  const CASES = [
+    { tab: 'Preemption',
+      about: 'One cause cuts off a backup that would have done the same job. Suzy and Billy both mean to break a bottle with a rock. Suzy throws; Billy, who would have thrown if she hadn\'t, sees her and holds back. Here <i>c</i> is Suzy\'s throw, <i>d</i> her rock in flight, <i>a</i> Billy getting ready, <i>b</i> Billy\'s throw, and <i>e</i> the bottle shattering.',
+      n: { c: [52, 60], d: [180, 60], e: [308, 132], a: [52, 188], b: [180, 188] },
+      e: [['c','d','stim'], ['d','e','stim'], ['a','b','stim'], ['b','e','stim'], ['c','b','inhib']],
+      start: [],
+      names: { c: 'Suzy throws', d: 'her rock flies', a: 'Billy gets ready', b: 'Billy throws', e: 'the bottle shatters' },
+      idle: 'Tap <i>c</i> to have Suzy throw, or <i>a</i> to have Billy get ready to throw.',
+      say(src) {
+        if (same(src, ['c','a'])) return 'Suzy throws (<i>c</i>), and seeing her, Billy holds back (<i>b</i> never fires). The bottle shatters because of Suzy, even though it would have shattered without her: Billy would have thrown. This is <b>early preemption</b>.';
+        if (same(src, ['c'])) return 'Suzy throws (<i>c</i>), her rock flies (<i>d</i>), and the bottle shatters (<i>e</i>). Billy isn\'t there, so her throw has no one to hold back. Now tap <i>a</i> too, so that Billy is ready as well.';
+        if (same(src, ['a'])) return 'With only Billy there, he throws (<i>b</i>), and the bottle shatters (<i>e</i>). Now tap <i>c</i> too, so that Suzy throws as well.';
+      } },
+    { tab: 'Overdetermination',
+      about: 'Two causes, each enough on its own, happen at once. Suzy and Billy throw at the same moment, and their rocks hit the bottle together. Here <i>c</i> is Suzy\'s throw, <i>a</i> Billy\'s, and <i>e</i> the bottle shattering.',
+      n: { c: [60, 62], a: [60, 186], e: [270, 124] },
+      e: [['c','e','stim'], ['a','e','stim']],
+      start: [],
+      names: { c: 'Suzy throws', a: 'Billy throws', e: 'the bottle shatters' },
+      idle: 'Tap <i>c</i> for Suzy\'s throw and <i>a</i> for Billy\'s.',
+      say(src) {
+        if (same(src, ['c','a'])) return 'Both rocks hit at the same instant, and either alone would have shattered the bottle (<i>e</i>). So which throw caused it? If a cause is something the effect depends on, neither did: take away either throw and the bottle still breaks. This is <b>overdetermination</b>.';
+        if (same(src, ['c'])) return 'Suzy\'s rock alone is enough: the bottle shatters (<i>e</i>). Now tap <i>a</i>, so that Billy throws at the same moment.';
+        if (same(src, ['a'])) return 'Billy\'s rock alone is enough: the bottle shatters (<i>e</i>). Now tap <i>c</i>, so that Suzy throws at the same moment.';
+      } },
+    { tab: 'Double Prevention',
+      about: 'Something causes an effect by stopping whatever would have stopped it. Suzy throws a rock at the bottle, and Billy stands ready to catch it, until Pat calls his name and he turns away. Here <i>c</i> is Pat\'s call, <i>a</i> Billy getting ready, <i>d</i> his catch, <i>b</i> Suzy\'s throw, <i>f</i> her rock in flight, and <i>e</i> the bottle shattering.',
+      n: { a: [52, 44], d: [180, 44], c: [52, 122], b: [52, 200], f: [180, 200], e: [308, 122] },
+      e: [['a','d','stim'], ['d','e','inhib'], ['c','d','inhib'], ['b','f','stim'], ['f','e','stim']],
+      start: ['a','b'],
+      names: { a: 'Billy gets ready', d: 'Billy catches the rock', c: 'Pat calls out', b: 'Suzy throws', f: 'her rock flies', e: 'the bottle shatters' },
+      idle: 'Tap <i>b</i> to have Suzy throw, and <i>a</i> to have Billy ready to catch.',
+      say(src) {
+        if (same(src, ['a','b','c'])) return 'Pat calls out (<i>c</i>), so Billy never makes the catch (<i>d</i> never fires), and the rock shatters the bottle (<i>e</i>). Pat\'s call caused the shattering by preventing a prevention, though nothing ran from Pat to the bottle. This is <b>double prevention</b>.';
+        if (same(src, ['a','b'])) return 'Suzy throws (<i>b</i>) and her rock flies (<i>f</i>), but Billy is ready and catches it (<i>d</i>), so the bottle survives (<i>e</i> never fires). Now tap <i>c</i>, so that Pat calls out.';
+        if (same(src, ['b'])) return 'Suzy throws (<i>b</i>), nobody is ready to catch, and the bottle shatters (<i>e</i>). Tap <i>a</i> to put Billy in the way.';
+        if (same(src, ['b','c'])) return 'Suzy throws (<i>b</i>) and the bottle shatters (<i>e</i>). Pat calls out (<i>c</i>), but Billy wasn\'t ready to catch anyway. Tap <i>a</i> to see what Pat\'s call is for.';
+        if (same(src, ['a'])) return 'Billy is ready to catch (<i>a</i>, then <i>d</i>), but there is no rock: Suzy hasn\'t thrown. Tap <i>b</i>.';
+      } },
+  ];
+  const R = 22, TICK = 460, NS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('nd'), cap = document.getElementById('nd-cap'), tabs = document.querySelector('.nd-piece .solve-tabs');
+  let C = CASES[0], src = [], timers = [];
+
+  function simulate() {
+    const at = {}, blocked = new Set(), keys = Object.keys(C.n);
+    src.forEach(k => at[k] = 0);
+    for (let t = 1; t <= keys.length; t++) for (const k of keys) {
+      if (k in at) continue;
+      const stim = C.e.some(([f, to, kind]) => to === k && kind === 'stim' && at[f] === t - 1);
+      const inh = C.e.some(([f, to, kind]) => to === k && kind === 'inhib' && at[f] === t - 1);
+      if (stim && !inh) at[k] = t; else if (stim && inh) blocked.add(k);
+    }
+    return { at, blocked };
+  }
+  function geom([f, t, kind]) {
+    const [x1, y1] = C.n[f], [x2, y2] = C.n[t], L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+    return { S: [x1 + ux * R, y1 + uy * R], E: [x2 - ux * R, y2 - uy * R], ux, uy, kind };
+  }
+  function draw() {
+    let s = '';
+    C.e.forEach(ed => {
+      const g = geom(ed);
+      if (g.kind === 'stim') {
+        const bx = g.E[0] - g.ux * 13, by = g.E[1] - g.uy * 13, px = -g.uy * 5.5, py = g.ux * 5.5, mx = g.E[0] - g.ux * 9, my = g.E[1] - g.uy * 9;
+        s += `<line class="edge" x1="${g.S[0]}" y1="${g.S[1]}" x2="${mx}" y2="${my}"/><path class="head" d="M${g.E[0]} ${g.E[1]} L${bx + px} ${by + py} L${mx} ${my} L${bx - px} ${by - py} Z"/>`;
+      } else {
+        const cx = g.E[0] - g.ux * 4, cy = g.E[1] - g.uy * 4;
+        s += `<line class="edge" x1="${g.S[0]}" y1="${g.S[1]}" x2="${cx}" y2="${cy}"/><circle class="head" cx="${cx}" cy="${cy}" r="4.5"/>`;
+      }
+    });
+    s += '<g class="pulses"></g>';
+    for (const [k, [x, y]] of Object.entries(C.n)) {
+      s += `<g class="neuron" data-k="${k}" role="button" tabindex="0" aria-pressed="false" aria-label="Neuron ${k}"><g class="pop"><circle class="ring" cx="${x}" cy="${y}" r="${R + 6}"/><circle class="body" cx="${x}" cy="${y}" r="${R}"/><text x="${x}" y="${y}">${k}</text></g><circle class="hit" cx="${x}" cy="${y}" r="${R + 10}"/></g>`;
+    }
+    svg.innerHTML = s;
+    svg.querySelectorAll('.neuron').forEach(g => {
+      const go = () => { const k = g.dataset.k; src = src.includes(k) ? src.filter(x => x !== k) : [...src, k]; play(); };
+      g.addEventListener('click', go);
+      g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+  }
+  // Play the run one tick at a time: neurons light up, and a small dot travels along each line that carries a signal.
+  function play() {
+    timers.forEach(clearTimeout); timers = [];
+    const { at, blocked } = simulate(), still = reduce.matches, last = Math.max(0, ...Object.values(at)), step = still ? 0 : TICK;
+    const starts = Object.keys(C.n).filter(k => !C.e.some(ed => ed[1] === k));
+    svg.querySelectorAll('.neuron').forEach(g => { const k = g.dataset.k; g.classList.remove('on', 'blocked'); g.classList.toggle('src', src.includes(k)); g.classList.toggle('cue', !src.length && starts.includes(k)); g.setAttribute('aria-pressed', src.includes(k)); });
+    svg.querySelector('.pulses').innerHTML = '';
+    for (let t = 0; t <= last; t++) timers.push(setTimeout(() => {
+      for (const [k, tt] of Object.entries(at)) if (tt === t) light(k, still);
+      if (!still) C.e.forEach(ed => { if (at[ed[0]] === t) pulse(ed); });
+      if (t === last) timers.push(setTimeout(() => blocked.forEach(k => svg.querySelector(`[data-k="${k}"]`).classList.add('blocked')), step));
+    }, t * step));
+    caption(at, blocked);
+  }
+  function light(k, still) {
+    const g = svg.querySelector(`[data-k="${k}"]`); g.classList.add('on');
+    if (!still) g.querySelector('.pop').animate([{ transform: 'scale(1)' }, { transform: 'scale(1.08)' }, { transform: 'scale(1)' }], { duration: 260, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+  }
+  function pulse(ed) {
+    const g = geom(ed), dot = document.createElementNS(NS, 'circle');
+    dot.setAttribute('r', 4); dot.setAttribute('class', 'pulse');
+    svg.querySelector('.pulses').appendChild(dot);
+    dot.animate([{ transform: `translate(${g.S[0]}px, ${g.S[1]}px)` }, { transform: `translate(${g.E[0]}px, ${g.E[1]}px)` }], { duration: TICK, easing: 'linear' }).onfinish = () => dot.remove();
+  }
+  // The caption tells the case's story: a written line for the key combinations, otherwise what happened, in order.
+  function caption(at, blocked) {
+    const special = C.say(src);
+    if (special) { cap.innerHTML = special; return; }
+    if (!src.length) { cap.innerHTML = C.idle; return; }
+    const said = k => `${C.names[k]} (<i>${k}</i>)`, order = Object.keys(at).sort((x, y) => at[x] - at[y]);
+    let t = order.map(said).join(', then ') + '.';
+    if (blocked.size) t += ' ' + [...blocked].map(k => `${C.names[k][0].toUpperCase() + C.names[k].slice(1)} is stopped (<i>${k}</i>)`).join('; ') + '.';
+    cap.innerHTML = t[0].toUpperCase() + t.slice(1);
+  }
+
+  function pick(i) {
+    C = CASES[i]; src = [...C.start];
+    document.getElementById('nd-about').innerHTML = C.about;
+    document.getElementById('nd-panel').setAttribute('aria-labelledby', `nd-tab-${i}`);
+    // On phones the tabs scroll sideways in one row: bring the chosen one fully into view (without scrolling the page).
+    const t = tabs.children[i]; if (t && tabs.scrollWidth > tabs.clientWidth) tabs.scrollTo({ left: Math.max(0, t.offsetLeft - 14), behavior: reduce.matches ? 'auto' : 'smooth' });
+    tabs.querySelectorAll('button').forEach((b, j) => { b.setAttribute('aria-selected', j === i); b.tabIndex = j === i ? 0 : -1; });
+    svg.setAttribute('aria-label', `Neuron diagram, ${C.tab.toLowerCase()}: tap a neuron to fire it`);
+    draw(); play();
+  }
+  tabs.innerHTML = CASES.map((c, i) => `<button type="button" role="tab" id="nd-tab-${i}" aria-controls="nd-panel" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${c.tab}</button>`).join('');
+  const tbs = [...tabs.querySelectorAll('button')];
+  tbs.forEach((b, i) => b.addEventListener('click', () => pick(i)));
+  tabs.addEventListener('keydown', e => {
+    const i = tbs.indexOf(document.activeElement), d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if (i < 0 || !d) return;
+    e.preventDefault(); const j = (i + d + tbs.length) % tbs.length; tbs[j].focus(); pick(j);
+  });
+  document.getElementById('nd-reset').addEventListener('click', () => { src = [...C.start]; play(); });
+  pick(0);
+})();
+
+/* ── Star Battle. Tap a cell: open → cross → star → open. "Show Me a Step" gives the solver's next step that the
+   board doesn't already show, with its reason (it first points out any mark that can't be right). "Solve" keeps
+   doing that until the puzzle is done, so it carries on from whatever you've placed. ── */
+(() => {
+  const say = document.getElementById('stb-say'), board = document.getElementById('stb-board'), msg = document.getElementById('stb-msg'), count = document.getElementById('stb-count');
+  const solveBtn = document.getElementById('stb-solve'), stepBtn = document.getElementById('stb-step');
+  const STAR = '<svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17.1 5.9 20.6l1.5-6.8L2.2 9.2l6.9-.7z"/></svg>';
+  const CROSS = '<svg class="x" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  const START = 'Place stars yourself: tap a cell once to cross it out, twice for a star (its neighbors are crossed out for you). Or press Solve to watch the solver work it out, one reason at a time.';
+  let about = [], P, n, sol, mine, auto = new Set(), helped = 0, timer = null; // auto: crosses placed for you around a star
+
+  // The solver's wording, tidied for the page: "1 star(s)" → "1 star", and American spelling.
+  function tidy(m) {
+    return m
+      .replace(/(\d+) (more |open )?(star|cell)\(s\)/g, (_, k, w2, w) => `${k} ${w2 || ''}${w}${k === '1' ? '' : 's'}`)
+      .replace(/open cells? left, so they all get stars/, s => s.startsWith('open cell left') ? 'open cell left, so it gets a star' : s)
+      .replace(/it gets a star \(and their neighbou?rs/, 'it gets a star (and its neighbors')
+      .replace(/region\(s\) ([A-J]) fit entirely inside (\w+ \d+), so they use up all of its stars/, 'region $1 fits entirely inside $2, so its two stars are $2\'s two stars').replace(/region\(s\) /, 'regions ')
+      .replace(/(rows|columns) (\d+)-(\d+), so they use up all of its/, '$1 $2–$3, so they use up all of their')
+      .replace(/^Squeeze: /, '').replace(/neighbours/g, 'neighbors').replace(/colour/g, 'color')
+      .replace(/^./, c => c.toUpperCase());
+  }
+  // Four tones for the regions, so that touching regions never share one (a greedy map coloring).
+  function tones(reg) {
+    const letters = [...new Set(reg.join(''))], adj = {}, col = {};
+    letters.forEach(l => adj[l] = new Set());
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+      const a = reg[r][c];
+      if (c + 1 < n && reg[r][c + 1] !== a) { adj[a].add(reg[r][c + 1]); adj[reg[r][c + 1]].add(a); }
+      if (r + 1 < n && reg[r + 1][c] !== a) { adj[a].add(reg[r + 1][c]); adj[reg[r + 1][c]].add(a); }
+    }
+    letters.sort((x, y) => adj[y].size - adj[x].size).forEach(l => { let k = 0; while ([...adj[l]].some(m => col[m] === k)) k++; col[l] = k; });
+    return col;
+  }
+  const where = i => `row ${Math.floor(i / n) + 1}, column ${i % n + 1}`;
+  const touch = (i, j) => Math.abs(Math.floor(i / n) - Math.floor(j / n)) <= 1 && Math.abs(i % n - j % n) <= 1;
+  const Where = i => where(i).replace(/^r/, 'R');
+  // Why a star the visitor placed can't stay: a correct star of theirs it touches, or else the solver's own step that
+  // crosses the cell out (directly, or because the cell touches a star that step proves).
+  function whyNot(i) {
+    const next = mine.findIndex((v, j) => v === '1' && j !== i && sol[j] === '1' && touch(i, j));
+    about = next >= 0 ? [next] : [];
+    if (next >= 0) return `The star at ${where(i)} touches your star at ${where(next)}, which is right, and stars can't touch, even at a corner. Tap it to clear it.`;
+    const k = P.steps.findIndex(S => S.g[i] === '2'), S = P.steps[k];
+    if (S.c.includes(i)) return `The star at ${where(i)} can't stay. The solver rules that cell out in its step ${k}: ${tidy(S.m)} Tap it to clear it.`;
+    const star = S.c.find(j => S.g[j] === '1' && touch(i, j)); about = [star];
+    return `The star at ${where(i)} can't stay: it touches ${where(star)}, which must hold a star. The solver's step ${k} shows why: ${tidy(S.m)} Tap it to clear it.`;
+  }
+  // Why a cross the visitor placed is wrong: the solver's step that proves the cell holds a star.
+  function whyStar(i) {
+    const k = P.steps.findIndex(S => S.g[i] === '1'), S = P.steps[k];
+    return `${Where(i)} must hold a star, so that cross is a mistake. The solver's step ${k} shows why: ${tidy(S.m)} Tap it once to turn it into a star.`;
+  }
+
+  function build() {
+    const reg = P.regions, col = tones(reg), seen = new Set();
+    let s = '';
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+      const L = reg[r][c], cls = ['cell'];
+      if (r > 0 && reg[r - 1][c] !== L) cls.push('wt');
+      if (c > 0 && reg[r][c - 1] !== L) cls.push('wl');
+      const lab = seen.has(L) ? '' : `<span class="lab" aria-hidden="true">${L}</span>`; seen.add(L);
+      s += `<button type="button" class="${cls.join(' ')}" data-i="${r * n + c}" data-c="${col[L]}" tabindex="${r === 0 && c === 0 ? 0 : -1}" aria-label="Row ${r + 1}, column ${c + 1}, region ${L}: open">${lab}<span class="mk"></span></button>`;
+    }
+    board.innerHTML = s;
+    board.querySelectorAll('.cell').forEach(el => el.addEventListener('click', () => { stop(); focusCell(+el.dataset.i, false); check(tap(+el.dataset.i)); save(); }));
+  }
+  // A tap cycles open → cross → star → open. A new star crosses out its open neighbors automatically; taking the
+  // star away clears those automatic crosses again, unless another star still touches them. Crosses you made stay.
+  function tap(i) {
+    auto.delete(i);
+    mine[i] = mine[i] === '0' ? '2' : mine[i] === '2' ? '1' : '0';
+    const near = [...mine.keys()].filter(j => j !== i && touch(i, j)), changed = [i];
+    if (mine[i] === '1') near.forEach(j => { if (mine[j] === '0') { mine[j] = '2'; auto.add(j); changed.push(j); } });
+    if (mine[i] === '0') near.forEach(j => { if (auto.has(j) && !mine.some((v, k) => v === '1' && k !== j && touch(j, k))) { mine[j] = '0'; auto.delete(j); changed.push(j); } });
+    return changed;
+  }
+  function focusCell(i, move) {
+    board.querySelectorAll('.cell').forEach((el, j) => el.tabIndex = j === i ? 0 : -1);
+    if (move) board.children[i].focus();
+  }
+  // Progress survives a reload in this tab (and quietly does nothing where storage is blocked).
+  const KEY = 'star-battle-easy';
+  function save() { try { sessionStorage.setItem(KEY, JSON.stringify({ mine: mine.join(''), auto: [...auto], helped })); } catch (e) {} }
+  function restore() {
+    try {
+      const d = JSON.parse(sessionStorage.getItem(KEY));
+      if (d && d.mine.length === n * n && /^[012]+$/.test(d.mine)) { mine = [...d.mine]; auto = new Set(d.auto); helped = d.helped | 0; return true; }
+    } catch (e) {}
+    return false;
+  }
+  function show(fresh = [], bad = []) {
+    board.querySelectorAll('.cell').forEach((el, i) => {
+      const v = mine[i], mk = el.querySelector('.mk');
+      if (mk.dataset.v !== v) {
+        mk.innerHTML = v === '1' ? STAR : v === '2' ? CROSS : ''; mk.dataset.v = v;
+        el.setAttribute('aria-label', el.getAttribute('aria-label').replace(/: \w+( out)?(, breaks a rule)?$/, ': ' + (v === '1' ? 'star' : v === '2' ? 'crossed out' : 'open')));
+        if (v !== '0' && fresh.includes(i) && !reduce.matches) mk.animate([{ transform: 'scale(.9)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 150, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+      }
+      el.classList.toggle('new', fresh.includes(i));
+      el.classList.toggle('bad', bad.includes(i));
+      const lab = el.getAttribute('aria-label').replace(/, breaks a rule$/, '');
+      el.setAttribute('aria-label', bad.includes(i) && v === '1' ? lab + ', breaks a rule' : lab);
+    });
+  }
+  // Stars that break a rule: two touching, or too many in one row, column or region.
+  function problems() {
+    const bad = new Set(), stars = [], units = {};
+    mine.forEach((v, i) => v === '1' && stars.push(i));
+    for (const a of stars) for (const b of stars) if (a < b && touch(a, b)) { bad.add(a); bad.add(b); }
+    stars.forEach(i => { const r = Math.floor(i / n), c = i % n; ['r' + r, 'c' + c, 'g' + P.regions[r][c]].forEach(u => (units[u] = units[u] || []).push(i)); });
+    Object.values(units).forEach(l => l.length > P.stars && l.forEach(i => bad.add(i)));
+    return [...bad];
+  }
+  function check(fresh = []) {
+    const bad = problems(), placed = mine.filter(v => v === '1').length, done = placed === n * P.stars && !bad.length;
+    show(fresh, bad);
+    count.textContent = `${placed} of ${n * P.stars} stars placed` + (helped ? ` · ${helped} step${helped > 1 ? 's' : ''} from the solver` : '');
+    if (bad.length) msg.textContent = 'The outlined stars break a rule: two of them touch, or a row, column or region has too many.';
+    if (done) { stop(); msg.textContent = helped ? 'Solved. Every row, column and region has its two stars, and none touch.' : 'Solved, all on your own. Every row, column and region has its two stars, and none touch.'; }
+    solveBtn.disabled = stepBtn.disabled = done;
+    return done;
+  }
+  // One step from the solver. Returns false when it can't go on (a wrong mark, or nothing left).
+  function step() {
+    const wrongStar = mine.findIndex((v, i) => v === '1' && sol[i] !== '1');
+    if (wrongStar >= 0) { msg.textContent = whyNot(wrongStar); show(about, [wrongStar]); return false; }
+    const wrongX = mine.findIndex((v, i) => v === '2' && sol[i] === '1');
+    if (wrongX >= 0) { msg.textContent = whyStar(wrongX); show([], [wrongX]); return false; }
+    for (const S of P.steps.slice(1, -1)) {
+      const todo = new Set(S.c.filter(i => S.g[i] !== '0' && mine[i] !== S.g[i]));
+      // A star step also crosses out the star's neighbors; those belong to the same step.
+      if (S.a === 'star') mine.forEach((v, i) => { if (v === '0' && S.g[i] === '2' && S.c.some(j => touch(i, j))) todo.add(i); });
+      if (!todo.size) continue;
+      todo.forEach(i => mine[i] = S.g[i]); helped++; save();
+      const done = check([...todo]);
+      if (!done) msg.textContent = tidy(S.m);
+      return !done;
+    }
+    return false;
+  }
+  // While Solve runs, the reason box changes every 0.42 s: screen readers stay quiet and hear one summary when it stops.
+  function stop() { const was = timer; clearInterval(timer); timer = null; solveBtn.textContent = 'Solve'; msg.setAttribute('aria-live', 'polite'); if (was) say.textContent = count.textContent + '. ' + msg.textContent; }
+  solveBtn.addEventListener('click', () => {
+    if (timer) return stop();
+    if (!step()) return;
+    solveBtn.textContent = 'Pause'; msg.setAttribute('aria-live', 'off');
+    timer = setInterval(() => { if (!step()) stop(); }, reduce.matches ? 700 : 420);
+  });
+  stepBtn.addEventListener('click', () => { stop(); step(); });
+  document.getElementById('stb-reset').addEventListener('click', () => { stop(); mine.fill('0'); auto.clear(); helped = 0; save(); check(); msg.textContent = START; });
+
+  fetch('data/star-battle-easy.json').then(r => r.ok ? r.json() : Promise.reject()).then(d => {
+    P = d; n = d.regions.length; sol = d.steps[d.steps.length - 1].g; mine = Array(n * n).fill('0');
+    const back = restore(); build();
+    if (!check()) msg.textContent = back && mine.some(v => v !== '0') ? 'Welcome back: your marks are where you left them. Tap a cell to keep going, or press Solve.' : START;
+  }).catch(() => {
+    // The puzzle's data didn't arrive (offline, or the file is missing): say so instead of showing an empty board.
+    document.getElementById('stb-frame').hidden = true; [solveBtn, stepBtn, document.getElementById('stb-reset')].forEach(b => b.hidden = true);
+    msg.textContent = 'The puzzle couldn\'t load just now. Reload the page to try again, or see the solver\'s own window in the picture beside it.';
+  });
+  // The board, as a whole, is one stop in the Tab order; arrow keys move between cells, Home and End jump along the row.
+  board.addEventListener('keydown', e => {
+    const i = +document.activeElement.dataset.i, r = Math.floor(i / n), c = i % n;
+    const to = { ArrowRight: c < n - 1 ? i + 1 : i, ArrowLeft: c > 0 ? i - 1 : i, ArrowDown: r < n - 1 ? i + n : i, ArrowUp: r > 0 ? i - n : i, Home: r * n, End: r * n + n - 1 }[e.key];
+    if (to === undefined || Number.isNaN(i)) return;
+    e.preventDefault(); focusCell(to, true);
+  });
+})();
+</script>
 </body>
 </html>

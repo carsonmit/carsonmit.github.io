@@ -4,6 +4,29 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-10-25
+
+The Projects page is built: the free GRE textbook first, then the Neuron Diagram Maker and the Star Battle Solver, each with a live piece you can play with.
+
+### Added
+- The Projects page. First screen: "A Free GRE Textbook", described honestly as "Free, and still growing" (logic, set theory and arithmetic are written so far), with a **Download the PDF** button, the chapters written so far (pointing at one previews its first page), and a large real page with five sample pages to pick from.
+- Neuron Diagram Maker, with a live diagram: three classic cases from the philosophy of causation (Preemption, Overdetermination, Double Prevention), told as one story about Suzy and Billy throwing rocks at a bottle. Tap a neuron to fire it; a small dot carries each signal, and the caption explains what happened in the story. Links to the editor.
+- Star Battle Solver, with the real 10×10 puzzle from the project: tap once to cross a cell out, twice for a star (its neighbors are crossed out for you); **Show Me a Step** asks the solver for its next step and its reason; **Solve** watches it finish from wherever you are. A wrong mark is explained with the solver's own reasoning. Every step comes from running the solver itself (`data/star-battle-easy.json`). Links to the code on GitHub, since the solver is a Python program.
+- A closing line linking to Tutoring and Contact.
+- New files: `data/star-battle-easy.json` (the solver's steps), `images/projects/` (screenshots of the two programs), more textbook pages and small thumbnails in `images/gre/`, and the approved mockups `design/mockups/projects-neuron.html` and `projects-starbattle.html`.
+
+### Changed
+- After a design review (Impeccable critique, 21/32), hardening, accessibility, phone and motion passes:
+  - Mistake messages match the tap order; the puzzle is one stop for the Tab key, with arrow keys between cells; puzzle progress survives a reload; if the puzzle can't load, the page says so instead of showing an empty board.
+  - The neuron tabs are connected to their panel for screen readers; the region letters on the puzzle are easier to read at night.
+  - Thumbnails load 5 KB pictures instead of 70 KB ones and the screenshots are resized: Lighthouse performance went from 64 to 96, and nothing jumps while the fonts load.
+  - On phones the textbook page appears right after the download button; on touch screens every button is at least 44px tall; the puzzle uses the card's full width.
+  - The textbook preview no longer flickers when you sweep across the chapters, and changes instantly from the keyboard; stars and crosses appear faster and more gently (Emil Kowalski's motion standards).
+  - The puzzle's rules sit right above the board; the neurons you can start from are marked before your first tap.
+  - After the final review (Impeccable critique, 31/40): row and column numbers along the puzzle board, and the cell a message talks about is outlined; the board sits above its explanation at every width, so the row is balanced and cells are bigger on a laptop; screen readers hear one summary when Solve stops instead of every step, and hear when a star breaks a rule; plainer solver wording; a line explaining that, as in the papers, *c* is always the cause in question and *e* the effect; on phones the three neuron cases stay on one line and scroll sideways; the night-mode puzzle regions are easier to tell apart.
+- `CLAUDE.md`: the order of review steps to run once a page draft is done (critique, harden, audit, adapt, review-animations, polish, final critique).
+- `WORKFLOW.md`: Stage 4 reminders for a favicon and for restyling the two programs to match the site.
+
 ## [0.9.0] - 2026-10-25
 
 The Tutoring page is built: rates, booking through Cal.com, subjects, and a problem that solves itself as you scroll.

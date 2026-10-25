@@ -18,6 +18,15 @@
         ],
         "createdAt": "2026-10-24T09:27:06.088Z",
         "reason": "Claude triage: the flagged .stage is a 3D drawing surface whose canvas fills it edge to edge on purpose; its only text (the drag hint) is inset 14px"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "design/mockups/projects-neuron.html"
+        ],
+        "createdAt": "2026-10-25T13:17:36.559Z",
+        "reason": "Claude: design-comparison mockup, not a shipped page; the built projects.html passes detect with no findings"
       }
     ]
   }

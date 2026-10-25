@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Star Battle (Projects mockup)</title>
+<!-- APPROVED (2026-10-25): options A and C together (play the 10×10, Show Me a Step, or Solve to watch). The other options stay here for comparison. -->
+<!-- ROUND 1 (2026-10-25): the Projects live piece for Star Battle Solver. Three options to compare:
+     A Watch It Solve (the 10×10 easy example, replaying the solver's own steps), B Try a Small One (a 6×6, one-star
+     puzzle made by the project's generator; tap to play, ask for a step), C Try the Real One (the 10×10, same controls).
+     Every step and message below is the real output of StarBattleSolver/solver.py (solve_steps), exported to JSON;
+     only the wording is tidied for display ("1 star(s)" → "1 star", American spelling). -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root { --bg:#151a21; --ac:#C9ACDE; --ink:#F2EFE8; --mu:#A19E96; --card:#1d232c; --card2:#2a3240; --on:#151a21; --ease-out:cubic-bezier(.23,1,.32,1);
+  --r0:#232a35; --r1:#3b3449; --r2:#2c3b4a; --r3:#4a3f57; --wall:#F2EFE8; }
+[data-theme="day"] { --bg:#F3EBDD; --ac:#6C4487; --ink:#1f1a14; --mu:#5c5348; --card:#EADFCC; --card2:#D6C6AC; --on:#F3EBDD;
+  --r0:#F7F1E7; --r1:#E6D7EF; --r2:#DFD0B9; --r3:#D2BDE0; --wall:#1f1a14; }
+*, *::before, *::after { box-sizing:border-box; }
+body { margin:0; padding:24px clamp(20px,5vw,64px) 64px; background:var(--bg); color:var(--ink); font-family:'Newsreader',Georgia,serif; font-weight:420; font-size:18.5px; line-height:1.45; }
+.bar { display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; font:400 13px 'IBM Plex Sans',sans-serif; color:var(--mu); margin:0 0 40px; }
+.bar .grp { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.bar button { font:500 13px/1 'IBM Plex Sans',sans-serif; background:var(--card2); color:var(--ink); border:0; border-radius:999px; padding:9px 14px; cursor:pointer; transition:transform .14s var(--ease-out); }
+.bar button:active { transform:scale(.97); }
+.bar button[aria-pressed="true"] { background:var(--ac); color:var(--on); }
+
+.proj { display:grid; grid-template-columns:minmax(0,7fr) minmax(0,4fr); gap:28px clamp(32px,5vw,80px); align-items:start; max-width:1240px; }
+.proj h2 { font-family:'DM Serif Display',serif; font-weight:400; font-size:clamp(32px,3.4vw,46px); line-height:1.04; margin:0 0 16px; }
+.proj p { margin:0 0 14px; max-width:36ch; }
+.facts { font:400 14px/1.5 'IBM Plex Sans',sans-serif; color:var(--mu); margin:0 0 22px; }
+.rules { font-size:17px; color:var(--mu); }
+.sb { display:inline-block; font:500 14.5px/1 'IBM Plex Sans',sans-serif; background:var(--card2); color:var(--ink); text-decoration:none; border:0; border-radius:999px; padding:14px 22px; cursor:pointer; transition:transform .16s var(--ease-out); }
+.sb:active:not(:disabled) { transform:scale(.97); }
+.sb:disabled { opacity:.55; cursor:default; }
+.pb { background:var(--ac); color:var(--on); }
+
+.piece { background:var(--card); border-radius:18px; padding:clamp(18px,2.4vw,32px); display:grid; grid-template-columns:minmax(0,440px) minmax(0,1fr); gap:24px; align-items:start; }
+.board { --n:10; display:grid; grid-template-columns:repeat(var(--n), 1fr); width:100%; aspect-ratio:1; border:2.5px solid var(--wall); border-radius:4px; overflow:hidden; touch-action:manipulation; -webkit-tap-highlight-color:transparent; user-select:none; }
+.board.small { width:min(100%, 360px); }
+.cell { position:relative; display:grid; place-items:center; border:0; padding:0; margin:0; background:var(--r0); color:var(--ink); font:inherit; cursor:default;
+  box-shadow:inset 1px 0 0 rgba(127,127,127,.18), inset 0 1px 0 rgba(127,127,127,.18); }
+.board.play .cell { cursor:pointer; }
+.cell[data-c="1"] { background:var(--r1); } .cell[data-c="2"] { background:var(--r2); } .cell[data-c="3"] { background:var(--r3); }
+.cell.wt { border-top:2.5px solid var(--wall); } .cell.wl { border-left:2.5px solid var(--wall); }
+.cell .lab { position:absolute; top:2px; left:4px; font:400 10px/1 'IBM Plex Sans',sans-serif; color:var(--mu); opacity:.9; }
+.cell svg { width:62%; height:62%; }
+.cell .x { width:34%; height:34%; color:var(--mu); }
+.cell.new::after { content:''; position:absolute; inset:2px; border:2px solid var(--ac); border-radius:3px; }
+.cell.bad .st { color:var(--ac); }
+.cell.bad::after { content:''; position:absolute; inset:2px; border:2px dashed var(--ac); border-radius:3px; }
+.cell .st { color:var(--ink); }
+.cell.pop svg { animation:pop .26s var(--ease-out); }
+@keyframes pop { from { transform:scale(.6); opacity:.4; } }
+.side { min-width:0; }
+.msg { font-size:17px; line-height:1.45; margin:0 0 14px; min-height:7.3em; text-wrap:pretty; }
+.count { font:400 13px/1.4 'IBM Plex Sans',sans-serif; color:var(--mu); margin:0 0 16px; }
+.btns { display:flex; gap:8px; flex-wrap:wrap; }
+.legend { font:400 13px/1.5 'IBM Plex Sans',sans-serif; color:var(--mu); margin:16px 0 0; }
+@media (max-width:1100px) { .piece { grid-template-columns:minmax(0,1fr); } .board, .board.small { width:min(100%, 460px); } .piece { grid-template-columns:minmax(0,1fr); } }
+@media (max-width:860px) { .proj { grid-template-columns:minmax(0,1fr); } .proj > .txt { order:-1; } }
+@media (pointer:coarse) { .sb { min-height:44px; } }
+@media (prefers-reduced-motion:reduce) { .cell.pop svg { animation:none; } }
+</style>
+</head>
+<body>
+
+<div class="bar" role="group" aria-label="Mockup controls">
+  <span class="grp">Option
+    <button data-o="a" aria-pressed="true">A · Watch It Solve</button>
+    <button data-o="b" aria-pressed="false">B · Try a Small One</button>
+    <button data-o="c" aria-pressed="false">C · Try the Real One</button>
+  </span>
+  <span class="grp">Mode
+    <button data-t="night" aria-pressed="true">Night</button>
+    <button data-t="day" aria-pressed="false">Day</button>
+  </span>
+</div>
+
+<section class="proj" aria-labelledby="sb-title">
+  <div class="piece">
+    <div class="board" id="board" role="grid" aria-label="Star Battle puzzle"></div>
+    <div class="side">
+      <p class="msg" id="msg" aria-live="polite"></p>
+      <p class="count" id="count"></p>
+      <div class="btns" id="btns"></div>
+      <p class="legend" id="legend"></p>
+    </div>
+  </div>
+  <div class="txt">
+    <h2 id="sb-title">Star Battle Solver</h2>
+    <p>A solver for Star Battle puzzles, written in Python, with a window where you paint in a puzzle and watch it solved step by step, each step explained in plain English.</p>
+    <p class="rules" id="rules"></p>
+    <p class="facts">Reasons first and guesses only when stuck · 19 of 30 random test puzzles needed no guess at all · Makes new puzzles with exactly one answer</p>
+    <a class="sb pb" href="https://github.com/carsonmit/Widgets-and-Miscellaneous/tree/main/StarBattleSolver">See the Code on GitHub →</a>
+  </div>
+</section>
+
+<script>
+const DATA = {"easy":{"regions":["HHHHGGGJJJ","HCHHGGGIII","CCHCGGGIII","CCCCGGGIII","CCCCGGGEII","FFFDDGGEII","FDDDDDEEBI","ADADDDBEBI","AAAABBBBBB","AAAAAABBBB"],"stars":2,"steps":[{"a":"start","c":[],"m":"Starting with an empty board.","g":"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000","d":0},{"a":"blank","c":[0,1,2,3,4,5,6],"m":"Squeeze: region(s) J fit entirely inside row 1, so they use up all of its stars. Other cells there are crossed out.","g":"2222222000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000","d":0},{"a":"blank","c":[68,70,72,76,78],"m":"Squeeze: region(s) C, D, E, F, G, H, I, J fit entirely inside rows 1-8, so they use up all of its stars. Other cells there are crossed out.","g":"2222222000000000000000000000000000000000000000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[8],"m":"If row 1, column 9 had a star, row 1 would no longer have room for its stars. So it's crossed out.","g":"2222222020000000000000000000000000000000000000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[11],"m":"If row 2, column 2 had a star, region H would no longer have room for its stars. So it's crossed out.","g":"2222222020020000000000000000000000000000000000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[16],"m":"If row 2, column 7 had a star, row 1 would no longer have room for its stars. So it's crossed out.","g":"2222222020020000200000000000000000000000000000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[17],"m":"If row 2, column 8 had a star, row 1 would no longer have room for its stars. So it's crossed out.","g":"2222222020020000220000000000000000000000000000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[18],"m":"If row 2, column 9 had a star, row 1 would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222000000000000000000000000000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[19],"m":"If row 2, column 10 had a star, row 1 would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222200000000000000000000000000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[20],"m":"If row 3, column 1 had a star, region H would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222220000000000000000000000000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[21],"m":"If row 3, column 2 had a star, region H would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222000000000000000000000000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[23],"m":"If row 3, column 4 had a star, region H would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000000000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[41],"m":"If row 5, column 2 had a star, region F would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000020000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[42],"m":"If row 5, column 3 had a star, region F would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000022000000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[43],"m":"If row 5, column 4 had a star, region F would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000022200000000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[46],"m":"If row 5, column 7 had a star, region E would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000022200200000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[48],"m":"If row 5, column 9 had a star, region E would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000022200202000000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[51],"m":"If row 6, column 2 had a star, region F would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000022200202002000000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[53],"m":"If row 6, column 4 had a star, region F would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000022200202002020000000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[56],"m":"If row 6, column 7 had a star, region E would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000022200202002020020000000000020202000202000000000000000000000","d":0},{"a":"blank","c":[58],"m":"If row 6, column 9 had a star, region E would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000022200202002020020200000000020202000202000000000000000000000","d":0},{"a":"blank","c":[61],"m":"If row 7, column 2 had a star, region F would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000022200202002020020200200000020202000202000000000000000000000","d":0},{"a":"blank","c":[62],"m":"If row 7, column 3 had a star, region F would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000022200202002020020200220000020202000202000000000000000000000","d":0},{"a":"blank","c":[63],"m":"If row 7, column 4 had a star, region F would no longer have room for its stars. So it's crossed out.","g":"2222222020020000222222020000000000000000022200202002020020200222000020202000202000000000000000000000","d":0},{"a":"star","c":[7,9],"m":"Row 1 needs 2 more star(s) and has exactly 2 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121020000222222020000000000000000022200202002020020200222000020202000202000000000000000000000","d":0},{"a":"blank","c":[22],"m":"If row 3, column 3 had a star, region C would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220000000000000000022200202002020020200222000020202000202000000000000000000000","d":0},{"a":"blank","c":[27],"m":"If row 3, column 8 had a star, column 9 would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002000000000000022200202002020020200222000020202000202000000000000000000000","d":0},{"a":"blank","c":[29],"m":"If row 3, column 10 had a star, column 9 would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000000022200202002020020200222000020202000202000000000000000000000","d":0},{"a":"blank","c":[37],"m":"If row 4, column 8 had a star, column 9 would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000200022200202002020020200222000020202000202000000000000000000000","d":0},{"a":"blank","c":[39],"m":"If row 4, column 10 had a star, column 9 would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000202022200202002020020200222000020202000202000000000000000000000","d":0},{"a":"blank","c":[57],"m":"If row 6, column 8 had a star, region E would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000202022200202002020022200222000020202000202000000000000000000000","d":0},{"a":"blank","c":[67],"m":"If row 7, column 8 had a star, region E would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000202022200202002020022200222000220202000202000000000000000000000","d":0},{"a":"blank","c":[77],"m":"If row 8, column 8 had a star, region E would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000202022200202002020022200222000220202000222000000000000000000000","d":0},{"a":"blank","c":[80],"m":"If row 9, column 1 had a star, column 2 would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000202022200202002020022200222000220202000222020000000000000000000","d":0},{"a":"blank","c":[82],"m":"If row 9, column 3 had a star, column 2 would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000202022200202002020022200222000220202000222020200000000000000000","d":0},{"a":"blank","c":[87],"m":"If row 9, column 8 had a star, column 9 would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000202022200202002020022200222000220202000222020200002000000000000","d":0},{"a":"blank","c":[89],"m":"If row 9, column 10 had a star, column 9 would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000202022200202002020022200222000220202000222020200002020000000000","d":0},{"a":"blank","c":[97],"m":"If row 10, column 8 had a star, column 9 would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000202022200202002020022200222000220202000222020200002020000000200","d":0},{"a":"blank","c":[99],"m":"If row 10, column 10 had a star, column 9 would no longer have room for its stars. So it's crossed out.","g":"2222222121020000222222220002020000000202022200202002020022200222000220202000222020200002020000000202","d":0},{"a":"star","c":[47],"m":"Column 8 needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121020000222222220002020000002222022200212002020022200222000220202000222020200002020000000202","d":0},{"a":"star","c":[66],"m":"Region E needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121020000222222220002020000002222022200212002020222200222021220202002222020200002020000000202","d":0},{"a":"blank","c":[14,15],"m":"Squeeze: region(s) H, J fit entirely inside rows 1-2, so they use up all of its stars. Other cells there are crossed out.","g":"2222222121020022222222220002020000002222022200212002020222200222021220202002222020200002020000000202","d":0},{"a":"blank","c":[34],"m":"If row 4, column 5 had a star, column 6 would no longer have room for its stars. So it's crossed out.","g":"2222222121020022222222220002020000202222022200212002020222200222021220202002222020200002020000000202","d":0},{"a":"blank","c":[35],"m":"If row 4, column 6 had a star, row 3 would no longer have room for its stars. So it's crossed out.","g":"2222222121020022222222220002020000222222022200212002020222200222021220202002222020200002020000000202","d":0},{"a":"blank","c":[95],"m":"If row 10, column 6 had a star, region B would no longer have room for its stars. So it's crossed out.","g":"2222222121020022222222220002020000222222022200212002020222200222021220202002222020200002020000020202","d":0},{"a":"blank","c":[40],"m":"Squeeze: row 4 can only get stars from region(s) C, which fills those regions up. Their cells outside are crossed out.","g":"2222222121020022222222220002020000222222222200212002020222200222021220202002222020200002020000020202","d":0},{"a":"blank","c":[24,44,84],"m":"Squeeze: region(s) A, C, D, F, H fit entirely inside columns 1-5, so they use up all of its stars. Other cells there are crossed out.","g":"2222222121020022222222222002020000222222222220212002020222200222021220202002222020202002020000020202","d":0},{"a":"blank","c":[49],"m":"If row 5, column 10 had a star, region G would no longer have room for its stars. So it's crossed out.","g":"2222222121020022222222222002020000222222222220212202020222200222021220202002222020202002020000020202","d":0},{"a":"blank","c":[54],"m":"If row 6, column 5 had a star, region G would no longer have room for its stars. So it's crossed out.","g":"2222222121020022222222222002020000222222222220212202022222200222021220202002222020202002020000020202","d":0},{"a":"blank","c":[83],"m":"If row 9, column 4 had a star, column 5 would no longer have room for its stars. So it's crossed out.","g":"2222222121020022222222222002020000222222222220212202022222200222021220202002222020222002020000020202","d":0},{"a":"blank","c":[85],"m":"If row 9, column 6 had a star, column 5 would no longer have room for its stars. So it's crossed out.","g":"2222222121020022222222222002020000222222222220212202022222200222021220202002222020222202020000020202","d":0},{"a":"star","c":[45],"m":"Row 5 needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121020022222222222002020000222222222221212202022222200222021220202002222020222202020000020202","d":0},{"a":"star","c":[25],"m":"Column 6 needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121020022222222222122020000222222222221212202022222200222021220202002222020222202020000020202","d":0},{"a":"star","c":[28],"m":"Row 3 needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121020022222222222122120000222222222221212202022222200222021220202002222020222202020000020202","d":0},{"a":"blank","c":[60],"m":"If row 7, column 1 had a star, region D would no longer have room for its stars. So it's crossed out.","g":"2222222121020022222222222122120000222222222221212202022222202222021220202002222020222202020000020202","d":0},{"a":"blank","c":[73],"m":"If row 8, column 4 had a star, column 5 would no longer have room for its stars. So it's crossed out.","g":"2222222121020022222222222122120000222222222221212202022222202222021220202202222020222202020000020202","d":0},{"a":"blank","c":[81],"m":"If row 9, column 2 had a star, region D would no longer have room for its stars. So it's crossed out.","g":"2222222121020022222222222122120000222222222221212202022222202222021220202202222022222202020000020202","d":0},{"a":"blank","c":[93],"m":"If row 10, column 4 had a star, column 5 would no longer have room for its stars. So it's crossed out.","g":"2222222121020022222222222122120000222222222221212202022222202222021220202202222022222202020002020202","d":0},{"a":"star","c":[86,88],"m":"Row 9 needs 2 more star(s) and has exactly 2 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121020022222222222122120000222222222221212202022222202222021220202202222222222212120002022222","d":0},{"a":"star","c":[71,74],"m":"Row 8 needs 2 more star(s) and has exactly 2 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121020022222222222122120000222222222221212202022222202222221220212212222222222212120002022222","d":0},{"a":"star","c":[69],"m":"Row 7 needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121020022222222222122120000222222222221212202022222222222221221212212222222222212120002022222","d":0},{"a":"star","c":[50,52],"m":"Row 6 needs 2 more star(s) and has exactly 2 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121020022222222222122120000222222222221212212122222222222221221212212222222222212120002022222","d":0},{"a":"star","c":[13,33],"m":"Column 4 needs 2 more star(s) and has exactly 2 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121022122222222222122120021222222222221212212122222222222221221212212222222222212120002022222","d":0},{"a":"star","c":[10],"m":"Row 2 needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121122122222222222122120021222222222221212212122222222222221221212212222222222212120002022222","d":0},{"a":"blank","c":[30,90],"m":"Column 1 already has its 2 star(s), so the rest of it is crossed out.","g":"2222222121122122222222222122122021222222222221212212122222222222221221212212222222222212122002022222","d":0},{"a":"star","c":[31],"m":"Row 4 needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121122122222222222122122121222222222221212212122222222222221221212212222222222212122002022222","d":0},{"a":"blank","c":[91],"m":"Column 2 already has its 2 star(s), so the rest of it is crossed out.","g":"2222222121122122222222222122122121222222222221212212122222222222221221212212222222222212122202022222","d":0},{"a":"star","c":[92,94],"m":"Row 10 needs 2 more star(s) and has exactly 2 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"2222222121122122222222222122122121222222222221212212122222222222221221212212222222222212122212122222","d":0},{"a":"solved","c":[],"m":"Solved! Every row, column and region has exactly 2 star(s) and no stars touch.","g":"2222222121122122222222222122122121222222222221212212122222222222221221212212222222222212122212122222","d":0}]},"small":{"regions":["DDDAAA","DDAAAC","DDDFCC","DDDFCC","EEEFCC","BEEEEC"],"stars":1,"steps":[{"a":"start","c":[],"m":"Starting with an empty board.","g":"000000000000000000000000000000000000","d":0},{"a":"star","c":[30],"m":"Region B needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"000000000000000000000000220000120000","d":0},{"a":"blank","c":[32,33,34,35],"m":"Row 6 already has its 1 star(s), so the rest of it is crossed out.","g":"000000000000000000000000220000122222","d":0},{"a":"blank","c":[0,6,12,18],"m":"Column 1 already has its 1 star(s), so the rest of it is crossed out.","g":"200000200000200000200000220000122222","d":0},{"a":"star","c":[26],"m":"Region E needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"200000200000200000222200221200122222","d":0},{"a":"blank","c":[28,29],"m":"Row 5 already has its 1 star(s), so the rest of it is crossed out.","g":"200000200000200000222200221222122222","d":0},{"a":"blank","c":[2,8,14],"m":"Column 3 already has its 1 star(s), so the rest of it is crossed out.","g":"202000202000202000222200221222122222","d":0},{"a":"star","c":[15],"m":"Region F needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"202000202220202120222220221222122222","d":0},{"a":"blank","c":[13,17],"m":"Row 3 already has its 1 star(s), so the rest of it is crossed out.","g":"202000202220222122222220221222122222","d":0},{"a":"star","c":[23],"m":"Row 4 needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"202000202220222122222221221222122222","d":0},{"a":"blank","c":[3],"m":"Column 4 already has its 1 star(s), so the rest of it is crossed out.","g":"202200202220222122222221221222122222","d":0},{"a":"star","c":[4],"m":"Column 5 needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"202212202222222122222221221222122222","d":0},{"a":"blank","c":[1],"m":"Row 1 already has its 1 star(s), so the rest of it is crossed out.","g":"222212202222222122222221221222122222","d":0},{"a":"star","c":[7],"m":"Row 2 needs 1 more star(s) and has exactly 1 open cell(s) left, so they all get stars (and their neighbours are crossed out).","g":"222212212222222122222221221222122222","d":0},{"a":"solved","c":[],"m":"Solved! Every row, column and region has exactly 1 star(s) and no stars touch.","g":"222212212222222122222221221222122222","d":0}]}};
+
+const STAR = '<svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17.1 5.9 20.6l1.5-6.8L2.2 9.2l6.9-.7z"/></svg>';
+const CROSS = '<svg class="x" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+
+/* ── Tidy the solver's wording for display: "1 star(s)" → "1 star", British → American spelling. ── */
+function tidy(m) {
+  return m
+    .replace(/(\d+) (more |open )?(star|cell)\(s\)/g, (_, k, more, w) => `${k} ${more || ''}${w}${k === '1' ? '' : 's'}`)
+    .replace(/open cells? left, so they all get stars/, s => s.startsWith('open cell left') ? 'open cell left, so it gets a star' : s)
+    .replace(/it gets a star \(and their neighbou?rs/, 'it gets a star (and its neighbors')
+    .replace(/region\(s\) ([A-J]) fit (entirely inside \w+ \d+), so they use/, 'region $1 fits $2, so it uses').replace(/region\(s\) /, 'regions ')
+    .replace(/(rows|columns) (\d+)-(\d+), so they use up all of its/, '$1 $2–$3, so they use up all of their')
+    .replace(/neighbours/g, 'neighbors').replace(/colour/g, 'color');
+}
+
+/* ── Four tones for the regions, chosen so that touching regions never share one (a greedy map coloring). ── */
+function tones(reg) {
+  const n = reg.length, letters = [...new Set(reg.join(''))].sort(), adj = {};
+  letters.forEach(l => adj[l] = new Set());
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+    const a = reg[r][c];
+    if (c + 1 < n && reg[r][c + 1] !== a) { adj[a].add(reg[r][c + 1]); adj[reg[r][c + 1]].add(a); }
+    if (r + 1 < n && reg[r + 1][c] !== a) { adj[a].add(reg[r + 1][c]); adj[reg[r + 1][c]].add(a); }
+  }
+  const col = {};
+  letters.sort((x, y) => adj[y].size - adj[x].size).forEach(l => { let k = 0; while ([...adj[l]].some(m => col[m] === k)) k++; col[l] = k; });
+  return col;
+}
+
+let P, opt = 'a', step = 0, timer = null, mine = [], hintsUsed = 0;
+const $ = id => document.getElementById(id);
+
+function build() {
+  const reg = P.regions, n = reg.length, col = tones(reg), seen = new Set();
+  const b = $('board'); b.style.setProperty('--n', n); b.classList.toggle('small', n < 10); b.classList.toggle('play', opt !== 'a');
+  let s = '';
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+    const L = reg[r][c], cls = ['cell'];
+    if (r > 0 && reg[r - 1][c] !== L) cls.push('wt');
+    if (c > 0 && reg[r][c - 1] !== L) cls.push('wl');
+    const lab = seen.has(L) ? '' : `<span class="lab">${L}</span>`; seen.add(L);
+    s += `<button type="button" class="${cls.join(' ')}" data-i="${r * n + c}" data-c="${col[L]}" ${opt === 'a' ? 'tabindex="-1"' : ''} aria-label="Row ${r + 1}, column ${c + 1}, region ${L}">${lab}<span class="mk"></span></button>`;
+  }
+  b.innerHTML = s;
+  if (opt !== 'a') b.querySelectorAll('.cell').forEach(el => el.onclick = () => tap(+el.dataset.i));
+  $('rules').innerHTML = `The rules: put ${P.stars === 1 ? 'one star' : 'two stars'} in every row, every column and every outlined region, and no two stars may touch, not even at a corner.`;
+}
+
+/* ── Show a board: a string with one digit per cell, 0 open, 1 star, 2 crossed out. ── */
+function show(g, fresh = [], bad = []) {
+  document.querySelectorAll('#board .cell').forEach((el, i) => {
+    const v = g[i], mk = el.querySelector('.mk'), want = v === '1' ? STAR : v === '2' ? CROSS : '';
+    if (mk.dataset.v !== v) { mk.innerHTML = want; mk.dataset.v = v; if (v !== '0' && fresh.includes(i)) { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); } }
+    el.classList.toggle('new', fresh.includes(i));
+    el.classList.toggle('bad', bad.includes(i));
+  });
+}
+
+/* ── Option A: replay the solver's steps. ── */
+function watchUI() {
+  $('btns').innerHTML = '<button class="sb pb" id="play" type="button">Solve</button><button class="sb" id="one" type="button">One Step</button><button class="sb" id="rst" type="button">Start Over</button>';
+  $('play').onclick = () => timer ? pause() : run();
+  $('one').onclick = () => { pause(); advance(); };
+  $('rst').onclick = () => { pause(); step = 0; render(); };
+  $('legend').textContent = 'The outlined cells are what the latest step changed.';
+  render();
+}
+function render() {
+  const S = P.steps[step], total = P.steps.length - 1;
+  show(S.g, S.c);
+  $('msg').textContent = step === 0 ? 'The board starts empty. Press Solve to watch the solver work it out, or go one step at a time.' : tidy(S.m);
+  $('count').textContent = step === 0 ? `${total} steps to the answer, no guesses` : `Step ${step} of ${total}`;
+  $('one').disabled = step === total;
+  $('play').disabled = step === total;
+}
+function advance() { if (step < P.steps.length - 1) { step++; render(); } if (step === P.steps.length - 1) pause(); }
+function run() { if (step === P.steps.length - 1) return; $('play').textContent = 'Pause'; advance(); timer = setInterval(advance, 420); }
+function pause() { clearInterval(timer); timer = null; const p = $('play'); if (p) p.textContent = step && step < P.steps.length - 1 ? 'Resume' : 'Solve'; }
+
+/* ── Options B and C: play it yourself. A tap cycles open → star → cross → open. "Show Me a Step" gives the solver's
+   next step that the board doesn't already show, with its reason; it first points out any mark that can't be right. ── */
+function playUI() {
+  mine = Array(P.regions.length ** 2).fill('0'); hintsUsed = 0;
+  $('btns').innerHTML = '<button class="sb pb" id="hint" type="button">Show Me a Step</button><button class="sb" id="rst" type="button">Start Over</button>';
+  $('hint').onclick = hint;
+  $('rst').onclick = () => { mine.fill('0'); hintsUsed = 0; check(); $('msg').textContent = 'Tap a cell once for a star, twice to cross it out, three times to clear it.'; };
+  $('legend').textContent = 'Stuck? The solver will show you its next step and the reason for it.';
+  check();
+  $('msg').textContent = 'Tap a cell once for a star, twice to cross it out, three times to clear it.';
+}
+function tap(i) { mine[i] = mine[i] === '0' ? '1' : mine[i] === '1' ? '2' : '0'; check([i]); }
+function problems() {
+  const n = P.regions.length, k = P.stars, bad = new Set(), stars = [];
+  mine.forEach((v, i) => v === '1' && stars.push(i));
+  for (const a of stars) for (const b of stars) if (a < b && Math.abs(Math.floor(a / n) - Math.floor(b / n)) <= 1 && Math.abs(a % n - b % n) <= 1) { bad.add(a); bad.add(b); }
+  const units = {};
+  stars.forEach(i => { const r = Math.floor(i / n), c = i % n; ['r' + r, 'c' + c, 'g' + P.regions[r][c]].forEach(u => (units[u] = units[u] || []).push(i)); });
+  Object.values(units).forEach(l => l.length > k && l.forEach(i => bad.add(i)));
+  return [...bad];
+}
+function check(fresh = []) {
+  const bad = problems(), n = P.regions.length, solved = mine.filter(v => v === '1').length === n * P.stars && !bad.length;
+  show(mine.join(''), fresh, bad);
+  $('count').textContent = `${mine.filter(v => v === '1').length} of ${n * P.stars} stars placed` + (hintsUsed ? ` · ${hintsUsed} step${hintsUsed > 1 ? 's' : ''} from the solver` : '');
+  if (bad.length) $('msg').textContent = 'The outlined stars break a rule: two touch, or a row, column or region has too many.';
+  if (solved) { $('msg').textContent = hintsUsed ? 'Solved, with a little help. Every row, column and region has its stars, and none touch.' : 'Solved, on your own. Every row, column and region has its stars, and none touch.'; $('hint').disabled = true; }
+  else if ($('hint')) $('hint').disabled = false;
+}
+function hint() {
+  const sol = P.steps[P.steps.length - 1].g, n = P.regions.length;
+  const where = i => `row ${Math.floor(i / n) + 1}, column ${i % n + 1}`;
+  const wrongStar = mine.findIndex((v, i) => v === '1' && sol[i] !== '1');
+  if (wrongStar >= 0) { show(mine.join(''), [], [wrongStar]); $('msg').textContent = `The star at ${where(wrongStar)} can't be part of the answer. Tap it to cross it out.`; return; }
+  const wrongX = mine.findIndex((v, i) => v === '2' && sol[i] === '1');
+  if (wrongX >= 0) { show(mine.join(''), [], [wrongX]); $('msg').textContent = `${where(wrongX)[0].toUpperCase() + where(wrongX).slice(1)} needs a star, so that cross is a mistake.`; return; }
+  for (const S of P.steps.slice(1, -1)) {
+    const missing = S.c.filter(i => mine[i] !== S.g[i] && S.g[i] !== '0');
+    // A star step also crosses out the star's neighbors; count those as part of the step.
+    const extra = S.a === 'star' ? [...mine.keys()].filter(i => S.g[i] === '2' && mine[i] === '0' && S.c.some(j => Math.abs(Math.floor(i / n) - Math.floor(j / n)) <= 1 && Math.abs(i % n - j % n) <= 1)) : [];
+    const todo = [...new Set([...missing, ...extra])];
+    if (!todo.length) continue;
+    todo.forEach(i => mine[i] = S.g[i]);
+    hintsUsed++; check(todo); $('msg').textContent = tidy(S.m); return;
+  }
+}
+
+function setOpt(o) {
+  pause(); opt = o; step = 0;
+  document.querySelectorAll('[data-o]').forEach(b => b.setAttribute('aria-pressed', b.dataset.o === o));
+  P = o === 'b' ? DATA.small : DATA.easy;
+  build();
+  o === 'a' ? watchUI() : playUI();
+}
+document.querySelectorAll('[data-o]').forEach(b => b.onclick = () => setOpt(b.dataset.o));
+document.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { document.documentElement.dataset.theme = b.dataset.t; document.querySelectorAll('[data-t]').forEach(x => x.setAttribute('aria-pressed', x === b)); });
+
+// Mockup only: ?o=a&t=day&s=30 (a step to show), or ?o=c&h=3 (press "Show Me a Step" 3 times), for screenshots.
+const u = new URLSearchParams(location.search);
+if (u.get('t')) document.querySelector(`[data-t="${u.get('t')}"]`).click();
+setOpt(u.get('o') || 'a');
+if (u.get('s')) { step = +u.get('s'); render(); }
+if (u.get('h')) for (let k = 0; k < +u.get('h'); k++) hint();
+</script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neuron Diagram (Projects mockup)</title>
+<!-- APPROVED (2026-10-25): option B, firing in lilac. The other options stay here for comparison. -->
+<!-- ROUND 1 (2026-10-25): the Projects live piece for Neuron Diagram Maker. Three options to compare:
+     A One Diagram, B Three Classic Cases, C Diagram and Its LaTeX. Tap a neuron to fire it; signals travel along
+     the arrows, and a line ending in a dot blocks the neuron it reaches. The diagram is the editor's own example
+     (Lewis-style early preemption); the LaTeX in C uses the editor's export format. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root { --bg:#151a21; --ac:#C9ACDE; --ink:#F2EFE8; --mu:#A19E96; --card:#1d232c; --card2:#2a3240; --on:#151a21; --gray:#8d8a84; --ease-out:cubic-bezier(.23,1,.32,1); }
+[data-theme="day"] { --bg:#F3EBDD; --ac:#6C4487; --ink:#1f1a14; --mu:#5c5348; --card:#EADFCC; --card2:#D6C6AC; --on:#F3EBDD; --gray:#b3a994; }
+*, *::before, *::after { box-sizing:border-box; }
+[hidden] { display:none !important; }
+body { margin:0; padding:24px clamp(20px,5vw,64px) 64px; background:var(--bg); color:var(--ink); font-family:'Newsreader',Georgia,serif; font-weight:420; font-size:18.5px; line-height:1.45; }
+.bar { display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; font:400 13px 'IBM Plex Sans',sans-serif; color:var(--mu); margin:0 0 40px; }
+.bar .grp { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.bar button { font:500 13px/1 'IBM Plex Sans',sans-serif; background:var(--card2); color:var(--ink); border:0; border-radius:999px; padding:9px 14px; cursor:pointer; transition:transform .14s var(--ease-out); }
+.bar button:active { transform:scale(.97); }
+.bar button[aria-pressed="true"] { background:var(--ac); color:var(--on); }
+
+/* The project block, as it would sit on the Projects page: text on the left, the live piece on the right */
+.proj { display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:28px clamp(32px,5vw,80px); align-items:start; max-width:1240px; }
+.proj h2 { font-family:'DM Serif Display',serif; font-weight:400; font-size:clamp(32px,3.4vw,46px); line-height:1.04; margin:0 0 16px; }
+.proj p { margin:0 0 14px; max-width:36ch; }
+.facts { font:400 14px/1.5 'IBM Plex Sans',sans-serif; color:var(--mu); margin:0 0 22px; }
+.sb { display:inline-block; font:500 14.5px/1 'IBM Plex Sans',sans-serif; background:var(--card2); color:var(--ink); text-decoration:none; border:0; border-radius:999px; padding:14px 24px; cursor:pointer; transition:transform .16s var(--ease-out); }
+.sb:active { transform:scale(.97); }
+.pb { background:var(--ac); color:var(--on); }
+
+/* The piece */
+.piece { background:var(--card); border-radius:18px; padding:clamp(18px,2.4vw,32px); }
+.tabs { display:flex; gap:6px; margin:0 0 10px; flex-wrap:wrap; }
+.tabs button { font:500 14px/1 'IBM Plex Sans',sans-serif; background:transparent; color:var(--mu); border:0; border-radius:999px; padding:10px 14px; cursor:pointer; transition:color .18s ease, transform .14s var(--ease-out); }
+.tabs button[aria-selected="true"] { background:var(--card2); color:var(--ink); }
+.tabs button:active { transform:scale(.97); }
+.stage { display:grid; gap:20px; }
+.stage.split svg.nd { max-width:420px; }
+svg.nd { width:100%; height:auto; display:block; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+.nd .edge { stroke:var(--ink); stroke-width:1.6; fill:none; }
+.nd .head { fill:var(--ink); }
+.nd .neuron { cursor:pointer; }
+.nd .neuron circle.body { fill:var(--bg); stroke:var(--ink); stroke-width:1.6; transition:fill .22s ease; }
+.nd .neuron.on circle.body { fill:var(--fire); }
+.nd .neuron.on text { fill:var(--on-fire); }
+.nd .neuron text { font-family:'Newsreader',Georgia,serif; font-style:italic; font-size:22px; fill:var(--ink); text-anchor:middle; dominant-baseline:central; pointer-events:none; transition:fill .22s ease; }
+.nd .neuron .ring { fill:none; stroke:var(--ac); stroke-width:1.6; stroke-dasharray:3 4; opacity:0; transition:opacity .2s ease; }
+.nd .neuron.src .ring { opacity:1; }
+.nd .neuron .pop { transform-box:fill-box; transform-origin:center; }
+.nd .neuron.blocked circle.body { stroke:var(--mu); stroke-dasharray:4 3; }
+.nd .pulse { fill:var(--ac); }
+.nd .hit { fill:transparent; }
+@media (hover:hover) and (pointer:fine) { .nd .neuron:hover circle.body { stroke:var(--ac); } }
+:root { --fire:var(--ac); --on-fire:var(--on); }
+[data-shade="gray"] { --fire:var(--gray); --on-fire:var(--ink); }
+[data-theme="day"][data-shade="gray"] { --on-fire:var(--ink); }
+.cap { font-size:17px; line-height:1.45; margin:0; min-height:4.4em; text-wrap:pretty; }
+.cap i { font-style:italic; }
+.cap b { font-weight:500; }
+.ctl { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:14px; }
+.ctl .note { font:400 13px/1.4 'IBM Plex Sans',sans-serif; color:var(--mu); }
+pre.tikz { margin:0; font:400 12.5px/1.55 ui-monospace,'SF Mono',Menlo,monospace; color:var(--mu); background:var(--bg); border-radius:12px; padding:14px 16px; overflow-x:auto; white-space:pre; }
+pre.tikz .chg { color:var(--ac); transition:color .3s ease; }
+.tikz-cap { font:400 13px/1.4 'IBM Plex Sans',sans-serif; color:var(--mu); margin:8px 0 0; }
+@media (max-width:860px) { .proj { grid-template-columns:minmax(0,1fr); } }
+@media (pointer:coarse) { .tabs button, .sb { min-height:44px; } }
+@media (prefers-reduced-motion:reduce) { .nd .neuron circle.body, .nd .neuron text { transition:none; } }
+</style>
+</head>
+<body>
+
+<div class="bar" role="group" aria-label="Mockup controls">
+  <span class="grp">Option
+    <button data-o="a" aria-pressed="true">A · One Diagram</button>
+    <button data-o="b" aria-pressed="false">B · Three Classic Cases</button>
+    <button data-o="c" aria-pressed="false">C · Diagram and Its LaTeX</button>
+  </span>
+  <span class="grp">Firing shade
+    <button data-s="accent" aria-pressed="true">Lilac</button>
+    <button data-s="gray" aria-pressed="false">Gray, as in Papers</button>
+  </span>
+  <span class="grp">Mode
+    <button data-t="night" aria-pressed="true">Night</button>
+    <button data-t="day" aria-pressed="false">Day</button>
+  </span>
+</div>
+
+<section class="proj" aria-labelledby="nd-title">
+  <div>
+    <h2 id="nd-title">Neuron Diagram Maker</h2>
+    <p>A point-and-click editor for the neuron diagrams used in the philosophy of causation. Draw neurons and connections, then export TikZ code for a LaTeX document, or an image for Word or Google Docs.</p>
+    <p class="facts">Runs in any browser, on a computer, iPad or phone · Works offline · No account</p>
+    <a class="sb pb" href="https://carsonmit.github.io/Widgets-and-Miscellaneous/NeuronDiagrams/">Open the Editor →</a>
+  </div>
+  <div class="piece">
+    <div class="tabs" role="tablist" aria-label="Cases" hidden></div>
+    <div class="stage" id="stage">
+      <div><svg class="nd" id="nd" viewBox="0 0 360 244" role="img" aria-label="Neuron diagram"></svg></div>
+      <div id="codebox" hidden><pre class="tikz" id="tikz"></pre><p class="tikz-cap">What the editor's Export LaTeX gives for these neurons (the connections are left out here).</p></div>
+    </div>
+    <p class="cap" id="cap" aria-live="polite"></p>
+    <div class="ctl"><button class="sb" id="reset" type="button">Start Over</button><span class="note">Tap a neuron to fire it. Tap again to take it back.</span></div>
+  </div>
+</section>
+
+<script>
+/* ── The cases. Coordinates are in the SVG's units (the editor's example uses 120-unit spacing; this is the same shape).
+   Edges: [from, to, kind], kind 'stim' (arrow: passes a signal on) or 'inhib' (dot: stops the neuron it reaches). ── */
+const CASES = {
+  pre: { tab: 'Preemption',
+    n: { c: [52, 60], d: [180, 60], e: [308, 132], a: [52, 188], b: [180, 188] },
+    e: [['c','d','stim'], ['d','e','stim'], ['a','b','stim'], ['b','e','stim'], ['c','b','inhib']],
+    start: [],
+    say(src) {
+      if (same(src, ['c','a'])) return '<i>c</i> and <i>a</i> both fire, and <i>e</i> fires, but only by way of <i>c</i>: <i>c</i> stops <i>b</i> in time. So <i>c</i> caused <i>e</i>, even though <i>e</i> would have fired without <i>c</i>. Philosophers call this <b>early preemption</b>.';
+      if (same(src, ['c'])) return '<i>c</i> fires. Its signal reaches <i>e</i> through <i>d</i>, and its other line, the one ending in a dot, stops <i>b</i>. Now tap <i>a</i> too.';
+      if (same(src, ['a'])) return '<i>a</i> fires, so <i>b</i> fires, so <i>e</i> fires. Now tap <i>c</i> too.';
+    } },
+  over: { tab: 'Overdetermination',
+    n: { c: [60, 62], a: [60, 186], e: [270, 124] },
+    e: [['c','e','stim'], ['a','e','stim']],
+    start: [],
+    say(src) {
+      if (same(src, ['c','a'])) return 'Both fire, and either one alone would have made <i>e</i> fire. Is each a cause of <i>e</i>, or neither? This is <b>overdetermination</b>, a classic puzzle for the idea that a cause is something the effect depends on.';
+      if (src.length === 1 && (src[0] === 'c' || src[0] === 'a')) return `<i>${src[0]}</i> fires, and that is enough for <i>e</i>. Now tap the other one too.`;
+    } },
+  dbl: { tab: 'Double Prevention',
+    n: { a: [52, 44], d: [180, 44], c: [52, 122], b: [52, 200], f: [180, 200], e: [308, 122] },
+    e: [['a','d','stim'], ['d','e','inhib'], ['c','d','inhib'], ['b','f','stim'], ['f','e','stim']],
+    start: ['a','b'],
+    say(src) {
+      if (same(src, ['a','b','c'])) return '<i>c</i> stops <i>d</i>, so nothing stops <i>e</i>. <i>c</i> prevented a preventer, and <i>e</i> fires because of it, though no signal ran from <i>c</i> to <i>e</i>. This is <b>double prevention</b>.';
+      if (same(src, ['a','b'])) return '<i>a</i> fires <i>d</i>, and <i>d</i> stops <i>e</i>, so <i>b</i>\'s signal through <i>f</i> goes nowhere. Now tap <i>c</i>.';
+    } },
+};
+const same = (a, b) => a.length === b.length && b.every(x => a.includes(x));
+const R = 22, TICK = 460;
+
+let opt = 'a', caseKey = 'pre', src = [], timer = [], fired = {};
+const svg = document.getElementById('nd'), cap = document.getElementById('cap');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ── Run the diagram: the neurons you tapped fire at time 0. A neuron fires at time t if a neuron with an arrow
+   into it fired at time t − 1 and no neuron with a dot into it did. Fired neurons stay shaded. ── */
+function simulate(C, src) {
+  const at = {}; src.forEach(k => at[k] = 0);
+  const blocked = new Set();
+  for (let t = 1; t <= Object.keys(C.n).length; t++) {
+    for (const k of Object.keys(C.n)) {
+      if (k in at) continue;
+      const stim = C.e.some(([f, to, kind]) => to === k && kind === 'stim' && at[f] === t - 1);
+      const inh = C.e.some(([f, to, kind]) => to === k && kind === 'inhib' && at[f] === t - 1);
+      if (stim && !inh) at[k] = t; else if (stim && inh) blocked.add(k);
+    }
+  }
+  return { at, blocked };
+}
+
+/* ── Drawing ── */
+function edgeGeom(C, [f, t, kind]) {
+  const [x1, y1] = C.n[f], [x2, y2] = C.n[t];
+  const L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+  const S = [x1 + ux * R, y1 + uy * R], E = [x2 - ux * R, y2 - uy * R];
+  return { S, E, ux, uy, kind };
+}
+function draw() {
+  const C = CASES[caseKey];
+  let s = '';
+  C.e.forEach((ed, i) => {
+    const g = edgeGeom(C, ed);
+    if (g.kind === 'stim') {
+      const bx = g.E[0] - g.ux * 13, by = g.E[1] - g.uy * 13, px = -g.uy * 5.5, py = g.ux * 5.5, mx = g.E[0] - g.ux * 9, my = g.E[1] - g.uy * 9;
+      s += `<line class="edge" x1="${g.S[0]}" y1="${g.S[1]}" x2="${mx}" y2="${my}"/>`;
+      s += `<path class="head" d="M${g.E[0]} ${g.E[1]} L${bx + px} ${by + py} L${mx} ${my} L${bx - px} ${by - py} Z"/>`;
+    } else {
+      const cx = g.E[0] - g.ux * 4, cy = g.E[1] - g.uy * 4;
+      s += `<line class="edge" x1="${g.S[0]}" y1="${g.S[1]}" x2="${cx}" y2="${cy}"/><circle class="head" cx="${cx}" cy="${cy}" r="4.5"/>`;
+    }
+  });
+  s += '<g id="pulses"></g>';
+  for (const [k, [x, y]] of Object.entries(C.n)) {
+    s += `<g class="neuron" data-k="${k}" role="button" tabindex="0" aria-label="Neuron ${k}"><g class="pop"><circle class="ring" cx="${x}" cy="${y}" r="${R + 6}"/><circle class="body" cx="${x}" cy="${y}" r="${R}"/><text x="${x}" y="${y}">${k}</text></g><circle class="hit" cx="${x}" cy="${y}" r="${R + 10}"/></g>`;
+  }
+  svg.innerHTML = s;
+  svg.querySelectorAll('.neuron').forEach(g => {
+    const go = () => toggle(g.dataset.k);
+    g.addEventListener('click', go);
+    g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+  });
+}
+
+/* ── Play the run one tick at a time: neurons light up, and a small dot travels along each line that carries a signal. ── */
+function play() {
+  timer.forEach(clearTimeout); timer = [];
+  const C = CASES[caseKey], { at, blocked } = simulate(C, src);
+  svg.querySelectorAll('.neuron').forEach(g => { g.classList.remove('on', 'blocked'); g.classList.toggle('src', src.includes(g.dataset.k)); });
+  svg.querySelector('#pulses').innerHTML = '';
+  const last = Math.max(0, ...Object.values(at));
+  const step = reduce ? 0 : TICK;
+  for (let t = 0; t <= last; t++) {
+    timer.push(setTimeout(() => {
+      for (const [k, tt] of Object.entries(at)) if (tt === t) light(k);
+      if (!reduce) C.e.forEach(ed => { if (at[ed[0]] === t) pulse(C, ed); });
+      if (t === last) timer.push(setTimeout(() => blocked.forEach(k => svg.querySelector(`[data-k="${k}"]`).classList.add('blocked')), step));
+    }, t * step));
+  }
+  if (!src.length) blocked.forEach(() => {});
+  fired = at;
+  updateCaption(C, at, blocked);
+  updateTikz(C, at);
+}
+function light(k) {
+  const g = svg.querySelector(`[data-k="${k}"]`); g.classList.add('on');
+  if (!reduce) g.querySelector('.pop').animate([{ transform: 'scale(1)' }, { transform: 'scale(1.08)' }, { transform: 'scale(1)' }], { duration: 260, easing: 'cubic-bezier(.23,1,.32,1)' });
+}
+function pulse(C, ed) {
+  const g = edgeGeom(C, ed), dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  dot.setAttribute('r', 4); dot.setAttribute('class', 'pulse'); dot.setAttribute('cx', 0); dot.setAttribute('cy', 0);
+  svg.querySelector('#pulses').appendChild(dot);
+  const a = dot.animate([{ transform: `translate(${g.S[0]}px,${g.S[1]}px)`, opacity: 1 }, { transform: `translate(${g.E[0]}px,${g.E[1]}px)`, opacity: 1 }], { duration: TICK, easing: 'linear' });
+  a.onfinish = () => dot.remove();
+}
+function toggle(k) { src = src.includes(k) ? src.filter(x => x !== k) : [...src, k]; play(); }
+
+function updateCaption(C, at, blocked) {
+  const special = C.say(src);
+  if (special) { cap.innerHTML = special; return; }
+  if (!src.length) { cap.innerHTML = 'Tap a neuron to fire it. An arrow passes the signal on; a line ending in a dot stops the neuron it reaches.'; return; }
+  const order = Object.keys(at).sort((x, y) => at[x] - at[y]);
+  let s = order.map(k => `<i>${k}</i>`).join(', ') + (order.length === 1 ? ' fires.' : ' fire.');
+  if (blocked.size) s += ' ' + [...blocked].map(k => `<i>${k}</i>`).join(' and ') + ' is stopped.';
+  cap.innerHTML = s;
+}
+
+/* ── Option C: the editor's LaTeX for the neurons. 40 units = 1 cm, y flipped, radius 0.45 cm, firing fill gray!50. ── */
+function updateTikz(C, at) {
+  if (opt !== 'c') return;
+  const [ox, oy] = Object.values(C.n)[0], f = v => (Math.round(v * 1000) / 1000).toString();
+  const sc = 120 / 128 / 40; // this drawing's spacing, mapped onto the editor's 3 cm grid and rounded to half centimeters
+  const lines = ['\\begin{tikzpicture}', '  % connections (left out)', '  % neurons'];
+  for (const [k, [x, y]] of Object.entries(C.n)) {
+    const on = k in at, fill = on ? '<span class="chg">gray!50</span>' : 'white';
+    lines.push(`  \\filldraw[fill=${fill}, line width=0.8pt] (${f(Math.round((x - ox) * sc * 2) / 2)},${f(-Math.round((y - oy) * sc * 2) / 2)}) circle (0.45);`);
+  }
+  lines.push('\\end{tikzpicture}');
+  document.getElementById('tikz').innerHTML = lines.join('\n');
+}
+
+function setCase(k) {
+  caseKey = k; src = [...CASES[k].start];
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.k === k));
+  draw(); play();
+}
+function setOpt(o) {
+  opt = o;
+  document.querySelectorAll('[data-o]').forEach(b => b.setAttribute('aria-pressed', b.dataset.o === o));
+  const tabs = document.querySelector('.tabs');
+  tabs.hidden = o !== 'b';
+  document.getElementById('codebox').hidden = o !== 'c';
+  document.getElementById('stage').classList.toggle('split', o === 'c');
+  setCase(o === 'b' ? caseKey : 'pre');
+}
+const tabs = document.querySelector('.tabs');
+for (const [k, C] of Object.entries(CASES)) {
+  const b = document.createElement('button'); b.type = 'button'; b.role = 'tab'; b.dataset.k = k; b.textContent = C.tab;
+  b.onclick = () => setCase(k); tabs.appendChild(b);
+}
+document.getElementById('reset').onclick = () => { src = [...CASES[caseKey].start]; play(); };
+document.querySelectorAll('[data-o]').forEach(b => b.onclick = () => setOpt(b.dataset.o));
+document.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { document.documentElement.dataset.theme = b.dataset.t; document.querySelectorAll('[data-t]').forEach(x => x.setAttribute('aria-pressed', x === b)); });
+document.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { document.documentElement.dataset.shade = b.dataset.s; document.querySelectorAll('[data-s]').forEach(x => x.setAttribute('aria-pressed', x === b)); });
+
+// Mockup only: ?o=b&t=day&case=dbl&src=a,b,c&shade=gray opens a given state (for screenshots).
+const u = new URLSearchParams(location.search);
+if (u.get('t')) document.querySelector(`[data-t="${u.get('t')}"]`).click();
+if (u.get('shade')) document.querySelector(`[data-s="${u.get('shade')}"]`).click();
+setOpt(u.get('o') || 'a');
+if (u.get('case')) setCase(u.get('case'));
+if (u.get('src')) { src = u.get('src').split(','); play(); }
+</script>
+</body>
+</html>
