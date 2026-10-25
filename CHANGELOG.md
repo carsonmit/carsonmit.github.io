@@ -4,6 +4,9 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+### Added
+- A browser-tab icon (favicon): the M sitting inside the open C, drawn with the same strokes as the Home page's spinning circles. Lilac on charcoal in a dark browser, plum on cream in a light one, plus an iPhone home-screen icon. This also fixes the site's only console error (the missing icon). Mockup: `design/mockups/favicon.html`.
+
 ## [0.11.0] - 2026-10-25
 
 The Contact page is built: every way to reach Carson, a message form that emails him, and the two booking cards.

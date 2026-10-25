@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- The M inside the open C (the strokes the Home page's circles draw). Night colors in a dark browser, day colors in a light one. -->
+  <style>
+    .bg { fill: #F3EBDD; } .mk { stroke: #6C4487; }
+    @media (prefers-color-scheme: dark) { .bg { fill: #151a21; } .mk { stroke: #C9ACDE; } }
+  </style>
+  <rect class="bg" width="64" height="64" rx="14"/>
+  <g class="mk" fill="none" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M48.4 16.8A23 23 0 1 0 48.4 47.2"/>
+    <path d="M23 41V23L32.5 35L42 23V41"/>
+  </g>
+</svg>

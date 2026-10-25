@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: Favicon</title>
+<script>try { if (localStorage.getItem('theme') === 'day') document.documentElement.dataset.theme = 'day'; } catch (e) {} document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../styles.css?v=2026-10-25-3r">
+<style>
+  /* Mockup only: favicon options, each shown at real size in a dark and a light browser. */
+  .fv-intro { font: italic 18px/1.45 var(--serif); color: var(--mu); max-width: 60ch; margin: 6px 0 34px; }
+  .fv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 22px; }
+  .fv-card { background: var(--card); border-radius: 18px; padding: 22px; }
+  .fv-card h2 { font: 400 26px/1.1 var(--serif-display); margin: 0 0 4px; color: var(--ink); }
+  .fv-card p { font: 400 14px/1.45 var(--sans); color: var(--mu); margin: 0 0 18px; }
+  /* Fake browser tab strips: the favicon's colors follow the browser's own theme. */
+  .tabs { border-radius: 10px 10px 0 0; padding: 7px 8px 0; display: flex; gap: 4px; margin-bottom: 10px; }
+  .tabs.dk { background: #202124; } .tabs.lt { background: #dee1e6; }
+  .tab { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px 8px 0 0; font: 400 12px/1 system-ui, sans-serif; white-space: nowrap; overflow: hidden; max-width: 210px; }
+  .dk .tab.on { background: #35363a; color: #e8eaed; } .lt .tab.on { background: #fff; color: #202124; }
+  .dk .tab.off { color: #9aa0a6; } .lt .tab.off { color: #5f6368; }
+  .tab .ph { width: 16px; height: 16px; border-radius: 50%; background: currentColor; opacity: .35; flex: none; }
+  .tab svg { flex: none; }
+  .sizes { display: flex; align-items: flex-end; gap: 18px; margin-top: 18px; }
+  .sizes figure { margin: 0; text-align: center; font: 400 12px var(--sans); color: var(--mu); }
+  .sizes figcaption { margin-top: 6px; }
+  .home { border-radius: 40px; overflow: hidden; display: block; } /* iPhone rounds the home-screen icon itself */
+</style>
+</head>
+<body>
+<div class="wrap" style="padding: 28px var(--margin) 80px;">
+  <div class="mk-bar" style="display:flex;gap:10px;align-items:center;font:500 14px var(--sans);color:var(--mu);">
+    Mockup: the browser-tab icon
+    <button type="button" id="mode-t" style="margin-left:auto;font:500 14px/1 var(--sans);color:var(--mu);background:transparent;border:1.5px solid var(--track);border-radius:999px;padding:10px 14px;cursor:pointer;">Switch Day/Night</button>
+  </div>
+  <h1 style="font: 400 clamp(40px, 6vw, 64px)/1.05 var(--serif-display); margin: 26px 0 0;">Favicon Options</h1>
+  <p class="fv-intro">Each icon is shown at its real size in a dark browser and a light browser (the icon switches with the browser's own theme), then larger: 32px for bookmarks, and 180px as the icon an iPhone puts on the home screen.</p>
+  <div class="fv-grid" id="grid"></div>
+</div>
+<script>
+  // Colors: night = lilac on charcoal, day = plum on cream (DESIGN.md).
+  const NIGHT = { bg: '#151a21', ac: '#C9ACDE' }, DAY = { bg: '#F3EBDD', ac: '#6C4487' };
+  const opts = [
+    { id: 'A', name: 'A · CM in DM Serif', note: 'The headline face, as on every page title. Reads as a monogram.',
+      art: c => `<rect width="64" height="64" rx="14" fill="${c.bg}"/><text x="32" y="44.5" text-anchor="middle" font-family="DM Serif Display" font-size="33" letter-spacing="-1" fill="${c.ac}">CM</text>` },
+    { id: 'B', name: 'B · The Hero’s C and M', note: 'The same strokes the spinning circles draw on Home, side by side.',
+      art: c => `<rect width="64" height="64" rx="14" fill="${c.bg}"/><g fill="none" stroke="${c.ac}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M27.2 23.8A12 12 0 1 0 27.2 40.2"/><path d="M35 44.5V19.5L45 35L55 19.5V44.5"/></g>` },
+    { id: 'C', name: 'C · M Inside the C', note: 'The hero strokes as one mark: the M sits in the open C. Bigger letters at 16px.',
+      art: c => `<rect width="64" height="64" rx="14" fill="${c.bg}"/><g fill="none" stroke="${c.ac}" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"><path d="M48.4 16.8A23 23 0 1 0 48.4 47.2"/><path d="M23 41V23L32.5 35L42 23V41"/></g>` },
+    { id: 'D', name: 'D · The Pen Lifts', note: 'Just the C, with the hollow pen dot from the hero drawing. Quietest, least literal.',
+      art: c => `<rect width="64" height="64" rx="14" fill="${c.bg}"/><path d="M46 19A19 19 0 1 0 46 45" fill="none" stroke="${c.ac}" stroke-width="5.5" stroke-linecap="round"/><circle cx="46" cy="45" r="5.2" fill="${c.bg}" stroke="${c.ac}" stroke-width="3.2"/>` },
+  ];
+  const svg = (o, c, px) => `<svg width="${px}" height="${px}" viewBox="0 0 64 64" aria-hidden="true">${o.art(c)}</svg>`;
+  const tab = (o, c) => `<span class="tab on">${svg(o, c, 16)}Carson Mitchell, Math Tutor</span><span class="tab off"><span class="ph"></span>Inbox</span>`;
+  document.getElementById('grid').innerHTML = opts.map(o => `
+    <section class="fv-card">
+      <h2>${o.name}</h2><p>${o.note}</p>
+      <div class="tabs dk">${tab(o, NIGHT)}</div>
+      <div class="tabs lt">${tab(o, DAY)}</div>
+      <div class="sizes">
+        <figure>${svg(o, NIGHT, 32)}<figcaption>32</figcaption></figure>
+        <figure>${svg(o, DAY, 32)}<figcaption>32</figcaption></figure>
+        <figure><span class="home">${svg(o, NIGHT, 120)}</span><figcaption>Home screen (180, shown at 120)</figcaption></figure>
+      </div>
+    </section>`).join('');
+  document.getElementById('mode-t').onclick = () => {
+    const d = document.documentElement, day = d.dataset.theme !== 'day';
+    d.dataset.theme = day ? 'day' : 'night';
+    try { localStorage.setItem('theme', day ? 'day' : 'night'); } catch (e) {}
+  };
+</script>
+</body>
+</html>

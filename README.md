@@ -37,6 +37,7 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 | `data/star-battle-easy.json` | The Star Battle Solver's real steps for the puzzle on Projects, exported from its `solver.py` (in `carsonmit/Widgets-and-Miscellaneous`) |
 | `styles.css` | Shared look for every page: colors, fonts, layout, motion |
 | `site.js` | Shared script for every page: the day/night switch and the bot-proof email link |
+| `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` | The browser-tab icon: the M inside the open C. The SVG uses night colors in a dark browser and day colors in a light one; the `.ico` is for older browsers; the PNG is the iPhone home-screen icon |
 | `pdf/GRE-Textbook.pdf` | The GRE textbook. **Managed by the pipeline; don't edit by hand.** |
 | `PRODUCT.md` | Who the site is for and what's true about it (no invented claims) |
 | `DESIGN.md` | The design system: colors, fonts, and design rules |
