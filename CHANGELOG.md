@@ -4,6 +4,10 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-10-25
+
+The Tutoring page is built: rates, booking through Cal.com, subjects, and a problem that solves itself as you scroll.
+
 ### Added
 - The Tutoring page: rates ($60 per hour online, $80 in person, paid after the lesson by Zelle, PayPal or Apple Cash) and two large booking cards, **Book a Lesson** and **Book an Intro Call**, on the first screen; the subjects (read from `content/subjects.md`); a marked placeholder for "How I Teach"; and a sample of the GRE textbook (four pages of explanations, each opening the PDF at that page).
 - "One Problem, Step by Step": a worked problem that solves itself as you scroll, one line at a time, with each step's reason in a box that follows the newest line, and Back / Next buttons. Three problems: a logarithm equation, a Putnam integral, and a dice paradox.
@@ -13,6 +17,22 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 ### Changed
 - Every page now links `styles.css` and `site.js` with a version tag (`?v=…`), so browsers fetch the new copy after a change instead of showing an old one.
 - `content/subjects.md`: a note that subjects go below the "## Subjects" line (the site skips the instructions above it).
+- After a design review (Impeccable critique, 22/32): each problem now starts at step 1 and only moves as you scroll or press Next; Next first asks "What would you do next?" before showing the step; once you use the buttons, scrolling leaves the problem alone; the buttons travel with the reason box instead of floating far below; the tabs fit on one line and work with the arrow keys; screen readers hear "Step 3 of 7" and no longer read lines that haven't appeared; the reason box is easier to see in day mode; a closing line points back to the booking cards; small text fixes (no lone last words, rates that don't break mid-phrase on phones).
+- After a motion review (Emil Kowalski's standards): the booking cards are there at once instead of fading in; a pressed card shrinks in place instead of dropping; the reason box glides a little faster and snaps back when you switch problems; hover lifts are skipped for visitors who prefer reduced motion.
+- Hardening, accessibility, phone and polish passes (Impeccable harden, audit, adapt, polish):
+  - Scrolling moves the problem about one step per 115px; it only catches up while you're still scrolling, one step at a time, so a quick flick moves one step and it stops when you stop. On phones it counts from the lines themselves, so no step appears off-screen.
+  - Screen readers hear each step with its reason when stepping with the buttons, with math read properly ("1 over 3 to the power n minus 1").
+  - Earlier lines are dimmed by color instead of transparency, so they stay readable in day mode.
+  - On touch screens every board control is at least 44px tall.
+  - On phones each rate gets its own line, and the scroll hint is shown.
+  - Phones get smaller copies of the textbook pages, less than half the download.
+  - If the math library fails to load, the first problem shows as plain text.
+  - Very long subject names wrap instead of widening the page.
+  - The booking cards say they open Cal.com.
+  - Unselected problem tabs are quieter than the Back/Next buttons, so choosing a problem and stepping through it look different.
+  - If the math library fails, the step marks and button hint are hidden along with the board.
+  - The signature under "How I Teach" is hidden until the letter is written.
+  - The math library's console warnings are silenced.
 
 ## [0.8.0] - 2026-10-24
 

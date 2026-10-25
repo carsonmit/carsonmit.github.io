@@ -36,6 +36,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; } /* hidden always wins, even over display: flex */
 html { -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body {
@@ -200,6 +201,7 @@ html:not(.js) .bt .pp, html:not(.js) .bt-steps { display: none; }
 .tu-hero h1 { font-family: var(--serif-display); font-weight: 400; font-size: clamp(44px, 5.6vw, 84px); line-height: .98; letter-spacing: -.012em; margin: 0 0 26px; }
 .tu-sub { font-size: 20px; margin: 0 0 28px; max-width: 32ch; }
 .tu-rate { font-size: 22px; margin: 0 0 10px; }
+.tu-rate .nw { white-space: nowrap; }
 .tu-rate b { font-family: var(--serif-display); font-weight: 400; font-size: 1.5em; }
 .tu-note { font-size: 17px; color: var(--mu); margin: 0; }
 .tu-mail { font-size: 17px; margin: 18px 0 0; max-width: 60ch; }
@@ -209,7 +211,7 @@ html:not(.js) .bt .pp, html:not(.js) .bt-steps { display: none; }
 .tu-band h2, .tu-board h2 { font-family: var(--serif-display); font-weight: 400; font-size: clamp(32px, 3.4vw, 46px); line-height: 1.04; margin: 0 0 16px; }
 .tu-side p { margin: 0 0 14px; max-width: 34ch; }
 .tu-subject-list ul { list-style: none; margin: 0; padding: 0; columns: 3 180px; column-gap: clamp(24px, 4vw, 56px); }
-.tu-subject-list li { font-size: 21px; line-height: 1.3; padding: 0 0 10px; break-inside: avoid; transition: color .18s ease; }
+.tu-subject-list li { font-size: 21px; line-height: 1.3; padding: 0 0 10px; break-inside: avoid; overflow-wrap: anywhere; hyphens: auto; transition: color .18s ease; }
 .tu-subject-list h3 { font: 400 14px/1.4 var(--sans); color: var(--mu); margin: 0 0 10px; column-span: all; }
 @media (hover: hover) and (pointer: fine) { .tu-subject-list li:hover { color: var(--ac); } }
 
@@ -222,11 +224,13 @@ html:not(.js) .bt .pp, html:not(.js) .bt-steps { display: none; }
 /* The live piece (design/mockups/tutoring-solve.html): a full-width board; the panel sticks while you scroll it */
 .tu-board { margin-top: clamp(72px, 8vw, 120px); }
 .tu-board .pin { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 24px clamp(32px, 5vw, 80px); align-items: start; }
-.solve-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 22px; }
-.solve-tabs button { font: 500 14px/1 var(--sans); color: var(--ink); background: var(--card2); border: 0; border-radius: 999px; padding: 10px 15px; cursor: pointer; transition: transform .14s var(--ease-out), background-color .18s ease, color .18s ease; }
+.solve-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 22px; }
+.solve-tabs button { font: 500 14px/1 var(--sans); color: var(--ink); background: var(--card2); border: 0; border-radius: 999px; padding: 10px 12px; white-space: nowrap; cursor: pointer; transition: transform .14s var(--ease-out), background-color .18s ease, color .18s ease; }
 .solve-tabs button:active { transform: scale(.96); }
+.solve-tabs button[aria-selected="false"] { background: transparent; color: var(--mu); } /* choices, quieter than the Back/Next buttons */
+@media (hover: hover) and (pointer: fine) { .solve-tabs button[aria-selected="false"]:hover { color: var(--ink); background: var(--card); } }
 .solve-tabs button[aria-selected="true"] { background: var(--ac); color: var(--on); }
-.solve-q { font-size: 20px; margin: 0; max-width: 34ch; }
+.solve-q { font-size: 20px; margin: 0; max-width: 34ch; overflow-wrap: anywhere; }
 .solve-q .katex { font-size: 1.04em; }
 .solve-hint { font: 400 14px/1.45 var(--sans); color: var(--mu); margin: 14px 0 0; }
 html:not(.js) .solve-hint, html:not(.js) .solve-tabs { display: none; }
@@ -234,26 +238,28 @@ html:not(.js) .solve-hint, html:not(.js) .solve-tabs { display: none; }
 .ticks span { width: 28px; height: 3px; border-radius: 2px; background: var(--card2); transition: background-color .25s ease; }
 .ticks span.on { background: var(--ac); }
 .lines { list-style: none; margin: 0; padding: 0; }
-.lines-wrap { position: relative; padding-bottom: 6em; } /* room for the reason box under the last line */
+.lines-wrap { position: relative; } /* the script leaves room under the lines for the reason box and buttons */
 .lines li { padding: 4px 0; }
 .tu-board.live .lines li { opacity: 0; transform: translateY(10px); transition: opacity .35s var(--ease-out), transform .35s var(--ease-out); }
-.tu-board.live .lines li.seen { opacity: .5; transform: none; }
+.tu-board.live .lines li.seen { opacity: 1; color: var(--mu); transform: none; } /* dimmed by color, not transparency, so it stays readable (≥4.5:1) */
 .tu-board.live .lines li.now { opacity: 1; transform: none; }
 .lines .eq { font-size: 1.25em; line-height: 1.6; white-space: nowrap; overflow-x: auto; overflow-y: hidden; }
 .lines .katex-display { text-align: left; margin: 0; }
 .lines .katex-display > .katex { text-align: left; }
-.lines .why { display: none; } /* each line's reason shows in the box below it */
+.lines .why { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } /* shown in the box below; kept for screen readers reading the list */
 .lines .why .katex, .why-now .katex { font-style: normal; font-size: 1.02em; }
 .tu-board.live .lines li.now .hl { color: var(--ac); } /* what changed in the current line */
-.why-now { position: absolute; top: 0; left: 0; right: 0; margin: 0; font-style: italic; font-size: 17px; background: var(--card); border-radius: 12px; padding: 12px 16px; min-height: 4.4em; text-wrap: pretty; transition: transform .4s var(--ease-out); }
+.follow { position: absolute; top: 0; left: 0; right: 0; transition: transform .3s var(--ease-in-out); }
+.why-now { margin: 0 0 12px; font-style: italic; font-size: 17px; background: var(--card); border-radius: 12px; padding: 12px 16px; min-height: 4.4em; text-wrap: pretty; transition: color .2s ease; }
+[data-theme="day"] .why-now { background: var(--card2); }
+.follow.asking .why-now { color: var(--mu); } /* the pause before the next step */
 .why-now:empty { display: none; }
-html:not(.js) .why-now, html:not(.js) .solve-nav { display: none; }
-html:not(.js) .lines .why { display: block; font-style: italic; color: var(--mu); }
+html:not(.js) .follow { display: none; }
 .solve-nav { display: flex; gap: 10px; flex-wrap: wrap; }
 .solve-nav .sb { border: 0; cursor: pointer; font-size: 14.5px; padding: 12px 18px; }
-.solve-nav .sb:disabled { opacity: .45; cursor: default; }
+.solve-nav .sb[aria-disabled="true"] { opacity: .6; cursor: default; }
 .nojs-q { padding-bottom: 56px; }
-@media (prefers-reduced-motion: reduce) { .tu-board.live .lines li { transform: none; transition: opacity .2s ease; } .why-now { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .tu-board.live .lines li { transform: none; transition: opacity .2s ease; } .follow { transition: none; } }
 
 /* The textbook: a run of real pages, one lifted above the rest (wider, so taller), bottoms aligned */
 .frames { display: grid; grid-template-columns: 1.5fr repeat(3, minmax(0, 1fr)); gap: 12px; align-items: end; }
@@ -261,9 +267,12 @@ html:not(.js) .lines .why { display: block; font-style: italic; color: var(--mu)
 .frame a { display: block; transition: transform .2s var(--ease-out); }
 .frame img { display: block; width: 100%; height: auto; border-radius: 3px; }
 .frame figcaption { display: flex; justify-content: space-between; gap: 8px; font: 400 14px/1.35 var(--sans); color: var(--mu); margin: 10px 0 0; }
-@media (hover: hover) and (pointer: fine) { .frame a:hover { transform: translateY(-4px); } }
-.tu-book { padding-bottom: clamp(64px, 10vh, 120px); } /* the last block on the page */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) { .frame a:hover { transform: translateY(-4px); } }
+.tu-close { font-size: 20px; margin-top: clamp(56px, 7vw, 96px); padding-bottom: clamp(64px, 10vh, 120px); } /* the last line on the page */
 .tu-link { display: inline-block; font: 500 15px/1 var(--sans); padding: 12px 0; margin: -4px 0 0; }
+
+/* Touch screens: every control in the problem board and the textbook link is at least 44px tall */
+@media (pointer: coarse) { .solve-tabs button, .solve-nav .sb { min-height: 44px; } .tu-link { padding: 15px 0; } }
 
 /* Booking: two doors, the lesson in the accent and the intro call beside it */
 .doors2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
@@ -271,12 +280,14 @@ html:not(.js) .lines .why { display: block; font-style: italic; color: var(--mu)
 .door2-main { background: var(--ac); color: var(--on); }
 .d2-t { font-family: var(--serif-display); font-size: clamp(32px, 3.2vw, 46px); line-height: 1.02; }
 .d2-d { font-size: 18.5px; max-width: 30ch; }
-.d2-p { font: 400 14px/1.4 var(--sans); }
 .d2-go { margin-top: auto; padding-top: 18px; font: 500 15px/1 var(--sans); transition: transform .2s var(--ease-out); }
-@media (hover: hover) and (pointer: fine) { .door2:hover { transform: translateY(-4px); } .door2:hover .d2-go { transform: translateX(6px); } }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .door2:hover { transform: translateY(-4px); } .door2:hover .d2-go { transform: translateX(6px); }
+  .door2:hover:active { transform: translateY(-4px) scale(.985); } /* pressed while lifted: shrink in place, don't drop */
+}
 .door2:active { transform: scale(.985); }
 .sb { display: inline-block; font: 500 14.5px/1 var(--sans); background: var(--card2); color: var(--ink); text-decoration: none; border-radius: 999px; padding: 14px 24px; transition: transform .16s var(--ease-out); }
-.sb:active:not(:disabled) { transform: scale(.97); }
+.sb:active:not([aria-disabled="true"]) { transform: scale(.97); }
 
 /* Entrances: each block rises into place once as it comes on screen (only once the script is running,
    and only when motion is welcome; with reduced motion everything is simply there) */
@@ -336,11 +347,11 @@ html.vt .top { view-transition-name: none; } /* the day/night circle covers the 
   .ab-intro .portrait { max-width: 360px; }
   .stage, .stage-foot, .ehr-ctl, .bt { max-width: 600px; }
   .tu-hero { grid-template-columns: 1fr; }
-  .tu-band, .tu-board .pin { grid-template-columns: 1fr; }
+  .tu-band, .tu-board .pin { grid-template-columns: minmax(0, 1fr); } /* minmax: columns shrink to the screen even with large text */
   .tu-board .pin { gap: 18px; }
-  .solve-hint { display: none; }
 }
 @media (max-width: 640px) {
+  .tu-rate .nw { display: block; } .tu-rate .dot { display: none; } /* one rate per line, no stranded dot */
   .tu-hero h1 { font-size: clamp(44px, 12vw, 64px); }
   .doors2 { grid-template-columns: 1fr; }
   .tu-subject-list ul { columns: 2 140px; }
@@ -352,7 +363,8 @@ html.vt .top { view-transition-name: none; } /* the day/night circle covers the 
   .solve-q { font-size: 18.5px; }
   .ticks { margin-top: 14px; }
   .lines .eq { font-size: 1.04em; }
-  .frames { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .frames { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 8px; align-items: start; }
+  .frame figcaption { font-size: 13px; flex-wrap: wrap; gap: 0 6px; }
   .frame.lifted { grid-column: 1 / -1; }
   .doors2 { gap: 32px; }
 }

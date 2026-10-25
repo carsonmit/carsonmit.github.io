@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
-<link rel="stylesheet" href="styles.css?v=2026-10-25j">
+<link rel="stylesheet" href="styles.css?v=2026-10-25t">
 </head>
 <body>
 
@@ -41,20 +41,20 @@
     <div class="tu-hero-text">
       <h1 id="tutoring-title">Math Tutoring</h1>
       <p class="tu-sub">All levels, online over Zoom or in person in South Orange County, California.</p>
-      <p class="tu-rate"><b>$60</b> per hour online · <b>$80</b> per hour in person</p>
-      <p class="tu-note">Pay after the lesson, by Zelle, PayPal or Apple Cash.<br>Need another length? Say so when you book.</p>
+      <p class="tu-rate"><span class="nw"><b>$60</b> per hour online</span><span class="dot"> · </span><span class="nw"><b>$80</b> per hour in person</span></p>
+      <p class="tu-note">Pay after the lesson, by Zelle, PayPal or Apple&nbsp;Cash.<br>Need another length? Say so when you book.</p>
     </div>
-    <div class="tu-hero-book rise">
+    <div class="tu-hero-book">
       <div class="doors2">
         <a class="door2 door2-main" href="https://cal.com/carsonmitchell/tutoring-session">
           <span class="d2-t">Book a Lesson</span>
           <span class="d2-d">One, one and a half, or two hours, online or in person.</span>
-          <span class="d2-go" aria-hidden="true">Choose Times →</span>
+          <span class="d2-go">Choose Times on Cal.com <span aria-hidden="true">→</span></span>
         </a>
         <a class="door2" href="https://cal.com/carsonmitchell/intro-call">
           <span class="d2-t">Book an Intro Call</span>
           <span class="d2-d">Fifteen minutes over Zoom or by phone, to talk about goals first.</span>
-          <span class="d2-go" aria-hidden="true">Choose Times →</span>
+          <span class="d2-go">Choose Times on Cal.com <span aria-hidden="true">→</span></span>
         </a>
       </div>
       <p class="tu-mail">Propose up to three times that work for you, and I'll confirm one or get in touch. Rather write? Email me at <a class="email" href="contact.html" data-user="carsonm6719" data-host="gmail.com">carsonm6719 [at] gmail [dot] com</a>.</p>
@@ -65,7 +65,7 @@
   <section class="wrap tu-band tu-subjects" aria-labelledby="subjects-title">
     <div class="tu-side">
       <h2 id="subjects-title">Subjects</h2>
-      <p>At every level. Don't see yours? Ask when you book.</p>
+      <p>At every level. Don't see yours? Ask when you&nbsp;book.</p>
     </div>
     <!-- Fallback: this list is what visitors without JavaScript see. The script below replaces it with the
          current list from content/subjects.md, so edit that file, not this list. -->
@@ -80,7 +80,8 @@
     <div class="tu-letter-body rise">
       <!-- PLACEHOLDER: Carson writes this himself (PRODUCT.md). Never fill it with invented text. -->
       <p class="tu-ph">Placeholder: Carson will describe how he teaches here, in a few short paragraphs.</p>
-      <p class="tu-sign">Carson Mitchell<span>Math tutor</span></p>
+      <!-- The sign-off returns once Carson writes the letter (a signature under a placeholder reads as unfinished). -->
+      <p class="tu-sign" hidden>Carson Mitchell<span>Math tutor</span></p>
     </div>
   </section>
 
@@ -95,40 +96,47 @@
         <div class="ticks" aria-hidden="true"></div>
         <p class="solve-hint">Scroll, or use the buttons, to go one step at a time.</p>
       </div>
-      <div class="solve-work">
+      <div class="solve-work" id="solve-panel" role="tabpanel" aria-describedby="solve-q">
         <div class="lines-wrap">
           <ol class="lines" id="solve-lines"></ol>
-          <p class="why-now" aria-live="polite"></p>
+          <!-- The reason for the newest line, and the step buttons, travel together just under that line. -->
+          <div class="follow">
+            <p class="why-now" aria-hidden="true"></p>
+            <div class="solve-nav">
+              <button type="button" class="sb solve-prev">← Back a Step</button>
+              <button type="button" class="sb solve-next">Next Step →</button>
+            </div>
+          </div>
         </div>
-        <div class="solve-nav">
-          <button type="button" class="sb solve-prev">← Back a Step</button>
-          <button type="button" class="sb solve-next">Next Step →</button>
-        </div>
+        <p class="vh" id="solve-status" aria-live="polite"></p>
       </div>
     </div>
+    <!-- Shown without JavaScript, or if the math library can't load: the first problem and its answer in plain text. -->
     <noscript><p class="wrap nojs-q">Solve log₂ x + log₂(x − 2) = 3. Answer: x = 4 (the other root, −2, fails the requirement x &gt; 2).</p></noscript>
+    <p class="wrap nojs-q" id="solve-fallback" hidden>Solve log₂ x + log₂(x − 2) = 3. Answer: x = 4 (the other root, −2, fails the requirement x &gt; 2).</p>
   </section>
 
   <!-- The textbook as proof of how he explains (direction sheet: "Frame run, one lifted"). Pages rendered from pdf/GRE-Textbook.pdf. -->
   <section class="wrap tu-band tu-book" aria-labelledby="book-title">
     <div class="tu-side">
       <h2 id="book-title">A Sample of How I Explain</h2>
-      <p>I wrote <i>Fundamentals of Mathematics for the GRE Quantitative Reasoning Section</i>, free to read.</p>
+      <p>I wrote <i>Fundamentals of Mathematics for the GRE Quantitative Reasoning Section</i>, free to&nbsp;read.</p>
       <a class="tu-link" href="pdf/GRE-Textbook.pdf">Read the Textbook (PDF)</a>
     </div>
     <div class="frames rise">
-      <figure class="frame lifted"><a href="pdf/GRE-Textbook.pdf#page=19"><img src="images/gre/page-19.jpg" width="1000" height="1294" alt="Textbook page 19: set operations, with shaded Venn diagrams" loading="lazy"></a><figcaption><span>Venn diagrams</span><span>p. 19</span></figcaption></figure>
-      <figure class="frame"><a href="pdf/GRE-Textbook.pdf#page=11"><img src="images/gre/page-11.jpg" width="1000" height="1294" alt="Textbook page 11: definitions of conjunction and disjunction in propositional logic" loading="lazy"></a><figcaption><span>Logic</span><span>p. 11</span></figcaption></figure>
-      <figure class="frame"><a href="pdf/GRE-Textbook.pdf#page=13"><img src="images/gre/page-13.jpg" width="1000" height="1294" alt="Textbook page 13: color-coded truth tables" loading="lazy"></a><figcaption><span>Truth tables</span><span>p. 13</span></figcaption></figure>
-      <figure class="frame"><a href="pdf/GRE-Textbook.pdf#page=15"><img src="images/gre/page-15.jpg" width="1000" height="1294" alt="Textbook page 15: equivalent logical forms, including contraposition" loading="lazy"></a><figcaption><span>Logical forms</span><span>p. 15</span></figcaption></figure>
+      <figure class="frame lifted"><a href="pdf/GRE-Textbook.pdf#page=19"><img src="images/gre/page-19.jpg" srcset="images/gre/page-19-600.jpg 600w, images/gre/page-19.jpg 1000w" sizes="(max-width: 640px) 92vw, 28vw" width="1000" height="1294" alt="Textbook page 19: set operations, with shaded Venn diagrams" loading="lazy"></a><figcaption><span>Venn diagrams</span><span>p. 19</span></figcaption></figure>
+      <figure class="frame"><a href="pdf/GRE-Textbook.pdf#page=11"><img src="images/gre/page-11.jpg" srcset="images/gre/page-11-600.jpg 600w, images/gre/page-11.jpg 1000w" sizes="(max-width: 640px) 30vw, 14vw" width="1000" height="1294" alt="Textbook page 11: definitions of conjunction and disjunction in propositional logic" loading="lazy"></a><figcaption><span>Logic</span><span>p. 11</span></figcaption></figure>
+      <figure class="frame"><a href="pdf/GRE-Textbook.pdf#page=13"><img src="images/gre/page-13.jpg" srcset="images/gre/page-13-600.jpg 600w, images/gre/page-13.jpg 1000w" sizes="(max-width: 640px) 30vw, 14vw" width="1000" height="1294" alt="Textbook page 13: color-coded truth tables" loading="lazy"></a><figcaption><span>Truth tables</span><span>p. 13</span></figcaption></figure>
+      <figure class="frame"><a href="pdf/GRE-Textbook.pdf#page=15"><img src="images/gre/page-15.jpg" srcset="images/gre/page-15-600.jpg 600w, images/gre/page-15.jpg 1000w" sizes="(max-width: 640px) 30vw, 14vw" width="1000" height="1294" alt="Textbook page 15: equivalent logical forms, including contraposition" loading="lazy"></a><figcaption><span>Logical forms</span><span>p. 15</span></figcaption></figure>
     </div>
   </section>
 
+  <p class="wrap tu-close">Ready to start? <a href="#tutoring-title">Book a lesson or an intro call</a> at the top of this page.</p>
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" defer></script>
-<script src="site.js?v=2026-10-25j"></script>
+<script src="site.js?v=2026-10-25t"></script>
 <script>
 /* ── Sections rise into place as they come on screen (heading, then text, then picture). ── */
 (() => {
@@ -167,7 +175,7 @@ const PROBLEMS = [
     ['x = 4 \\ \\text{ or } \\ x = -2', 'A product is zero exactly when one of its factors is.'],
     ['\\H{x = 4}', 'Check against the first step: \\(-2\\) is not greater than \\(2\\), so only \\(4\\) survives. Indeed \\(\\log_2 4 + \\log_2 2 = 2 + 1 = 3\\).'],
   ]},
-  { tab: 'A Putnam Integral', q: 'Evaluate \\(\\displaystyle\\int_0^1 \\frac{\\ln(1+x)}{1+x^2}\\,dx\\).', steps: [
+  { tab: 'Putnam Integral', q: 'Evaluate \\(\\displaystyle\\int_0^1 \\frac{\\ln(1+x)}{1+x^2}\\,dx\\).', steps: [
     ['I = \\int_0^1 \\frac{\\ln(1+x)}{1+x^2}\\,dx', 'No antiderivative is in sight, but \\(1 + x^2\\) suggests a tangent.'],
     ['I = \\H{\\int_0^{\\pi/4} \\ln(1+\\tan\\theta)\\,d\\theta}', 'Put \\(x = \\tan\\theta\\): then \\(dx = (1 + x^2)\\,d\\theta\\), and the denominator cancels.'],
     ['I = \\int_0^{\\pi/4} \\ln\\!\\big(1+\\H{\\tan(\\tfrac{\\pi}{4}-\\theta)}\\big)\\,d\\theta', 'Replace \\(\\theta\\) by \\(\\tfrac{\\pi}{4} - \\theta\\). The interval maps onto itself, so the integral is unchanged.'],
@@ -176,7 +184,7 @@ const PROBLEMS = [
     ['I = \\tfrac{\\pi}{4}\\ln 2 - \\H{I}', 'The second piece is the integral from the second line: \\(I\\) itself.'],
     ['\\H{I = \\tfrac{\\pi}{8}\\ln 2}', 'Solve for \\(I\\). That is about \\(0.272\\), believable for a curve that rises from \\(0\\) to \\(\\tfrac{1}{2}\\ln 2 \\approx 0.35\\).'],
   ]},
-  { tab: 'A Dice Paradox', q: 'Roll a fair die until a six appears. Given that every roll was even, what is the expected number of rolls?', steps: [
+  { tab: 'Dice', q: 'Roll a fair die until a six appears. Given that every roll was even, what is the expected number of rolls?', steps: [
     ['E[N \\mid \\text{all rolls even}]', 'The tempting answer is \\(3\\): among even rolls, a six comes up one time in three. It is wrong.'],
     ['P(N = n,\\ \\text{all even}) = \\H{\\big(\\tfrac{1}{3}\\big)^{n-1}\\,\\tfrac{1}{6}}', 'The first \\(n - 1\\) rolls are each a \\(2\\) or a \\(4\\), then a six.'],
     ['P(\\text{all even}) = \\H{\\tfrac{1}{4}}', 'Add over every possible \\(n\\): the geometric series \\(\\sum_{n \\ge 1} \\big(\\tfrac{1}{3}\\big)^{n-1}\\tfrac{1}{6} = \\tfrac{1/6}{1 - 1/3}\\).'],
@@ -186,71 +194,141 @@ const PROBLEMS = [
   ]},
 ];
 
-/* ── The problem solves itself as it passes up the screen: scrolling sets how far along it should be (the first line as
-   its top enters the lower part of the screen, the last by the time it nears the top), and the steps walk there one
-   at a time, so it always visibly builds from the first line, even after a fast scroll or a reload part way down.
-   Nothing is pinned, so scrolling never stalls. Back / Next step it by hand. ── */
+/* ── The problem solves itself as you scroll: each stretch of scrolling moves it one step, starting from step 1 on every
+   problem, and each new step is preceded by a short "What would you do next?" Nothing is pinned, so scrolling never
+   stalls. Back / Next step it by hand (and then scrolling leaves it alone); the tabs work with arrow keys. ── */
 const autoRenderReady = new Promise(r => { const el = document.querySelector('script[src*="auto-render"]'); el.addEventListener('load', r, { once: true }); el.addEventListener('error', r, { once: true }); });
 Promise.all([katexReady, autoRenderReady]).then(() => {
-  const inline = { delimiters: [{ left: '\\(', right: '\\)', display: false }], throwOnError: false };
+  const inline = { delimiters: [{ left: '\\(', right: '\\)', display: false }], throwOnError: false, strict: false };
   if (window.renderMathInElement) document.querySelectorAll('.tu-band p').forEach(el => renderMathInElement(el, inline));
-  if (!window.katex) return;
-  const opts = { throwOnError: false, macros: { '\\H': '\\htmlClass{hl}{#1}' }, trust: c => c.command === '\\htmlClass' };
+  if (!window.katex) { // the math library didn't load: hide the empty board and show the plain-text problem instead
+    ['.solve-work', '.solve-tabs', '.ticks', '.solve-hint'].forEach(s => { document.querySelector('#solve ' + s).hidden = true; });
+    document.getElementById('solve-fallback').hidden = false; return;
+  }
+  const opts = { throwOnError: false, strict: false, macros: { '\\H': '\\htmlClass{hl}{#1}' }, trust: c => c.command === '\\htmlClass' };
   const T = s => s.replace(/\\\((.+?)\\\)/g, (_, m) => katex.renderToString(m, opts));
   const board = document.getElementById('solve'), list = document.getElementById('solve-lines'), q = document.getElementById('solve-q');
   const tabs = board.querySelector('.solve-tabs'), ticks = board.querySelector('.ticks'), whyNow = board.querySelector('.why-now');
   board.classList.add('live');
-  let P = 0, cur = -1, raf = 0, fromScroll = -1, target = 0, timer = 0;
-  tabs.innerHTML = PROBLEMS.map((p, i) => `<button type="button" role="tab" aria-selected="${i === 0}" data-i="${i}">${p.tab}</button>`).join('');
+  const panel = document.getElementById('solve-panel'), status = document.getElementById('solve-status');
+  const prev = board.querySelector('.solve-prev'), next = board.querySelector('.solve-next'), follow = board.querySelector('.follow');
+  const ASK = 'What would you do next?';
+  // State: which problem, which step is showing, where scrolling should take it, and whether the visitor has taken over
+  // with the buttons (then scrolling leaves that problem alone until another tab is picked).
+  let P = 0, cur = -1, target = 0, fromScroll = 0, manual = false, timer = 0, asking = false, raf = 0, announce = false, want = 0;
+  // Spoken words for a piece of rendered math, for screen readers. KaTeX keeps a MathML copy of each formula; reading its
+  // structure gives "(1 over 3) to the power n minus 1" instead of the garbled "(13)n−1".
+  const SAY = { '−': ' minus ', '+': ' plus ', '=': ' equals ', '∣': ' given ', '|': ' given ', '∼': ' is distributed as ', '≈': ' is about ',
+    '≥': ' at least ', '>': ' greater than ', '<': ' less than ', '∫': ' the integral ', '∑': ' the sum ', ',': ', ', '⁡': ' ' };
+  function speak(n) {
+    if (n.nodeType === 3) return n.textContent;
+    const c = [...n.children], t = n.tagName.toLowerCase();
+    if (t === 'annotation') return '';
+    if (t === 'mo') return SAY[n.textContent.trim()] ?? n.textContent;
+    if (t === 'mfrac') return ` (${speak(c[0])} over ${speak(c[1])}) `;
+    if (t === 'msup') return `${speak(c[0])} to the power ${speak(c[1])} `;
+    if (t === 'msub') return speak(c[0]).trim() === 'log' ? ` log base ${speak(c[1])} of ` : `${speak(c[0])} sub ${speak(c[1])}`;
+    if (t === 'msubsup' || t === 'munderover') return `${speak(c[0])} from ${speak(c[1])} to ${speak(c[2])}, of `;
+    if (t === 'munder') return `${speak(c[0])} over ${speak(c[1])}, of `;
+    return [...n.childNodes].map(speak).join('');
+  }
+  const said = el => { const c = el.cloneNode(true); c.querySelectorAll('.katex').forEach(k => { const m = k.querySelector('.katex-mathml math'); k.replaceWith(m ? speak(m) : ''); }); return c.textContent.replace(/\s+/g, ' ').replace(/\s([,.])/g, '$1').trim(); };
+  tabs.innerHTML = PROBLEMS.map((p, i) => `<button type="button" role="tab" id="solve-tab-${i}" aria-controls="solve-panel" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-i="${i}">${p.tab}</button>`).join('');
   function build() {
     const pr = PROBLEMS[P];
+    panel.setAttribute('aria-labelledby', 'solve-tab-' + P);
     q.innerHTML = T(pr.q);
-    list.innerHTML = pr.steps.map(([e, w]) => `<li><div class="eq">${katex.renderToString(e, opts)}</div><div class="why">${T(w)}</div></li>`).join('');
+    list.innerHTML = pr.steps.map(([e, w]) => `<li aria-hidden="true"><div class="eq">${katex.renderToString(e, opts)}</div><div class="why">${T(w)}</div></li>`).join('');
     ticks.innerHTML = '<span></span>'.repeat(pr.steps.length);
-    clearTimeout(timer); timer = 0; cur = -1; fromScroll = -1; show(0); update();
+    // Switching problems snaps the reason box back to line 1 instead of gliding up the board.
+    follow.style.transition = 'none';
+    stop(); cur = -1; manual = false; announce = false; show(0);
+    follow.offsetHeight; follow.style.transition = '';
+    // A new problem always starts at step 1: only scrolling from here on (or Next) moves it forward.
+    fromScroll = scrollStep(); target = 0; want = 0;
   }
-  // The step the scroll position calls for: 0 when the board's top is at 85% of the screen height, the last at 20%.
+  // How far along the scroll position says the problem should be: 0 with the board's top at 90% of the screen height, the end
+  // as it reaches the top (about 115px of scrolling per step on a laptop), so the whole problem is on screen when it finishes.
+  const stacked = matchMedia('(max-width: 900px)'); // phones and tablets: the intro sits above the lines, so count from the lines
   function scrollStep() {
-    const top = board.querySelector('.pin').getBoundingClientRect().top, n = PROBLEMS[P].steps.length;
-    const p = Math.min(1, Math.max(0, (innerHeight * .85 - top) / (innerHeight * .65)));
+    const top = (stacked.matches ? list : board.querySelector('.pin')).getBoundingClientRect().top, n = PROBLEMS[P].steps.length;
+    const p = Math.min(1, Math.max(0, (innerHeight * .9 - top) / (innerHeight * .9)));
     return Math.min(n - 1, Math.floor(p * n));
   }
-  // Scrolling moves the step only when the scroll position calls for a new one, so a step chosen with the buttons stays put.
+  // Scrolling adds to how far along the problem should be ("want"), by as many steps as the scroll moved, never by where the page
+  // happens to be. The board only catches up while scrolling is still happening, one step at a time: a fast flick moves one
+  // step, steady scrolling walks it to the end, and when the scrolling stops, the board stops.
   function update() {
     raf = 0;
-    const s = scrollStep();
-    if (s !== fromScroll) { fromScroll = s; target = s; walk(); }
+    const s = scrollStep(), d = s - fromScroll; fromScroll = s;
+    if (manual) return;
+    if (d) want = clamp(want + d);
+    if (want < cur) { target = want; return walk(); }          // scrolled back up: step back
+    if (want > cur && !timer) { target = cur + 1; walk(); }  // still scrolling and behind: one more step
   }
-  // One step every 0.4 s toward the target (straight there for visitors who prefer reduced motion).
+  const clamp = i => Math.max(0, Math.min(PROBLEMS[P].steps.length - 1, i));
+  function stop() { clearTimeout(timer); timer = 0; asking = false; follow.classList.remove('asking'); }
+  // Toward the target one step at a time. Going forward, each step first asks "What would you do next?" for a beat,
+  // the way a tutor pauses before showing the move. Going back is immediate.
   function walk() {
     if (timer || cur === target) return;
-    if (reduce.matches) return show(target);
-    timer = setTimeout(() => { timer = 0; show(cur + Math.sign(target - cur)); walk(); }, 400);
+    if (target < cur) { show(cur - 1); return walk(); }
+    if (reduce.matches) { show(target); return; }
+    ask(() => { show(cur + 1); timer = setTimeout(() => { timer = 0; walk(); }, 500); });
+  }
+  function ask(then) {
+    asking = true; follow.classList.add('asking'); whyNow.textContent = ASK;
+    timer = setTimeout(() => { timer = 0; asking = false; follow.classList.remove('asking'); then(); }, 800);
   }
   function show(i) {
     const n = PROBLEMS[P].steps.length;
     if (i === cur) return; cur = i;
-    list.querySelectorAll('li').forEach((li, j) => { li.classList.toggle('now', j === i); li.classList.toggle('seen', j < i); });
+    list.querySelectorAll('li').forEach((li, j) => {
+      li.classList.toggle('now', j === i); li.classList.toggle('seen', j < i);
+      li.setAttribute('aria-hidden', j > i ? 'true' : 'false'); // lines still to come stay hidden from screen readers too
+    });
     ticks.querySelectorAll('span').forEach((d, j) => d.classList.toggle('on', j <= i));
     whyNow.innerHTML = list.children[i].querySelector('.why').innerHTML;
+    if (announce) status.textContent = `Step ${i + 1} of ${n}: ${said(list.children[i].querySelector('.eq'))}. ${said(list.children[i].querySelector('.why'))}`;
     place();
-    prev.disabled = i === 0; next.disabled = i === n - 1;
+    // aria-disabled instead of disabled, so a button keeps keyboard focus at the first or last step
+    prev.setAttribute('aria-disabled', i === 0); next.setAttribute('aria-disabled', i === n - 1);
   }
-  // The reason box sits just under the newest line and glides down as lines are added.
+  // The reason box and the buttons sit just under the newest line and glide down as lines are added.
   function place() {
     if (cur < 0) return;
     const li = list.children[cur];
-    whyNow.style.transform = `translateY(${li.offsetTop + li.offsetHeight + 12}px)`;
+    const y = li.offsetTop + li.offsetHeight + 12;
+    follow.style.transform = `translateY(${y}px)`;
+    // Leave room under the last line for the box and buttons, so nothing below the board is covered.
+    const last = list.lastElementChild, end = last.offsetTop + last.offsetHeight + 12;
+    list.parentNode.style.paddingBottom = Math.max(0, end + follow.offsetHeight - list.offsetHeight) + 'px';
   }
-  const prev = board.querySelector('.solve-prev'), next = board.querySelector('.solve-next');
-  const go = d => { clearTimeout(timer); timer = 0; target = Math.max(0, Math.min(PROBLEMS[P].steps.length - 1, cur + d)); show(target); };
-  prev.addEventListener('click', () => go(-1)); next.addEventListener('click', () => go(1));
-  tabs.addEventListener('click', e => {
-    const b = e.target.closest('button'); if (!b) return;
-    P = +b.dataset.i; tabs.querySelectorAll('button').forEach(x => x.setAttribute('aria-selected', x === b)); build();
+  // Next: pressed once, it asks "What would you do next?" and then shows the step; pressed again while asking, it shows it now.
+  next.addEventListener('click', () => {
+    manual = true; announce = true;
+    if (asking) { stop(); show(clamp(cur + 1)); target = cur; return; }
+    stop(); if (cur >= PROBLEMS[P].steps.length - 1) return;
+    target = cur + 1;
+    if (reduce.matches) return show(target);
+    ask(() => show(target));
   });
-  const ask = () => { if (!raf) raf = requestAnimationFrame(update); };
-  addEventListener('scroll', ask, { passive: true }); addEventListener('resize', () => { ask(); place(); });
+  prev.addEventListener('click', () => { manual = true; announce = true; stop(); target = clamp(cur - 1); show(target); });
+  // Tabs: click, or arrow keys / Home / End when a tab has focus.
+  function pick(i, focus) {
+    const bs = tabs.querySelectorAll('button');
+    P = i; bs.forEach((x, j) => { x.setAttribute('aria-selected', j === i); x.tabIndex = j === i ? 0 : -1; });
+    if (focus) bs[i].focus();
+    build();
+  }
+  tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (b) pick(+b.dataset.i); });
+  tabs.addEventListener('keydown', e => {
+    const n = PROBLEMS.length, k = { ArrowRight: P + 1, ArrowLeft: P - 1, Home: 0, End: n - 1 }[e.key];
+    if (k === undefined) return;
+    e.preventDefault(); pick((k + n) % n, true);
+  });
+  const askFrame = () => { if (!raf) raf = requestAnimationFrame(update); };
+  addEventListener('scroll', askFrame, { passive: true }); addEventListener('resize', () => { askFrame(); place(); });
   build();
 });
 </script>
