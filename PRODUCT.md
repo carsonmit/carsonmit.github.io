@@ -30,7 +30,7 @@ Undecided. Not yet discussed with the owner.
 
 ## Capabilities and Constraints
 
-- Pages: Home (hero and doors), About Me, Tutoring, Projects (GRE textbook first), Contact. Home and About Me are built; the rest are marked placeholders.
+- Pages: Home (hero and doors), About Me, Tutoring, Projects (GRE textbook first), Contact. Home, About Me and Tutoring are built; Projects and Contact are marked placeholders.
 - Math notation is written in LaTeX.
 
 ## Brand Commitments
@@ -72,7 +72,7 @@ Facts behind the bio: Santa Barbara City College 2019–2021, five associate's d
 - Email: carsonm6719 [at] gmail [dot] com. Never write it out in full in the site's HTML or in docs: the page shows this "[at]/[dot]" form, and `site.js` builds the real address only when someone clicks it (owner, 2026-10-24, to keep it away from spam bots).
 - LinkedIn: https://www.linkedin.com/in/carson-mitchell
 - GitHub: https://github.com/carsonmit
-- Booking page: PLACEHOLDER. Booking goes through Cal.com (`https://cal.com/carsonmitchell/<event-slug>`), but no tutoring session types exist yet; the owner will create them later (account details in `CLAUDE.md`). Until then, booking falls back to email or the contact form.
+- Booking pages (Cal.com, created 2026-10-25): Intro Call https://cal.com/carsonmitchell/intro-call and Tutoring Session https://cal.com/carsonmitchell/tutoring-session (details in `CLAUDE.md`).
 - No Twitter/X or other social links (the owner said the site won't use Twitter).
 
 ### Tutoring
@@ -81,7 +81,8 @@ Facts behind the bio: Santa Barbara City College 2019–2021, five associate's d
 - Format: online, or in person in South Orange County, California.
 - Subjects: listed in `content/subjects.md`, which the owner edits himself; the site reads the list from that file.
 - Rates (real, supplied by the owner): $60 per hour online, $80 per hour in person.
-- How to book: Cal.com booking page (PLACEHOLDER, see Links); email until then.
+- How to book: the two Cal.com booking pages (see Links); students propose up to three times and Carson confirms one. Email also works.
+- Payment: after the lesson, by Zelle, PayPal or Apple Cash (owner, 2026-10-25).
 
 ### "Only you" material (optional)
 

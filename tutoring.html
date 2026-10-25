@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tutoring · Carson Mitchell</title>
-<meta name="description" content="Math tutoring with Carson Mitchell: all levels, online or in person in South Orange County.">
+<meta name="description" content="Math tutoring with Carson Mitchell: all levels, online over Zoom or in person in South Orange County, California. $60 per hour online, $80 per hour in person.">
 <meta name="color-scheme" content="dark light">
 <script>
   // Apply the saved day/night choice before the page paints, so it never flashes the wrong mode.
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=2026-10-25j">
 </head>
 <body>
 
@@ -36,14 +36,223 @@
 </header>
 
 <main id="top">
-  <!-- PLACEHOLDER: this page is built in its own Stage 3 round. -->
-  <section class="wrap sec" aria-labelledby="tutoring-title">
-    <h1 id="tutoring-title">Tutoring</h1>
-    <p>Placeholder: this page is built next.</p>
+  <!-- First screen: what this is, the rates, and the two ways to start (the booking doors are the focal point). -->
+  <section class="wrap tu-hero" aria-labelledby="tutoring-title">
+    <div class="tu-hero-text">
+      <h1 id="tutoring-title">Math Tutoring</h1>
+      <p class="tu-sub">All levels, online over Zoom or in person in South Orange County, California.</p>
+      <p class="tu-rate"><b>$60</b> per hour online · <b>$80</b> per hour in person</p>
+      <p class="tu-note">Pay after the lesson, by Zelle, PayPal or Apple Cash.<br>Need another length? Say so when you book.</p>
+    </div>
+    <div class="tu-hero-book rise">
+      <div class="doors2">
+        <a class="door2 door2-main" href="https://cal.com/carsonmitchell/tutoring-session">
+          <span class="d2-t">Book a Lesson</span>
+          <span class="d2-d">One, one and a half, or two hours, online or in person.</span>
+          <span class="d2-go" aria-hidden="true">Choose Times →</span>
+        </a>
+        <a class="door2" href="https://cal.com/carsonmitchell/intro-call">
+          <span class="d2-t">Book an Intro Call</span>
+          <span class="d2-d">Fifteen minutes over Zoom or by phone, to talk about goals first.</span>
+          <span class="d2-go" aria-hidden="true">Choose Times →</span>
+        </a>
+      </div>
+      <p class="tu-mail">Propose up to three times that work for you, and I'll confirm one or get in touch. Rather write? Email me at <a class="email" href="contact.html" data-user="carsonm6719" data-host="gmail.com">carsonm6719 [at] gmail [dot] com</a>.</p>
+    </div>
+  </section>
+
+  <!-- Subjects, read from content/subjects.md, set large. -->
+  <section class="wrap tu-band tu-subjects" aria-labelledby="subjects-title">
+    <div class="tu-side">
+      <h2 id="subjects-title">Subjects</h2>
+      <p>At every level. Don't see yours? Ask when you book.</p>
+    </div>
+    <!-- Fallback: this list is what visitors without JavaScript see. The script below replaces it with the
+         current list from content/subjects.md, so edit that file, not this list. -->
+    <div id="tu-subjects" class="tu-subject-list rise"><ul><li>Discrete Math</li><li>Probability Theory</li><li>Calculus</li><li>Linear Algebra</li><li>Precalculus</li></ul></div>
+  </section>
+
+  <!-- How I teach, as a short signed letter (direction sheet: "Founder's letter"). -->
+  <section class="wrap tu-band tu-letter" aria-labelledby="teach-title">
+    <div class="tu-side">
+      <h2 id="teach-title">How I Teach</h2>
+    </div>
+    <div class="tu-letter-body rise">
+      <!-- PLACEHOLDER: Carson writes this himself (PRODUCT.md). Never fill it with invented text. -->
+      <p class="tu-ph">Placeholder: Carson will describe how he teaches here, in a few short paragraphs.</p>
+      <p class="tu-sign">Carson Mitchell<span>Math tutor</span></p>
+    </div>
+  </section>
+
+  <!-- Live piece: a problem that solves itself as you scroll (design/mockups/tutoring-solve.html, approved layout:
+       Written Out). Three problems; the panel stays put while the steps advance. -->
+  <section class="tu-board" id="solve" aria-labelledby="solve-title">
+    <div class="wrap pin">
+      <div class="solve-intro">
+        <h2 id="solve-title">One Problem, Step by Step</h2>
+        <div class="solve-tabs" role="tablist" aria-label="Problems"></div>
+        <p class="solve-q" id="solve-q"></p>
+        <div class="ticks" aria-hidden="true"></div>
+        <p class="solve-hint">Scroll, or use the buttons, to go one step at a time.</p>
+      </div>
+      <div class="solve-work">
+        <div class="lines-wrap">
+          <ol class="lines" id="solve-lines"></ol>
+          <p class="why-now" aria-live="polite"></p>
+        </div>
+        <div class="solve-nav">
+          <button type="button" class="sb solve-prev">← Back a Step</button>
+          <button type="button" class="sb solve-next">Next Step →</button>
+        </div>
+      </div>
+    </div>
+    <noscript><p class="wrap nojs-q">Solve log₂ x + log₂(x − 2) = 3. Answer: x = 4 (the other root, −2, fails the requirement x &gt; 2).</p></noscript>
+  </section>
+
+  <!-- The textbook as proof of how he explains (direction sheet: "Frame run, one lifted"). Pages rendered from pdf/GRE-Textbook.pdf. -->
+  <section class="wrap tu-band tu-book" aria-labelledby="book-title">
+    <div class="tu-side">
+      <h2 id="book-title">A Sample of How I Explain</h2>
+      <p>I wrote <i>Fundamentals of Mathematics for the GRE Quantitative Reasoning Section</i>, free to read.</p>
+      <a class="tu-link" href="pdf/GRE-Textbook.pdf">Read the Textbook (PDF)</a>
+    </div>
+    <div class="frames rise">
+      <figure class="frame lifted"><a href="pdf/GRE-Textbook.pdf#page=19"><img src="images/gre/page-19.jpg" width="1000" height="1294" alt="Textbook page 19: set operations, with shaded Venn diagrams" loading="lazy"></a><figcaption><span>Venn diagrams</span><span>p. 19</span></figcaption></figure>
+      <figure class="frame"><a href="pdf/GRE-Textbook.pdf#page=11"><img src="images/gre/page-11.jpg" width="1000" height="1294" alt="Textbook page 11: definitions of conjunction and disjunction in propositional logic" loading="lazy"></a><figcaption><span>Logic</span><span>p. 11</span></figcaption></figure>
+      <figure class="frame"><a href="pdf/GRE-Textbook.pdf#page=13"><img src="images/gre/page-13.jpg" width="1000" height="1294" alt="Textbook page 13: color-coded truth tables" loading="lazy"></a><figcaption><span>Truth tables</span><span>p. 13</span></figcaption></figure>
+      <figure class="frame"><a href="pdf/GRE-Textbook.pdf#page=15"><img src="images/gre/page-15.jpg" width="1000" height="1294" alt="Textbook page 15: equivalent logical forms, including contraposition" loading="lazy"></a><figcaption><span>Logical forms</span><span>p. 15</span></figcaption></figure>
+    </div>
   </section>
 
 </main>
 
-<script src="site.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" defer></script>
+<script src="site.js?v=2026-10-25j"></script>
+<script>
+/* ── Sections rise into place as they come on screen (heading, then text, then picture). ── */
+(() => {
+  const els = document.querySelectorAll('.rise');
+  if (!('IntersectionObserver' in window)) return;
+  root.classList.add('rising');
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  els.forEach(el => io.observe(el));
+})();
+
+/* ── The subjects list, read from content/subjects.md so Carson can edit it in one place.
+   Everything before the first "## " heading is the file's instructions and is skipped. After it, lines starting
+   with "- " are subjects and each "## " starts a group (the group "Subjects" itself gets no heading). ── */
+fetch('content/subjects.md').then(r => r.ok ? r.text() : Promise.reject()).then(md => {
+  const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  const groups = []; let g = null;
+  md.split('\n').forEach(line => {
+    const h = line.match(/^##\s+(.+)/), li = line.match(/^-\s+(.+)/);
+    if (h) groups.push(g = { name: h[1].trim(), items: [] });
+    else if (li && g) g.items.push(li[1].trim());
+  });
+  const html = groups.filter(x => x.items.length).map(x =>
+    (x.name && x.name !== 'Subjects' ? `<h3>${esc(x.name)}</h3>` : '') + '<ul>' + x.items.map(i => `<li>${esc(i)}</li>`).join('') + '</ul>').join('');
+  if (html) document.getElementById('tu-subjects').innerHTML = html;
+}).catch(() => {}); // on failure the list written in the page stays
+
+/* ── The problems. Each line is [math, reason]; \H{…} marks the part that just changed (it lights up in the accent).
+   Reasons may hold inline math between \( and \). All three checked by hand; the integral is Putnam 2005 A5. ── */
+const PROBLEMS = [
+  { tab: 'Logarithms', q: 'Solve \\(\\log_2 x + \\log_2(x-2) = 3\\).', steps: [
+    ['\\log_2 x + \\log_2(x-2) = 3', 'Both logarithms need positive inputs, so any answer must have \\(x > 2\\).'],
+    ['\\H{\\log_2\\big(x(x-2)\\big)} = 3', 'A sum of logarithms is the logarithm of a product.'],
+    ['x(x-2) = \\H{2^3}', 'Undo \\(\\log_2\\) by raising \\(2\\) to the power of each side.'],
+    ['\\H{x^2 - 2x - 8} = 0', 'Expand, and move everything to one side.'],
+    ['\\H{(x-4)(x+2)} = 0', 'Factor: two numbers that multiply to \\(-8\\) and add to \\(-2\\).'],
+    ['x = 4 \\ \\text{ or } \\ x = -2', 'A product is zero exactly when one of its factors is.'],
+    ['\\H{x = 4}', 'Check against the first step: \\(-2\\) is not greater than \\(2\\), so only \\(4\\) survives. Indeed \\(\\log_2 4 + \\log_2 2 = 2 + 1 = 3\\).'],
+  ]},
+  { tab: 'A Putnam Integral', q: 'Evaluate \\(\\displaystyle\\int_0^1 \\frac{\\ln(1+x)}{1+x^2}\\,dx\\).', steps: [
+    ['I = \\int_0^1 \\frac{\\ln(1+x)}{1+x^2}\\,dx', 'No antiderivative is in sight, but \\(1 + x^2\\) suggests a tangent.'],
+    ['I = \\H{\\int_0^{\\pi/4} \\ln(1+\\tan\\theta)\\,d\\theta}', 'Put \\(x = \\tan\\theta\\): then \\(dx = (1 + x^2)\\,d\\theta\\), and the denominator cancels.'],
+    ['I = \\int_0^{\\pi/4} \\ln\\!\\big(1+\\H{\\tan(\\tfrac{\\pi}{4}-\\theta)}\\big)\\,d\\theta', 'Replace \\(\\theta\\) by \\(\\tfrac{\\pi}{4} - \\theta\\). The interval maps onto itself, so the integral is unchanged.'],
+    ['1+\\tan(\\tfrac{\\pi}{4}-\\theta) = \\H{\\frac{2}{1+\\tan\\theta}}', 'The tangent subtraction formula gives \\(\\frac{1-\\tan\\theta}{1+\\tan\\theta}\\); add \\(1\\) over a common denominator.'],
+    ['I = \\int_0^{\\pi/4} \\H{\\big(\\ln 2 - \\ln(1+\\tan\\theta)\\big)}\\,d\\theta', 'The logarithm of a quotient is a difference.'],
+    ['I = \\tfrac{\\pi}{4}\\ln 2 - \\H{I}', 'The second piece is the integral from the second line: \\(I\\) itself.'],
+    ['\\H{I = \\tfrac{\\pi}{8}\\ln 2}', 'Solve for \\(I\\). That is about \\(0.272\\), believable for a curve that rises from \\(0\\) to \\(\\tfrac{1}{2}\\ln 2 \\approx 0.35\\).'],
+  ]},
+  { tab: 'A Dice Paradox', q: 'Roll a fair die until a six appears. Given that every roll was even, what is the expected number of rolls?', steps: [
+    ['E[N \\mid \\text{all rolls even}]', 'The tempting answer is \\(3\\): among even rolls, a six comes up one time in three. It is wrong.'],
+    ['P(N = n,\\ \\text{all even}) = \\H{\\big(\\tfrac{1}{3}\\big)^{n-1}\\,\\tfrac{1}{6}}', 'The first \\(n - 1\\) rolls are each a \\(2\\) or a \\(4\\), then a six.'],
+    ['P(\\text{all even}) = \\H{\\tfrac{1}{4}}', 'Add over every possible \\(n\\): the geometric series \\(\\sum_{n \\ge 1} \\big(\\tfrac{1}{3}\\big)^{n-1}\\tfrac{1}{6} = \\tfrac{1/6}{1 - 1/3}\\).'],
+    ['P(N = n \\mid \\text{all even}) = \\H{\\tfrac{2}{3}\\big(\\tfrac{1}{3}\\big)^{n-1}}', 'Divide by the probability of the condition, \\(\\tfrac{1}{4}\\).'],
+    ['N \\mid \\text{all even} \\ \\sim\\ \\H{\\text{Geometric}\\big(\\tfrac{2}{3}\\big)}', 'Each roll ends the game with probability \\(\\tfrac{2}{3}\\), not \\(\\tfrac{1}{3}\\): the condition throws away every run with a \\(1\\), \\(3\\) or \\(5\\), and long runs are the likeliest to contain one.'],
+    ['\\H{E[N \\mid \\text{all rolls even}] = \\tfrac{3}{2}}', 'A geometric distribution with success probability \\(p\\) has mean \\(1/p\\).'],
+  ]},
+];
+
+/* ── The problem solves itself as it passes up the screen: scrolling sets how far along it should be (the first line as
+   its top enters the lower part of the screen, the last by the time it nears the top), and the steps walk there one
+   at a time, so it always visibly builds from the first line, even after a fast scroll or a reload part way down.
+   Nothing is pinned, so scrolling never stalls. Back / Next step it by hand. ── */
+const autoRenderReady = new Promise(r => { const el = document.querySelector('script[src*="auto-render"]'); el.addEventListener('load', r, { once: true }); el.addEventListener('error', r, { once: true }); });
+Promise.all([katexReady, autoRenderReady]).then(() => {
+  const inline = { delimiters: [{ left: '\\(', right: '\\)', display: false }], throwOnError: false };
+  if (window.renderMathInElement) document.querySelectorAll('.tu-band p').forEach(el => renderMathInElement(el, inline));
+  if (!window.katex) return;
+  const opts = { throwOnError: false, macros: { '\\H': '\\htmlClass{hl}{#1}' }, trust: c => c.command === '\\htmlClass' };
+  const T = s => s.replace(/\\\((.+?)\\\)/g, (_, m) => katex.renderToString(m, opts));
+  const board = document.getElementById('solve'), list = document.getElementById('solve-lines'), q = document.getElementById('solve-q');
+  const tabs = board.querySelector('.solve-tabs'), ticks = board.querySelector('.ticks'), whyNow = board.querySelector('.why-now');
+  board.classList.add('live');
+  let P = 0, cur = -1, raf = 0, fromScroll = -1, target = 0, timer = 0;
+  tabs.innerHTML = PROBLEMS.map((p, i) => `<button type="button" role="tab" aria-selected="${i === 0}" data-i="${i}">${p.tab}</button>`).join('');
+  function build() {
+    const pr = PROBLEMS[P];
+    q.innerHTML = T(pr.q);
+    list.innerHTML = pr.steps.map(([e, w]) => `<li><div class="eq">${katex.renderToString(e, opts)}</div><div class="why">${T(w)}</div></li>`).join('');
+    ticks.innerHTML = '<span></span>'.repeat(pr.steps.length);
+    clearTimeout(timer); timer = 0; cur = -1; fromScroll = -1; show(0); update();
+  }
+  // The step the scroll position calls for: 0 when the board's top is at 85% of the screen height, the last at 20%.
+  function scrollStep() {
+    const top = board.querySelector('.pin').getBoundingClientRect().top, n = PROBLEMS[P].steps.length;
+    const p = Math.min(1, Math.max(0, (innerHeight * .85 - top) / (innerHeight * .65)));
+    return Math.min(n - 1, Math.floor(p * n));
+  }
+  // Scrolling moves the step only when the scroll position calls for a new one, so a step chosen with the buttons stays put.
+  function update() {
+    raf = 0;
+    const s = scrollStep();
+    if (s !== fromScroll) { fromScroll = s; target = s; walk(); }
+  }
+  // One step every 0.4 s toward the target (straight there for visitors who prefer reduced motion).
+  function walk() {
+    if (timer || cur === target) return;
+    if (reduce.matches) return show(target);
+    timer = setTimeout(() => { timer = 0; show(cur + Math.sign(target - cur)); walk(); }, 400);
+  }
+  function show(i) {
+    const n = PROBLEMS[P].steps.length;
+    if (i === cur) return; cur = i;
+    list.querySelectorAll('li').forEach((li, j) => { li.classList.toggle('now', j === i); li.classList.toggle('seen', j < i); });
+    ticks.querySelectorAll('span').forEach((d, j) => d.classList.toggle('on', j <= i));
+    whyNow.innerHTML = list.children[i].querySelector('.why').innerHTML;
+    place();
+    prev.disabled = i === 0; next.disabled = i === n - 1;
+  }
+  // The reason box sits just under the newest line and glides down as lines are added.
+  function place() {
+    if (cur < 0) return;
+    const li = list.children[cur];
+    whyNow.style.transform = `translateY(${li.offsetTop + li.offsetHeight + 12}px)`;
+  }
+  const prev = board.querySelector('.solve-prev'), next = board.querySelector('.solve-next');
+  const go = d => { clearTimeout(timer); timer = 0; target = Math.max(0, Math.min(PROBLEMS[P].steps.length - 1, cur + d)); show(target); };
+  prev.addEventListener('click', () => go(-1)); next.addEventListener('click', () => go(1));
+  tabs.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    P = +b.dataset.i; tabs.querySelectorAll('button').forEach(x => x.setAttribute('aria-selected', x === b)); build();
+  });
+  const ask = () => { if (!raf) raf = requestAnimationFrame(update); };
+  addEventListener('scroll', ask, { passive: true }); addEventListener('resize', () => { ask(); place(); });
+  build();
+});
+</script>
 </body>
 </html>

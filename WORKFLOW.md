@@ -29,7 +29,7 @@ Design works best with real words. Collect, in any rough form:
   - [ ] Later, optional: what you do now
 - [x] Your links: LinkedIn, GitHub, email (no Twitter)
 - [x] Tutoring details: subjects (in `content/subjects.md`), levels, online or in person, rates
-  - [ ] Later: booking page (Cal.com tutoring session types; see the checklist before the Tutoring section below)
+  - [x] Booking pages: Cal.com Intro Call and Tutoring Session (2026-10-25)
 - [x] The photo of you (`images/carson.jpg`)
 - [x] A theorem that matters to you: Ehrhart's theorem (informed your research)
 - [ ] Later: how you teach (goes in Tutoring)
@@ -63,10 +63,10 @@ For each section, top to bottom (hero first):
 
 Then move to the next section. Small steps beat "redesign everything".
 
-Progress: ✅ Hero (v0.6.0) · ✅ About Me (v0.7.0) · ✅ Separate pages (v0.8.0) · Tutoring · Projects (GRE textbook first) · Contact
+Progress: ✅ Hero (v0.6.0) · ✅ About Me (v0.7.0) · ✅ Separate pages (v0.8.0) · ✅ Tutoring · Projects (GRE textbook first) · Contact
 
 **Before building Tutoring and Contact** (Claude: remind Carson at the start of that step):
-- Create the tutoring session types in Cal.com (e.g. a free intro call and a full session). Decide the lengths and whether each is in person, video, or both; Claude can create them through the Cal.com connector once you say so.
+- ✅ Tutoring session types created in Cal.com (Intro Call, Tutoring Session).
 - ✅ Cal.com username set to `carsonmitchell`. Brand colors skipped (paid feature).
 - Have the Formspree form ID ready.
 

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Problem That Solves Itself (Tutoring mockup)</title>
+<!-- APPROVED (round 1, 2026-10-25): problem A (logarithms) in the Written Out layout. The other problems and layout stay here for comparison. The Tutoring live piece: a worked problem advances one step per stretch of scrolling,
+     each step with its reason.  -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root { --bg:#151a21; --ac:#C9ACDE; --ink:#F2EFE8; --mu:#A19E96; --card:#1d232c; --card2:#2a3240; --on:#151a21; --ease-out:cubic-bezier(.23,1,.32,1); }
+[data-theme="day"] { --bg:#F3EBDD; --ac:#6C4487; --ink:#1f1a14; --mu:#5c5348; --card:#EADFCC; --card2:#D6C6AC; --on:#F3EBDD; }
+*, *::before, *::after { box-sizing:border-box; }
+body { margin:0; padding:24px clamp(20px,5vw,64px) 64px; background:var(--bg); color:var(--ink); font-family:'Newsreader',Georgia,serif; font-weight:420; font-size:18.5px; line-height:1.45; transition:background-color .3s ease, color .3s ease; }
+.bar { display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; font:400 13px 'IBM Plex Sans',sans-serif; color:var(--mu); margin:0 0 28px; position:sticky; top:0; z-index:5; background:var(--bg); padding:10px 0; }
+.bar .grp { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.bar button { font:500 13px/1 'IBM Plex Sans',sans-serif; background:var(--card2); color:var(--ink); border:0; border-radius:999px; padding:9px 14px; cursor:pointer; transition:transform .14s var(--ease-out); }
+.bar button:active { transform:scale(.97); }
+.bar button[aria-pressed="true"] { background:var(--ac); color:var(--on); }
+h1 { font-family:'DM Serif Display',serif; font-weight:400; font-size:clamp(36px,4vw,52px); line-height:1.02; margin:0 0 28px; }
+h2 { font-family:'DM Serif Display',serif; font-weight:400; font-size:clamp(26px,2.6vw,32px); line-height:1.08; margin:0 0 14px; }
+p { margin:0 0 16px; max-width:62ch; }
+p .katex { font-size:1.04em; }
+.filler { color:var(--mu); font-style:italic; }
+.stub { min-height:60vh; }
+
+/* ── The piece: a tall track; the panel sticks while you scroll through it, one step per stretch ── */
+.solve { position:relative; margin:56px 0; }
+.pin { position:sticky; top:96px; display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:clamp(24px,5vw,72px); align-items:start; }
+.intro .q { font-size:20px; }
+.intro .q .katex { font-size:1.06em; }
+.intro .hint { font:400 13px 'IBM Plex Sans',sans-serif; color:var(--mu); margin:14px 0 0; }
+.ticks { display:flex; gap:6px; margin:18px 0 0; }
+.ticks span { width:28px; height:3px; border-radius:2px; background:var(--card2); transition:background-color .25s ease; }
+.ticks span.on { background:var(--ac); }
+
+/* Layout A: Written Out. Every line stays, like a worked solution on paper; future lines keep their space so nothing jumps. */
+.lines { list-style:none; margin:0; padding:0; }
+.lines li { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:6px 24px; align-items:baseline; padding:9px 0;
+  opacity:0; transform:translateY(8px); transition:opacity .35s var(--ease-out), transform .35s var(--ease-out); }
+.lines li.seen { opacity:.55; transform:none; }
+.lines li.now { opacity:1; transform:none; }
+.lines .eq { font-size:1.12em; overflow-x:auto; overflow-y:hidden; }
+.lines .why { font-style:italic; font-size:16.5px; color:var(--mu); text-wrap:pretty; }
+.lines li.now .why { color:var(--ink); }
+.lines .why .katex { font-style:normal; font-size:1.02em; }
+
+/* Layout B: One at a Time. The current line is large; the line it came from sits small above it. */
+.one { min-height:15em; }
+.one .from { font-size:.95em; color:var(--mu); min-height:2.4em; overflow-x:auto; overflow-y:hidden; }
+.one .cur { font-size:1.55em; min-height:2.6em; overflow-x:auto; overflow-y:hidden; }
+.one .why { font-style:italic; font-size:17px; color:var(--ink); background:var(--card); border-radius:12px; padding:14px 18px; min-height:4.6em; text-wrap:pretty; }
+.one .why .katex { font-style:normal; font-size:1.02em; }
+.one .fade { transition:opacity .3s var(--ease-out), transform .3s var(--ease-out); }
+.one .fade.out { opacity:0; transform:translateY(6px); }
+.one .arrow { font:400 13px 'IBM Plex Sans',sans-serif; color:var(--mu); margin:2px 0; }
+
+/* Math lines sit flush left, like a worked solution on paper, with tight spacing */
+.lines .katex-display, .one .katex-display { text-align:left; margin:0; }
+.lines .katex-display > .katex, .one .katex-display > .katex { text-align:left; }
+.lines li { padding:6px 0; }
+
+/* The changed part of each line glows in the accent */
+.hl { color:var(--ac); }
+
+@media (prefers-reduced-motion: reduce) { .lines li, .one .fade, .ticks span { transition:none; } .lines li { transform:none; } }
+@media (max-width:900px) {
+  .bar { position:static; }
+  .pin { grid-template-columns:1fr; gap:18px; top:64px; }
+  .intro .hint { display:none; }
+  .lines li { grid-template-columns:1fr; gap:0; padding:7px 0; }
+  .lines .why { font-size:15.5px; }
+  .one { min-height:13em; }
+  .one .cur { font-size:1.3em; }
+}
+</style>
+</head>
+<body>
+<div class="bar">
+  <span class="grp">Problem
+    <button type="button" data-p="0" aria-pressed="true">A · Logarithms</button>
+    <button type="button" data-p="1" aria-pressed="false">B · An Integral</button>
+    <button type="button" data-p="2" aria-pressed="false">C · Dice</button>
+  </span>
+  <span class="grp">Layout
+    <button type="button" data-l="lines" aria-pressed="true">Written Out</button>
+    <button type="button" data-l="one" aria-pressed="false">One at a Time</button>
+  </span>
+  <button type="button" id="mt">Switch to Day</button>
+</div>
+
+<h1>Tutoring</h1>
+<p class="filler">(Above this: the rest of the Tutoring page, levels, format, rates and subjects. Scroll down to reach the live piece.)</p>
+<div class="stub"></div>
+
+<section class="solve" id="solve" aria-label="A worked problem">
+  <div class="pin">
+    <div class="intro">
+      <h2>One Problem, Step by Step</h2>
+      <p class="q" id="q"></p>
+      <p class="hint">Keep scrolling: one step at a time, each with its reason.</p>
+      <div class="ticks" id="ticks" aria-hidden="true"></div>
+    </div>
+    <div id="out" aria-live="polite"></div>
+  </div>
+</section>
+
+<p class="filler">(Below this: how to book.)</p>
+<div class="stub"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script>
+const K = (s, d) => katex.renderToString(s, { displayMode: !!d, throwOnError: false, trust: c => c.command === '\\htmlClass' });
+// Reasons may contain inline math between \( and \).
+const T = s => s.replace(/\\\((.+?)\\\)/g, (_, m) => K(m));
+const H = s => `\\htmlClass{hl}{${s}}`;
+
+// Each problem: the question, then [line, reason] pairs. H() marks what changed in that line.
+const problems = [
+  { q: 'Solve \\(\\log_2 x + \\log_2(x-2) = 3\\).', steps: [
+    ['\\log_2 x + \\log_2(x-2) = 3', 'Both logarithms need positive inputs, so any answer must have \\(x > 2\\).'],
+    [H('\\log_2\\big(x(x-2)\\big)') + ' = 3', 'A sum of logarithms is the logarithm of a product.'],
+    ['x(x-2) = ' + H('2^3'), 'Undo \\(\\log_2\\) by raising \\(2\\) to the power of each side.'],
+    [H('x^2 - 2x - 8') + ' = 0', 'Expand, and move everything to one side.'],
+    [H('(x-4)(x+2)') + ' = 0', 'Factor: two numbers that multiply to \\(-8\\) and add to \\(-2\\).'],
+    ['x = 4 \\ \\text{ or } \\ x = -2', 'A product is zero exactly when one of its factors is.'],
+    [H('x = 4'), 'Check against the first step: \\(-2\\) is not greater than \\(2\\), so only \\(4\\) survives. Indeed \\(\\log_2 4 + \\log_2 2 = 2 + 1 = 3\\).'],
+  ]},
+  { q: 'Evaluate \\(\\displaystyle\\int_0^1 x e^x \\, dx\\).', steps: [
+    ['\\int_0^1 x e^x \\, dx', 'A product of a polynomial and an exponential: a job for integration by parts.'],
+    [H('u = x, \\quad dv = e^x \\, dx'), 'Choose \\(u\\) to be the factor that gets simpler when differentiated.'],
+    [H('du = dx, \\quad v = e^x'), 'Differentiate \\(u\\) and integrate \\(dv\\).'],
+    ['= ' + H('\\big[x e^x\\big]_0^1 - \\int_0^1 e^x \\, dx'), 'Integration by parts: \\(\\int u \\, dv = uv - \\int v \\, du\\).'],
+    ['= ' + H('e') + ' - ' + H('(e - 1)'), 'Evaluate each piece at \\(1\\) and at \\(0\\).'],
+    ['= ' + H('1'), 'A sanity check: \\(x e^x\\) climbs from \\(0\\) to \\(e \\approx 2.7\\) on \\([0, 1]\\), so an area of \\(1\\) is believable.'],
+  ]},
+  { q: 'Roll a fair die four times. What is the probability of at least one six?', steps: [
+    ['P(\\text{at least one } 6)', '"At least one" splits into many cases: one six, two sixes, and so on. The opposite event is simpler.'],
+    ['= ' + H('1 - P(\\text{no } 6)'), 'An event and its complement have probabilities that add to \\(1\\).'],
+    ['= 1 - ' + H('P(\\text{no 6 in one roll})^4'), 'The rolls are independent, so their probabilities multiply.'],
+    ['= 1 - ' + H('\\left(\\tfrac{5}{6}\\right)^4'), 'Each roll avoids a six in \\(5\\) of its \\(6\\) equally likely outcomes.'],
+    ['= ' + H('\\tfrac{671}{1296}') + ' \\approx ' + H('0.518'), 'Just over one half: \\(1 - \\tfrac{625}{1296} = \\tfrac{671}{1296}\\). A fair bet on it wins slightly more often than it loses.'],
+  ]},
+];
+
+const out = document.getElementById('out'), q = document.getElementById('q'), ticks = document.getElementById('ticks'), solve = document.getElementById('solve');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+let P = 0, layout = 'lines', cur = -1;
+// Plain-text step reasons are kept for screen readers: the live region reads the current step.
+function build() {
+  const pr = problems[P], n = pr.steps.length;
+  q.innerHTML = T(pr.q);
+  ticks.innerHTML = pr.steps.map(() => '<span></span>').join('');
+  // The track: about 34% of the screen height of scrolling per step, so the whole problem takes a couple of screens.
+  solve.style.height = `calc(100vh + ${n} * 34vh)`;
+  if (layout === 'lines') {
+    out.innerHTML = '<ol class="lines">' + pr.steps.map(([e, w]) => `<li><div class="eq">${K(e, true)}</div><div class="why">${T(w)}</div></li>`).join('') + '</ol>';
+  } else {
+    out.innerHTML = '<div class="one"><div class="from fade"></div><div class="arrow" aria-hidden="true"></div><div class="cur fade"></div><div class="why fade"></div></div>';
+  }
+  cur = -1; update();
+}
+function show(i) {
+  if (i === cur) return; const prev = cur; cur = i;
+  const pr = problems[P];
+  ticks.querySelectorAll('span').forEach((d, j) => d.classList.toggle('on', j <= i));
+  if (layout === 'lines') {
+    out.querySelectorAll('li').forEach((li, j) => { li.classList.toggle('now', j === i); li.classList.toggle('seen', j < i); });
+    return;
+  }
+  const from = out.querySelector('.from'), c = out.querySelector('.cur'), w = out.querySelector('.why'), ar = out.querySelector('.arrow');
+  const set = () => {
+    from.innerHTML = i > 0 ? K(pr.steps[i - 1][0].replace(/\\htmlClass\{hl\}/g, ''), true) : '';
+    ar.textContent = i > 0 ? `Step ${i} of ${pr.steps.length - 1}` : 'The problem';
+    c.innerHTML = K(pr.steps[i][0], true); w.innerHTML = T(pr.steps[i][1]);
+    [from, c, w].forEach(el => el.classList.remove('out'));
+  };
+  if (prev < 0 || reduce.matches) return set();
+  [from, c, w].forEach(el => el.classList.add('out'));
+  setTimeout(set, 160);
+}
+function update() {
+  const r = solve.getBoundingClientRect(), span = r.height - innerHeight;
+  const p = Math.min(1, Math.max(0, -r.top / span)), n = problems[P].steps.length;
+  show(Math.min(n - 1, Math.floor(p * n)));
+}
+addEventListener('scroll', update, { passive: true }); addEventListener('resize', update);
+
+document.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { P = +b.dataset.p; document.querySelectorAll('[data-p]').forEach(x => x.setAttribute('aria-pressed', x === b)); build(); });
+document.querySelectorAll('[data-l]').forEach(b => b.onclick = () => { layout = b.dataset.l; document.querySelectorAll('[data-l]').forEach(x => x.setAttribute('aria-pressed', x === b)); build(); });
+const mt = document.getElementById('mt'), root = document.documentElement;
+mt.onclick = () => { const day = root.dataset.theme !== 'day'; root.dataset.theme = day ? 'day' : 'night'; mt.textContent = day ? 'Switch to Night' : 'Switch to Day'; };
+// Mockup only: ?p=1&l=one&t=day&s=3 opens a given problem, layout, mode and step (for screenshots).
+const u = new URLSearchParams(location.search);
+if (u.has('p')) P = +u.get('p'); if (u.has('l')) layout = u.get('l');
+if (u.get('t') === 'day') { root.dataset.theme = 'day'; mt.textContent = 'Switch to Night'; }
+document.querySelectorAll('[data-p]').forEach(x => x.setAttribute('aria-pressed', +x.dataset.p === P));
+document.querySelectorAll('[data-l]').forEach(x => x.setAttribute('aria-pressed', x.dataset.l === layout));
+build();
+if (u.has('s')) { const n = problems[P].steps.length, s = +u.get('s'); scrollTo(0, solve.offsetTop + (s + .5) / n * (solve.offsetHeight - innerHeight)); }
+</script>
+</body>
+</html>

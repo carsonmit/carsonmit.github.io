@@ -4,6 +4,16 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+### Added
+- The Tutoring page: rates ($60 per hour online, $80 in person, paid after the lesson by Zelle, PayPal or Apple Cash) and two large booking cards, **Book a Lesson** and **Book an Intro Call**, on the first screen; the subjects (read from `content/subjects.md`); a marked placeholder for "How I Teach"; and a sample of the GRE textbook (four pages of explanations, each opening the PDF at that page).
+- "One Problem, Step by Step": a worked problem that solves itself as you scroll, one line at a time, with each step's reason in a box that follows the newest line, and Back / Next buttons. Three problems: a logarithm equation, a Putnam integral, and a dice paradox.
+- Booking through Cal.com: an Intro Call (15 minutes, Zoom or phone) and a Tutoring Session (1, 1½ or 2 hours, Zoom or in person), where students propose up to three times and Carson confirms one.
+- `images/gre/`: pictures of textbook pages for the Tutoring page; `design/mockups/tutoring-solve.html`: the approved mockup of the step-by-step problem.
+
+### Changed
+- Every page now links `styles.css` and `site.js` with a version tag (`?v=…`), so browsers fetch the new copy after a change instead of showing an old one.
+- `content/subjects.md`: a note that subjects go below the "## Subjects" line (the site skips the instructions above it).
+
 ## [0.8.0] - 2026-10-24
 
 The site is now split into separate pages, so each audience goes straight to its part.
