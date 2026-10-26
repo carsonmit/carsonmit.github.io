@@ -119,7 +119,9 @@ The last argument on the night line (`2,2,-1`) nudges the colors so the video's 
 npx lighthouse https://carsonmit.github.io --view
 ```
 
-Baseline before the redesign (2026-10-22): performance 98, accessibility 100, best practices 96, SEO 90.
+Baseline before the redesign (2026-10-22): performance 98, accessibility 100, best practices 96, SEO 90 (the old one-page site).
+
+Baseline for the redesigned site (live, 2026-10-26, v0.13.0; Lighthouse's simulated phone, warm runs): accessibility, best practices and SEO 100 on every page; performance Home 97, About Me 95, Tutoring 97, Projects 97, Contact 99. About Me sits lowest because its large portrait is the main thing on its first screen. New changes must keep every page at or above these numbers. Lighthouse varies by 1–3 points between runs, and the first run after a deploy can be much lower (the servers are still "cold"), so run it two or three times before deciding something got worse.
 
 ## Contact form
 

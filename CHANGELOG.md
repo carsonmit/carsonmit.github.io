@@ -4,6 +4,9 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+### Changed
+- README: a new Lighthouse baseline for the redesigned site (the old one was measured on the one-page site), and how to read its run-to-run swings.
+
 ## [0.13.0] - 2026-10-26
 
 ### Changed
