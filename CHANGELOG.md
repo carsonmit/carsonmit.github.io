@@ -4,6 +4,17 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-26
+
+The redesigned site, complete: the first version Carson calls finished. No new changes in this release; it marks the
+end of the redesign built across versions 0.6.0 to 0.13.1:
+- Five pages (Home, About Me, Tutoring, Projects, Contact) in a scholarly serif voice on a dark, quiet frame, with a
+  Night/Day switch.
+- A hero whose spinning circles draw Carson's initials, and a small live piece of math on each page.
+- Tutoring booking through Cal.com (Intro Call and Tutoring Session) and a Contact message form through Formspree.
+- The free GRE textbook, plus the Neuron Diagram Maker and Star Battle Solver apps, restyled to match the site.
+- Checked for accessibility, phones and speed (Lighthouse 95+ on every page), and on Carson's own phone.
+
 ## [0.13.1] - 2026-10-26
 
 ### Changed
@@ -265,7 +276,8 @@ Setup for the redesign. No visible change to the live site.
 - First version of the site from a template: hero, about, and connect sections, with animation effects.
 - A custom domain file (`CNAME`) was added and then removed the same day.
 
-[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.13.1...HEAD
+[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.13.1...v1.0.0
 [0.13.1]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.12.0...v0.12.1
