@@ -4,8 +4,37 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-10-26
+
+The whole site polished: a browser-tab icon, a technical audit and a full design review of all five pages, with the fixes they found.
+
 ### Added
+- A "Skip to Content" link on every page: invisible until a keyboard user presses Tab, then it appears at the top so they can jump past the menu.
+- About Me: with "reduce motion" turned on, the Banach–Tarski video's nine captions are listed under it, since the video doesn't play by itself for those visitors.
+- About Me: a day-colored version of the 3D shape's still picture (shown until the 3D loads, or if it can't), so day mode no longer shows a dark box. Both stills were re-rendered from the same angle.
+- Contact: a small "All fields are required." line above the form.
 - A browser-tab icon (favicon): the M sitting inside the open C, drawn with the same strokes as the Home page's spinning circles. Lilac on charcoal in a dark browser, plum on cream in a light one, plus an iPhone home-screen icon. This also fixes the site's only console error (the missing icon). Mockup: `design/mockups/favicon.html`.
+
+### Changed
+- After a technical audit of all five pages (Impeccable audit, 17/20):
+  - About Me: screen readers now hear a description of the 3D shape, which they lost once it loaded; the left and right arrow keys turn it; it only redraws when something moves instead of 60 times a second; and if a browser can't draw 3D, the still picture stays and the unusable controls hide.
+  - About Me: the photo at the top loads right away instead of waiting, and comes as a WebP file (a newer image format) of 49 KB instead of a 155 KB JPEG, with the JPEG kept for older browsers.
+  - Tutoring: the math styles load without holding up the first paint of the page.
+  - Home: the spinning circles reuse the same shapes every frame instead of rebuilding up to 200 of them, which is lighter on phones.
+  - Projects: Star Battle tells screen readers what each tap changed (for example "Row 4, column 4: star; 8 neighbors crossed out"); neurons are read by name ("c, Suzy throws"); Home and End work on the neuron tabs; the textbook preview can no longer stay blank if a page image fails to load.
+  - Bigger tap areas: the Ehrhart coefficients, the Play button, "Show Only the Simplex", and the "Carson Mitchell" menu link.
+  - Removed unused styles.
+- After a site-wide design review (Impeccable critique, 24/32 for both halves of the site):
+  - Home: each door now carries one real detail from its page: the 3D shape for About Me, the rates for Tutoring, a textbook page for Projects, and a tiny "you → CM" graph for Contact, with thin lines between the rows. The Contact door now says "Email, a message form, or a time on my calendar." Mockup: `design/mockups/home-doors.html`.
+  - About Me: the big gaps between blocks are smaller (the bio stays centered beside the photo), on phones the 3D shape comes right after the first two Ehrhart paragraphs, and the page ends with a line pointing to Tutoring and Contact.
+  - Contact: the "Send a Message" heading stays beside the form as you scroll, with a new line under it: "Rather talk first? Book a 15-minute intro call."
+  - Tutoring: the "How I Teach" placeholder is hidden until Carson writes it.
+  - Paragraphs no longer end on a single word; the neuron case tabs fade at the right edge on phones, to show they scroll.
+- Tutoring: the logarithm problem's intro now reads "Solve this logarithm equation." instead of repeating the equation that sits right below it.
+- Final review touches: captions also avoid one-word last lines; on phones, About Me's "L(−t)" button sits on its own line instead of dangling under the polynomial; less empty space at the bottom of Home.
+- Polish: every page title is now the same size and sits at the same height (About Me's was smaller, Projects' sat higher); in day mode with reduced motion, the Banach–Tarski video shows its picture again instead of a blank box (switching to the day video used to reset it to its empty first frame).
+- Animation review (Emil Kowalski's standards: Block, then Approve after fixes): the skip link now appears instantly instead of sliding (it answers a key press), and the Home doors' arrow nudge is switched off for visitors who ask for less motion, like every other hover on the site.
+- Hardening and phone checks: if the 3D library can't load, About Me also hides the "Drag to turn" hint; the main buttons and the skip link are a full 44px tall for fingertips.
 
 ## [0.11.0] - 2026-10-25
 
@@ -203,7 +232,9 @@ Setup for the redesign. No visible change to the live site.
 - First version of the site from a template: hero, about, and connect sections, with animation effects.
 - A custom domain file (`CNAME`) was added and then removed the same day.
 
-[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.10.0...HEAD
+[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.11.0...v0.12.0
+[0.11.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.7.0...v0.8.0

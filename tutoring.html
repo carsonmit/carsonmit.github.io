@@ -14,13 +14,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
-<link rel="stylesheet" href="styles.css?v=2026-10-25-3r">
+<!-- The math styles are only needed lower down, so they load without holding up the first paint. -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"></noscript>
+<link rel="stylesheet" href="styles.css?v=2026-10-26-1">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
+<a class="skip" href="#top">Skip to Content</a>
 
 <header class="wrap top">
   <a class="mark" href="./">Carson Mitchell</a>
@@ -75,8 +78,9 @@
     <div id="tu-subjects" class="tu-subject-list rise"><ul><li>Discrete Math</li><li>Probability Theory</li><li>Calculus</li><li>Linear Algebra</li><li>Precalculus</li></ul></div>
   </section>
 
-  <!-- How I teach, as a short signed letter (direction sheet: "Founder's letter"). -->
-  <section class="wrap tu-band tu-letter" aria-labelledby="teach-title">
+  <!-- How I teach, as a short signed letter (direction sheet: "Founder's letter").
+       Hidden until Carson writes it (Carson, 2026-10-25): remove `hidden` when the letter goes in. -->
+  <section class="wrap tu-band tu-letter" aria-labelledby="teach-title" hidden>
     <div class="tu-side">
       <h2 id="teach-title">How I Teach</h2>
     </div>
@@ -139,7 +143,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" defer></script>
-<script src="site.js?v=2026-10-25-3r"></script>
+<script src="site.js?v=2026-10-26-1"></script>
 <script>
 /* ── Sections rise into place as they come on screen (heading, then text, then picture). ── */
 (() => {
@@ -169,7 +173,7 @@ fetch('content/subjects.md').then(r => r.ok ? r.text() : Promise.reject()).then(
 /* ── The problems. Each line is [math, reason]; \H{…} marks the part that just changed (it lights up in the accent).
    Reasons may hold inline math between \( and \). All three checked by hand; the integral is Putnam 2005 A5. ── */
 const PROBLEMS = [
-  { tab: 'Logarithms', q: 'Solve \\(\\log_2 x + \\log_2(x-2) = 3\\).', steps: [
+  { tab: 'Logarithms', q: 'Solve this logarithm equation.', steps: [
     ['\\log_2 x + \\log_2(x-2) = 3', 'Both logarithms need positive inputs, so any answer must have \\(x > 2\\).'],
     ['\\H{\\log_2\\big(x(x-2)\\big)} = 3', 'A sum of logarithms is the logarithm of a product.'],
     ['x(x-2) = \\H{2^3}', 'Undo \\(\\log_2\\) by raising \\(2\\) to the power of each side.'],
@@ -331,7 +335,7 @@ Promise.all([katexReady, autoRenderReady]).then(() => {
     e.preventDefault(); pick((k + n) % n, true);
   });
   const askFrame = () => { if (!raf) raf = requestAnimationFrame(update); };
-  addEventListener('scroll', askFrame, { passive: true }); addEventListener('resize', () => { askFrame(); place(); });
+  addEventListener('scroll', askFrame, { passive: true }); let placing = 0; addEventListener('resize', () => { askFrame(); if (!placing) placing = requestAnimationFrame(() => { placing = 0; place(); }); });
   build();
 });
 </script>

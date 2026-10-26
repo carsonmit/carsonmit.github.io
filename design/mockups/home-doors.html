@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: Home Doors</title>
+<script>try { if (localStorage.getItem('theme') === 'day') document.documentElement.dataset.theme = 'day'; } catch (e) {} document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../styles.css?v=2026-10-26-1">
+<style>
+  /* Mockup only: three ways to give each Home door one detail that belongs to its page. */
+  .mk-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font: 500 14px var(--sans); color: var(--mu); padding-top: 24px; }
+  .mk-bar button { font: 500 14px/1 var(--sans); color: var(--mu); background: transparent; border: 1.5px solid var(--track); border-radius: 999px; padding: 10px 14px; cursor: pointer; }
+  .mk-bar button[aria-pressed="true"] { background: var(--ac); border-color: var(--ac); color: var(--on); }
+  .mk-bar .mode-t { margin-left: auto; }
+  .opt { display: none; padding-top: 40px; padding-bottom: 80px; }
+  .opt.on { display: block; }
+  .rates { font: 400 15px/1.3 var(--sans); color: var(--mu); white-space: nowrap; }
+  .rates b { font: 400 30px/1 var(--serif-display); color: var(--ink); font-weight: 400; }
+  .mini { display: block; width: 150px; height: auto; }
+  .mini path { fill: none; stroke: var(--track); stroke-width: 1.4; }
+  .mini .n { fill: var(--bg); stroke: var(--ink); stroke-width: 1.4; } .mini .me { fill: var(--ac); stroke: var(--ac); }
+  .mini text { font: italic 11px var(--serif); fill: var(--ink); text-anchor: middle; dominant-baseline: central; } .mini .me + text { fill: var(--on); font: 400 10px var(--serif-display); font-style: normal; }
+  .thumb { display: block; border-radius: 4px; height: 96px; width: auto; }
+  .shape { display: block; width: 96px; height: 96px; border-radius: 10px; object-fit: cover; }
+
+  /* A: the same rows, with a detail at the right edge */
+  .a .door { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr) 230px auto; align-items: center; border-top: 1px solid var(--card2); }
+  .a .door:last-child { border-bottom: 1px solid var(--card2); }
+  .a .det { justify-self: end; }
+
+  /* B: a 2 × 2 grid of cards, each with its detail on top */
+  .opt.b.on { display: grid; } .b { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .bc { display: grid; grid-template-rows: 104px auto auto; gap: 10px; padding: clamp(24px, 2.6vw, 36px); border-radius: 18px; background: var(--card); color: var(--ink); text-decoration: none; transition: transform .2s var(--ease-out); }
+  .bc .det { align-self: end; }
+  .bc .door-t { font-family: var(--serif-display); font-size: clamp(30px, 3vw, 40px); line-height: 1.05; display: flex; justify-content: space-between; align-items: baseline; }
+  .bc .door-go { font: 400 20px var(--sans); color: var(--ac); transition: transform .2s var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) { .bc:hover { transform: translateY(-4px); } .bc:hover .door-go { transform: translateX(6px); } }
+
+  /* C: quiet rows; pointing at one slides its detail in at the right (on phones the detail always shows, small) */
+  .c .door { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr) 230px auto; align-items: center; }
+  .c .det { justify-self: end; opacity: 0; transform: translateX(-10px); transition: opacity .2s ease, transform .3s var(--ease-out); }
+  .c .door:hover .det, .c .door:focus-visible .det { opacity: 1; transform: none; }
+  @media (hover: none) { .c .det { opacity: 1; transform: none; } }
+
+  @media (max-width: 720px) {
+    .a .door, .c .door { grid-template-columns: 1fr auto; }
+    .a .door-d, .c .door-d { grid-column: 1 / -1; grid-row: 2; }
+    .a .det, .c .det { grid-column: 1 / -1; grid-row: 3; justify-self: start; }
+    .b { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mk-bar" role="group" aria-label="Options">
+    Mockup: Home doors ·
+    <button type="button" data-o="a" aria-pressed="true">A · Rows With a Detail</button>
+    <button type="button" data-o="b" aria-pressed="false">B · Four Cards</button>
+    <button type="button" data-o="c" aria-pressed="false">C · Detail on Hover</button>
+    <button type="button" class="mode-t" id="mode-t">Switch Day/Night</button>
+  </div>
+</div>
+<template id="dets">
+  <img class="shape det" data-k="about" src="../../images/permutahedron-still.jpg" alt="">
+  <span class="rates det" data-k="tutoring"><b>$60</b> online · <b>$80</b> in person</span>
+  <img class="thumb det" data-k="projects" src="../../images/gre/page-14-thumb.jpg" alt="">
+  <svg class="mini det" data-k="contact" viewBox="0 0 120 56" aria-hidden="true"><path d="M18 28 Q60 -2 102 28"/><path d="M18 28 Q60 13 102 28"/><path d="M18 28 L102 28"/><path d="M18 28 Q60 43 102 28"/><path d="M18 28 Q60 58 102 28"/><circle class="n" cx="16" cy="28" r="12"/><text x="16" y="28">you</text><circle class="n me" cx="104" cy="28" r="12"/><text x="104" y="28">CM</text></svg>
+</template>
+<section class="wrap opt on a doors" id="o-a"></section>
+<section class="wrap opt b" id="o-b"></section>
+<section class="wrap opt c doors" id="o-c"></section>
+<script>
+  const D = [
+    ['about', 'About Me', 'Who I am and some math I find beautiful and interesting.'],
+    ['tutoring', 'Tutoring', 'Math tutoring for all levels, online or in person in South Orange County.'],
+    ['projects', 'Projects', 'A free 35-page textbook for the GRE math test, and tools for mathematical work.'],
+    ['contact', 'Contact', 'Email, a message form, or a time on my calendar.'],
+  ];
+  const det = k => document.getElementById('dets').content.querySelector(`[data-k="${k}"]`).outerHTML;
+  const row = ([k, t, d]) => `<a class="door" href="#"><span class="door-t">${t}</span><span class="door-d">${d}</span>${det(k)}<span class="door-go" aria-hidden="true">→</span></a>`;
+  document.getElementById('o-a').innerHTML = D.map(row).join('');
+  document.getElementById('o-c').innerHTML = D.map(row).join('');
+  document.getElementById('o-b').innerHTML = D.map(([k, t, d]) => `<a class="bc" href="#">${det(k)}<span class="door-t">${t}<span class="door-go" aria-hidden="true">→</span></span><span class="door-d">${d}</span></a>`).join('');
+  const stills = () => document.querySelectorAll('.shape').forEach(i => i.src = `../../images/permutahedron-still${document.documentElement.dataset.theme === 'day' ? '-day' : ''}.jpg`);
+  stills();
+  document.querySelectorAll('.mk-bar [data-o]').forEach(b => b.onclick = () => {
+    document.querySelectorAll('.mk-bar [data-o]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    document.querySelectorAll('.opt').forEach(o => o.classList.toggle('on', o.id === 'o-' + b.dataset.o));
+  });
+  document.getElementById('mode-t').onclick = () => {
+    const d = document.documentElement, day = d.dataset.theme !== 'day';
+    d.dataset.theme = day ? 'day' : 'night'; stills();
+    try { localStorage.setItem('theme', day ? 'day' : 'night'); } catch (e) {}
+  };
+</script>
+</body>
+</html>

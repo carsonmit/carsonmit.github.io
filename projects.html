@@ -14,12 +14,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
-<link rel="stylesheet" href="styles.css?v=2026-10-25-3r">
+<link rel="stylesheet" href="styles.css?v=2026-10-26-1">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
+<a class="skip" href="#top">Skip to Content</a>
 
 <header class="wrap top">
   <a class="mark" href="./">Carson Mitchell</a>
@@ -131,7 +132,7 @@
   </div>
 </main>
 
-<script src="site.js?v=2026-10-25-3r"></script>
+<script src="site.js?v=2026-10-26-1"></script>
 <script>
 /* ── Blocks rise into place as they come on screen. ── */
 (() => {
@@ -165,7 +166,7 @@
       if (cur !== p) return; // a newer page was picked meanwhile
       swap();
       const go = () => { out.cancel(); if (cur === p) link.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' }); };
-      img.complete ? go() : img.addEventListener('load', go, { once: true });
+      if (img.complete) go(); else { img.addEventListener('load', go, { once: true }); img.addEventListener('error', go, { once: true }); } // never leave the preview blank
     };
   }
   thumbs.forEach(b => b.addEventListener('click', () => show(+b.dataset.page)));
@@ -258,7 +259,7 @@
     });
     s += '<g class="pulses"></g>';
     for (const [k, [x, y]] of Object.entries(C.n)) {
-      s += `<g class="neuron" data-k="${k}" role="button" tabindex="0" aria-pressed="false" aria-label="Neuron ${k}"><g class="pop"><circle class="ring" cx="${x}" cy="${y}" r="${R + 6}"/><circle class="body" cx="${x}" cy="${y}" r="${R}"/><text x="${x}" y="${y}">${k}</text></g><circle class="hit" cx="${x}" cy="${y}" r="${R + 10}"/></g>`;
+      s += `<g class="neuron" data-k="${k}" role="button" tabindex="0" aria-pressed="false" aria-label="${k}, ${C.names[k]}"><g class="pop"><circle class="ring" cx="${x}" cy="${y}" r="${R + 6}"/><circle class="body" cx="${x}" cy="${y}" r="${R}"/><text x="${x}" y="${y}">${k}</text></g><circle class="hit" cx="${x}" cy="${y}" r="${R + 10}"/></g>`;
     }
     svg.innerHTML = s;
     svg.querySelectorAll('.neuron').forEach(g => {
@@ -316,9 +317,9 @@
   const tbs = [...tabs.querySelectorAll('button')];
   tbs.forEach((b, i) => b.addEventListener('click', () => pick(i)));
   tabs.addEventListener('keydown', e => {
-    const i = tbs.indexOf(document.activeElement), d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-    if (i < 0 || !d) return;
-    e.preventDefault(); const j = (i + d + tbs.length) % tbs.length; tbs[j].focus(); pick(j);
+    const i = tbs.indexOf(document.activeElement), j = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tbs.length - 1 }[e.key];
+    if (i < 0 || j === undefined) return;
+    e.preventDefault(); const k = (j + tbs.length) % tbs.length; tbs[k].focus(); pick(k);
   });
   document.getElementById('nd-reset').addEventListener('click', () => { src = [...C.start]; play(); });
   pick(0);
@@ -389,7 +390,7 @@
       s += `<button type="button" class="${cls.join(' ')}" data-i="${r * n + c}" data-c="${col[L]}" tabindex="${r === 0 && c === 0 ? 0 : -1}" aria-label="Row ${r + 1}, column ${c + 1}, region ${L}: open">${lab}<span class="mk"></span></button>`;
     }
     board.innerHTML = s;
-    board.querySelectorAll('.cell').forEach(el => el.addEventListener('click', () => { stop(); focusCell(+el.dataset.i, false); check(tap(+el.dataset.i)); save(); }));
+    board.querySelectorAll('.cell').forEach(el => el.addEventListener('click', () => { stop(); focusCell(+el.dataset.i, false); const i = +el.dataset.i, ch = tap(i); check(ch); save(); announce(i, ch.length - 1); }));
   }
   // A tap cycles open → cross → star → open. A new star crosses out its open neighbors automatically; taking the
   // star away clears those automatic crosses again, unless another star still touches them. Crosses you made stay.
@@ -400,6 +401,11 @@
     if (mine[i] === '1') near.forEach(j => { if (mine[j] === '0') { mine[j] = '2'; auto.add(j); changed.push(j); } });
     if (mine[i] === '0') near.forEach(j => { if (auto.has(j) && !mine.some((v, k) => v === '1' && k !== j && touch(j, k))) { mine[j] = '0'; auto.delete(j); changed.push(j); } });
     return changed;
+  }
+  // Screen readers hear what a tap changed, including the neighbors crossed out (or cleared) for them.
+  function announce(i, others) {
+    const what = mine[i] === '1' ? 'star' : mine[i] === '2' ? 'crossed out' : 'cleared';
+    say.textContent = `Row ${Math.floor(i / n) + 1}, column ${i % n + 1}: ${what}` + (others ? `; ${others} neighbor${others > 1 ? 's' : ''} ${mine[i] === '1' ? 'crossed out' : 'cleared'}` : '') + '.';
   }
   function focusCell(i, move) {
     board.querySelectorAll('.cell').forEach((el, j) => el.tabIndex = j === i ? 0 : -1);

@@ -15,12 +15,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
-<link rel="stylesheet" href="styles.css?v=2026-10-25-3r">
+<link rel="stylesheet" href="styles.css?v=2026-10-26-1">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
+<a class="skip" href="#top">Skip to Content</a>
 
 <header class="wrap top">
   <a class="mark" href="./">Carson Mitchell</a>
@@ -71,10 +72,10 @@
 
   <section class="wrap doors" aria-labelledby="doors-title">
     <h2 id="doors-title" class="vh">Pages</h2>
-    <a class="door" href="about.html"><span class="door-t">About Me</span><span class="door-d">Who I am and some math I find beautiful and interesting.</span><span class="door-go" aria-hidden="true">→</span></a>
-    <a class="door" href="tutoring.html"><span class="door-t">Tutoring</span><span class="door-d">Math tutoring for all levels, online or in person in South Orange County.</span><span class="door-go" aria-hidden="true">→</span></a>
-    <a class="door" href="projects.html"><span class="door-t">Projects</span><span class="door-d">A free 35-page textbook for the GRE math test, and tools for mathematical work.</span><span class="door-go" aria-hidden="true">→</span></a>
-    <a class="door" href="contact.html"><span class="door-t">Contact</span><span class="door-d">Email, LinkedIn, and GitHub.</span><span class="door-go" aria-hidden="true">→</span></a>
+    <a class="door" href="about.html"><span class="door-t">About Me</span><span class="door-d">Who I am and some math I find beautiful and interesting.</span><img class="door-x dd-shape" src="images/permutahedron-still.jpg" width="545" height="546" alt="" loading="lazy" decoding="async"><span class="door-go" aria-hidden="true">→</span></a>
+    <a class="door" href="tutoring.html"><span class="door-t">Tutoring</span><span class="door-d">Math tutoring for all levels, online or in person in South Orange County.</span><span class="door-x dd-rates"><b>$60</b> online · <b>$80</b> in person</span><span class="door-go" aria-hidden="true">→</span></a>
+    <a class="door" href="projects.html"><span class="door-t">Projects</span><span class="door-d">A free 35-page textbook for the GRE math test, and tools for mathematical work.</span><img class="door-x dd-page" src="images/gre/page-14-thumb.jpg" width="154" height="200" alt="" loading="lazy" decoding="async"><span class="door-go" aria-hidden="true">→</span></a>
+    <a class="door" href="contact.html"><span class="door-t">Contact</span><span class="door-d">Email, a message form, or a time on my calendar.</span><span class="door-x"><svg class="dd-graph" viewBox="0 0 150 70" aria-hidden="true"><path d="M22 35 Q75 -3 128 35"/><path d="M22 35 Q75 16 128 35"/><path d="M22 35 L128 35"/><path d="M22 35 Q75 54 128 35"/><path d="M22 35 Q75 73 128 35"/><circle cx="20" cy="35" r="15"/><text x="20" y="35">you</text><circle class="me" cx="130" cy="35" r="15"/><text class="me" x="130" y="35">CM</text></svg></span><span class="door-go" aria-hidden="true">→</span></a>
   </section>
 
 </main>
@@ -84,7 +85,11 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" defer></script>
-<script src="site.js?v=2026-10-25-3r"></script>
+<script src="site.js?v=2026-10-26-1"></script>
+<script>
+/* The About Me door's little 3D shape has a day and a night picture */
+(() => { const i = document.querySelector('.dd-shape'), f = () => { const src = root.dataset.theme === 'day' ? 'images/permutahedron-still-day.jpg' : 'images/permutahedron-still.jpg'; if (i.getAttribute('src') !== src) i.src = src; }; f(); document.addEventListener('themechange', f); })();
+</script>
 <script>
 /* ── Hero centerpiece: circles that write C M. Logic copied from design/mockups/hero-fourier.html. ── */
 // The true path f: the C (arc), pen up to the M, the M (polyline), pen up back to the start.
@@ -115,14 +120,19 @@ document.getElementById('mcap').innerHTML='One curve '+T('f')+' writes both lett
 // joins the pieces drawn so far (recomputing them every frame made phones stutter at large N).
 let pieces=[];function curve(){pieces=[];for(let i=0;i<=MS;i++){const m=i%MS;if(!PEN[m]){pieces.push('');continue}const q=z(N,i/MS,false);pieces.push((i>0&&PEN[(i-1)%MS]?'L':'M')+q.x.toFixed(1)+' '+q.y.toFixed(1))}}
 // The finished drawing of z_N in one go (used when the visitor prefers reduced motion).
-function still(){cancelAnimationFrame(raf);curve();ft.setAttribute('d',pieces.join(''));fc.innerHTML='';document.getElementById('pens').innerHTML='';showMath()}
+function still(){cancelAnimationFrame(raf);curve();ft.setAttribute('d',pieces.join(''));circles([]);pen.style.display='none';showMath()}
+// The circles and the pen dot are made once and moved every frame (rebuilding them each frame made phones work hard).
+const SVGNS='http://www.w3.org/2000/svg',pool=[];
+function circles(list){while(pool.length<list.length){const c=document.createElementNS(SVGNS,'circle');c.setAttribute('fill','none');c.setAttribute('stroke','var(--card2)');c.setAttribute('stroke-width','1');fc.appendChild(c);pool.push(c)}
+pool.forEach((c,i)=>{const o=list[i];if(!o){c.style.display='none';return}c.style.display='';c.setAttribute('cx',o[0].toFixed(1));c.setAttribute('cy',o[1].toFixed(1));c.setAttribute('r',o[2].toFixed(1))})}
+const pen=document.createElementNS(SVGNS,'circle');pen.setAttribute('r','3.5');pen.setAttribute('stroke','var(--ac)');pen.setAttribute('stroke-width','1.5');pen.style.display='none';document.getElementById('pens').appendChild(pen);
 // Draw once over one full period, then fade the circles and show the math.
 function run(){if(reduce.matches){still();return}
 cancelAnimationFrame(raf);curve();fc.style.transition='none';fc.style.opacity=1;const t0=performance.now();
-function fr(now){const p=Math.min(1,(now-t0)/DUR),k=Math.floor(p*MS);let circ='';
-const q=z(N,p,true),path=pieces.slice(0,k+1).join('')+(PEN[Math.min(MS-1,k)]&&k>0?'L'+q.x.toFixed(1)+' '+q.y.toFixed(1):'');q.out.forEach(([x,y,r])=>{if(r>0.4)circ+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r.toFixed(1)+'" fill="none" stroke="var(--card2)" stroke-width="1"/>'});
-const down=PEN[Math.min(MS-1,Math.floor(p*MS))];fc.innerHTML=circ;ft.setAttribute('d',path);
-document.getElementById('pens').innerHTML=p<1?'<circle cx="'+q.x.toFixed(1)+'" cy="'+q.y.toFixed(1)+'" r="3.5" fill="'+(down?'var(--ac)':'none')+'" stroke="var(--ac)" stroke-width="1.5"/>':'';
+function fr(now){const p=Math.min(1,(now-t0)/DUR),k=Math.floor(p*MS);
+const q=z(N,p,true),path=pieces.slice(0,k+1).join('')+(PEN[Math.min(MS-1,k)]&&k>0?'L'+q.x.toFixed(1)+' '+q.y.toFixed(1):'');circles(q.out.filter(c=>c[2]>0.4));
+const down=PEN[Math.min(MS-1,Math.floor(p*MS))];ft.setAttribute('d',path);
+pen.style.display=p<1?'':'none';pen.setAttribute('cx',q.x.toFixed(1));pen.setAttribute('cy',q.y.toFixed(1));pen.setAttribute('fill',down?'var(--ac)':'none');
 if(p<1)raf=requestAnimationFrame(fr);else{fc.style.transition='opacity .6s cubic-bezier(0.23, 1, 0.32, 1)';fc.style.opacity=0;showMath()}}
 raf=requestAnimationFrame(fr)}
 // Slider: redraw once, 300 ms after the last change.

@@ -33,6 +33,7 @@ Design works best with real words. Collect, in any rough form:
 - [x] The photo of you (`images/carson.jpg`)
 - [x] A theorem that matters to you: Ehrhart's theorem (informed your research)
 - [ ] Later: how you teach (goes in Tutoring)
+- [ ] Later: a CV / résumé (Carson's to-do, 2026-10-26). Add it as its own page or menu tab once his CV is ready; a design reviewer noted recruiters look for one.
 
 Everything collected is recorded in `PRODUCT.md` under "Confirmed Content".
 
@@ -72,11 +73,11 @@ Progress: ✅ Hero (v0.6.0) · ✅ About Me (v0.7.0) · ✅ Separate pages (v0.8
 
 ## Stage 4: Polish the whole page
 
-- "/impeccable audit": accessibility, contrast, mobile, performance
-- Favicon (the little icon on the browser tab): mock up options, e.g. "CM" in DM Serif lilac on charcoal, or the C and M the hero's circles draw (Carson asked to be reminded, 2026-10-25)
-- "/impeccable polish": final pass on spacing and details
+- "/impeccable audit": accessibility, contrast, mobile, performance (done 2026-10-25: 17/20, fixes applied)
+- Favicon (the little icon on the browser tab): mock up options, e.g. "CM" in DM Serif lilac on charcoal, or the C and M the hero's circles draw (Carson asked to be reminded, 2026-10-25). Done 2026-10-25: the M inside the C.
+- "/impeccable polish": final pass on spacing and details (done 2026-10-25, with the full review pipeline on all five pages)
 - Restyle Neuron Diagram Maker and Star Battle Solver (in `carsonmit/Widgets-and-Miscellaneous`) to match the site's look, then revisit how the Projects page shows them (Carson's plan, 2026-10-25)
-- "Use review-animations on the whole page"
+- "Use review-animations on the whole page" (done 2026-10-25: Approve after fixes)
 - "Test the light/dark switch and the phone layout with Playwright"
 
 ## Stage 5: Publish
