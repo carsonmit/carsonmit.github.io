@@ -4,6 +4,8 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.12.1] - 2026-10-26
+
 ### Changed
 - Tutoring: the Putnam Integral problem's intro now reads "Evaluate this integral." instead of repeating the integral that sits right below it.
 - Projects: the Star Battle Solver is now a web app, so its button is "Open the Solver" (it used to link to the code on
@@ -241,7 +243,8 @@ Setup for the redesign. No visible change to the live site.
 - First version of the site from a template: hero, about, and connect sections, with animation effects.
 - A custom domain file (`CNAME`) was added and then removed the same day.
 
-[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.12.1...HEAD
+[0.12.1]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.9.0...v0.10.0
