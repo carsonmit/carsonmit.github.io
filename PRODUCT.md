@@ -79,8 +79,8 @@ Facts behind the bio: Santa Barbara City College 2019–2021, five associate's d
 
 - Levels: all levels.
 - Format: online, or in person in South Orange County, California.
-- Subjects: listed in `content/subjects.md`, which the owner edits himself; the site reads the list from that file.
-- Rates (real, supplied by the owner): $60 per hour online, $80 per hour in person.
+- Subjects: listed in `content/subjects.md`, which the owner edits himself; the site reads the list from that file. Grouped by level (owner, 2026-10-26): High School (Algebra I, Algebra II, Geometry, Precalculus), College (Calculus, Linear Algebra, Discrete Math, Probability Theory, Combinatorics), Advanced College (Abstract Algebra, Real Analysis).
+- Rates (real, supplied by the owner): $60 per hour online, $90 per hour in person (raised from $80, owner 2026-10-26).
 - How to book: the two Cal.com booking pages (see Links); students propose up to three times and Carson confirms one. Email also works.
 - Payment: after the lesson, by Zelle, PayPal or Apple Cash (owner, 2026-10-25).
 

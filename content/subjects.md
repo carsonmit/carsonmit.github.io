@@ -5,14 +5,26 @@ Edit this file any time to add or remove a subject; nothing else needs to change
 
 How to edit:
 - One subject per line, starting with "- ".
-- Optional: group subjects under a heading that starts with "## " (for example "## College").
+- Group subjects by level under a heading that starts with "## " (for example "## College"); each group is shown as its own column.
 - Lines that don't start with "- " or "## " are ignored by the site.
-- Keep your subjects below the "## Subjects" line: the site skips everything above it (like these instructions).
+- Keep your subjects below the "## Subjects
 
-## Subjects
+## High School
 
-- Discrete Math
-- Probability Theory
+- Algebra I
+- Algebra II
+- Geometry
+- Precalculus
+
+## College
+
 - Calculus
 - Linear Algebra
-- Precalculus
+- Discrete Math
+- Probability Theory
+- Combinatorics
+
+## Advanced College
+
+- Abstract Algebra
+- Real Analysis

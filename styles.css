@@ -224,6 +224,10 @@ html:not(.js) .bt .pp, html:not(.js) .bt-steps { display: none; }
 .tu-subject-list ul { list-style: none; margin: 0; padding: 0; columns: 3 180px; column-gap: clamp(24px, 4vw, 56px); }
 .tu-subject-list li { font-size: 21px; line-height: 1.3; padding: 0 0 10px; break-inside: avoid; overflow-wrap: anywhere; hyphens: auto; transition: color .18s ease; }
 .tu-subject-list h3 { font: 400 14px/1.4 var(--sans); color: var(--mu); margin: 0 0 10px; column-span: all; }
+/* Grouped by level: one column per level, each with its small heading */
+.tu-subject-list.by-level { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 28px clamp(24px, 4vw, 56px); }
+.tu-subject-list.by-level ul { columns: auto; }
+.tu-subject-list.by-level h3 { font: 500 12.5px/1.4 var(--sans); text-transform: uppercase; letter-spacing: .08em; color: var(--ac); margin: 0 0 14px; }
 @media (hover: hover) and (pointer: fine) { .tu-subject-list li:hover { color: var(--ac); } }
 
 
@@ -304,9 +308,10 @@ html:not(.js) .follow { display: none; }
    each with its live piece; the rows alternate sides). ── */
 :root { --r0: #1e252f; --r1: #3d3551; --r2: #2a3c50; --r3: #564968; --wall: #F2EFE8; } /* Star Battle regions and walls */
 [data-theme="day"] { --r0: #F7F1E7; --r1: #E6D7EF; --r2: #DFD0B9; --r3: #D2BDE0; --wall: #1f1a14; }
-.pj-book { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 40px clamp(32px, 5vw, 80px); align-items: start; padding-top: clamp(24px, 8vh, 96px); } /* every page title at the same height */
-.pj-book h1 { font-family: var(--serif-display); font-weight: 400; font-size: clamp(44px, 5.6vw, 84px); line-height: .98; letter-spacing: -.012em; margin: 0 0 18px; }
-.pj-lede { font-size: 20px; margin: 0 0 40px; max-width: 34ch; }
+.pj-head { padding-top: clamp(24px, 8vh, 96px); } /* every page title at the same height */
+.pj-head h1 { font-family: var(--serif-display); font-weight: 400; font-size: clamp(44px, 5.6vw, 84px); line-height: .98; letter-spacing: -.012em; margin: 0 0 18px; }
+.pj-lede { font-size: 20px; margin: 0; }   /* one line on wide screens (owner, 2026-10-26) */
+.pj-book { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 40px clamp(32px, 5vw, 80px); align-items: start; padding-top: clamp(40px, 7vh, 80px); }
 .pj-book-t, .pj-side h2 { font-family: var(--serif-display); font-weight: 400; font-size: clamp(32px, 3.4vw, 46px); line-height: 1.04; margin: 0 0 16px; }
 .pj-book-text p, .pj-side p { margin: 0 0 14px; max-width: 40ch; }
 .pj-get { margin: 26px 0 16px; }
@@ -348,7 +353,7 @@ html:not(.js) .follow { display: none; }
 .pj-hint { font: 400 13px/1.4 var(--sans); color: var(--mu); }
 button.pb { border: 0; cursor: pointer; }
 .pj-close { font-size: 20px; margin-top: clamp(56px, 7vw, 96px); padding-bottom: clamp(64px, 10vh, 120px); }
-.pj-close p { margin: 0 0 10px; max-width: 60ch; text-wrap: pretty; }
+.pj-close p { margin: 0 0 10px; text-wrap: pretty; }   /* one line on wide screens */
 html:not(.js) .pj-piece, html:not(.js) .pj-thumbs { display: none; }
 
 /* The neuron diagram: neurons are circles, arrows pass a signal on, a dot stops the neuron it reaches */
@@ -530,13 +535,16 @@ html.rising .tu-subject-list.in li:nth-child(n+6) { transition-delay: .3s; }
 .door-d { color: var(--ink); max-width: 46ch; }
 .door-go { font-family: var(--sans); font-size: 20px; color: var(--ac); transition: transform .2s var(--ease-out); }
 .door:last-child { border-bottom: 1px solid var(--card2); }
-.door-x { justify-self: end; display: block; }
+.door-x { justify-self: center; display: block; }   /* each door's detail sits centered in its column */
 .dd-shape { width: 96px; height: 96px; border-radius: 10px; }
 .dd-page { width: auto; height: 96px; border-radius: 4px; }
 .dd-rates { font: 400 15px/1.3 var(--sans); color: var(--mu); white-space: nowrap; }
 .dd-rates b { font: 400 30px/1 var(--serif-display); color: var(--ink); }
 .dd-graph { display: block; width: 150px; height: auto; }
 .dd-graph path { fill: none; stroke: var(--track); stroke-width: 1.4; }
+.dd-graph marker path { fill: var(--track); stroke: none; }   /* arrowheads: the graph is directed, from you to me */
+.dd-nd path.e { stroke: var(--ink); } .dd-nd marker path, .dd-nd .dot { fill: var(--ink); stroke: none; }
+.dd-nd circle.on { fill: var(--ac); stroke: var(--ink); } .dd-nd text { font-size: 14px; } .dd-nd text.on { fill: var(--on); }   /* the Projects door: the preemption diagram from the Projects page */
 .dd-graph circle { fill: var(--bg); stroke: var(--ink); stroke-width: 1.4; } .dd-graph circle.me { fill: var(--ac); stroke: var(--ac); }
 .dd-graph text { font: italic 13px var(--serif); fill: var(--ink); text-anchor: middle; dominant-baseline: central; } .dd-graph text.me { font: 400 12px var(--serif-display); fill: var(--on); }
 @media (hover: hover) and (pointer: fine) { .door:hover .door-t { color: var(--ac); } }
@@ -638,7 +646,7 @@ html.vt .top { view-transition-name: none; } /* the day/night circle covers the 
   .hero h1 { font-size: clamp(48px, 14vw, 72px); }
   .door { grid-template-columns: 1fr auto; }
   .door-d { grid-column: 1 / -1; grid-row: 2; }
-  .door-x { grid-column: 1 / -1; grid-row: 3; justify-self: start; margin-top: 4px; }
+  .door-x { grid-column: 1 / -1; grid-row: 3; justify-self: center; margin-top: 4px; }
 }
 
 /* ── The day/night switch: a circle of the new mode spreads from the button ── */

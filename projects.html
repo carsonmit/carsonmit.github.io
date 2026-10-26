@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
-<link rel="stylesheet" href="styles.css?v=2026-10-26-1">
+<link rel="stylesheet" href="styles.css?v=2026-10-26-2">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -39,13 +39,17 @@
 </header>
 
 <main id="top">
-  <!-- First screen: the GRE textbook, the strongest project (PRODUCT.md). The download is the focal action; the
+  <!-- The page's own header, then the projects (owner, 2026-10-26: the intro is the page's header, not part of the book). -->
+  <header class="wrap pj-head">
+    <h1 id="projects-title">Projects</h1>
+    <p class="pj-lede">Some writing, tools, and widgets I've produced for my own work and others to use.</p>
+  </header>
+
+  <!-- The GRE textbook, the strongest project (PRODUCT.md). The download is the focal action; the
        chapter list beside it previews a real page from each written chapter (pages rendered from pdf/GRE-Textbook.pdf). -->
-  <section class="wrap pj-book" aria-labelledby="projects-title">
+  <section class="wrap pj-book" aria-labelledby="book-title">
     <div class="pj-book-text">
-      <h1 id="projects-title">Projects</h1>
-      <p class="pj-lede">Things I make for mathematical work, starting with a free textbook for the GRE.</p>
-      <h2 class="pj-book-t">A Free GRE Textbook</h2>
+      <h2 class="pj-book-t" id="book-title">A Free GRE Textbook</h2>
       <p><i>Fundamentals of Mathematics for the GRE Quantitative Reasoning Section</i>, written in LaTeX. Free, and still growing: logic, set theory and arithmetic are written so far; algebra, geometry and data analysis are planned.</p>
       <div class="actions pj-get">
         <a class="pb" href="pdf/GRE-Textbook.pdf" download="Mitchell-GRE-Textbook.pdf">Download the PDF</a>

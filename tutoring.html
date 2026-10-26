@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tutoring · Carson Mitchell</title>
-<meta name="description" content="Math tutoring with Carson Mitchell: all levels, online over Zoom or in person in South Orange County, California. $60 per hour online, $80 per hour in person.">
+<meta name="description" content="Math tutoring with Carson Mitchell: all levels, online over Zoom or in person in South Orange County, California. $60 per hour online, $90 per hour in person.">
 <meta name="color-scheme" content="dark light">
 <script>
   // Apply the saved day/night choice before the page paints, so it never flashes the wrong mode.
@@ -17,7 +17,7 @@
 <!-- The math styles are only needed lower down, so they load without holding up the first paint. -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"></noscript>
-<link rel="stylesheet" href="styles.css?v=2026-10-26-1">
+<link rel="stylesheet" href="styles.css?v=2026-10-26-2">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -47,7 +47,7 @@
     <div class="tu-hero-text">
       <h1 id="tutoring-title">Math Tutoring</h1>
       <p class="tu-sub">All levels, online over Zoom or in person in South Orange County, California.</p>
-      <p class="tu-rate"><span class="nw"><b>$60</b> per hour online</span><span class="dot"> · </span><span class="nw"><b>$80</b> per hour in person</span></p>
+      <p class="tu-rate"><span class="nw"><b>$60</b> per hour online</span><span class="dot"> · </span><span class="nw"><b>$90</b> per hour in person</span></p>
       <p class="tu-note">Pay after the lesson, by Zelle, PayPal or Apple&nbsp;Cash.<br>Need another length? Say so when you book.</p>
     </div>
     <div class="tu-hero-book">
@@ -75,7 +75,7 @@
     </div>
     <!-- Fallback: this list is what visitors without JavaScript see. The script below replaces it with the
          current list from content/subjects.md, so edit that file, not this list. -->
-    <div id="tu-subjects" class="tu-subject-list rise"><ul><li>Discrete Math</li><li>Probability Theory</li><li>Calculus</li><li>Linear Algebra</li><li>Precalculus</li></ul></div>
+    <div id="tu-subjects" class="tu-subject-list by-level rise"><div class="tu-level"><h3>High School</h3><ul><li>Algebra I</li><li>Algebra II</li><li>Geometry</li><li>Precalculus</li></ul></div><div class="tu-level"><h3>College</h3><ul><li>Calculus</li><li>Linear Algebra</li><li>Discrete Math</li><li>Probability Theory</li><li>Combinatorics</li></ul></div><div class="tu-level"><h3>Advanced College</h3><ul><li>Abstract Algebra</li><li>Real Analysis</li></ul></div></div>
   </section>
 
   <!-- How I teach, as a short signed letter (direction sheet: "Founder's letter").
@@ -165,9 +165,9 @@ fetch('content/subjects.md').then(r => r.ok ? r.text() : Promise.reject()).then(
     if (h) groups.push(g = { name: h[1].trim(), items: [] });
     else if (li && g) g.items.push(li[1].trim());
   });
-  const html = groups.filter(x => x.items.length).map(x =>
-    (x.name && x.name !== 'Subjects' ? `<h3>${esc(x.name)}</h3>` : '') + '<ul>' + x.items.map(i => `<li>${esc(i)}</li>`).join('') + '</ul>').join('');
-  if (html) document.getElementById('tu-subjects').innerHTML = html;
+  const shown = groups.filter(x => x.items.length), named = shown.some(x => x.name !== 'Subjects');
+  const html = shown.map(x => (named ? `<div class="tu-level"><h3>${esc(x.name)}</h3>` : '') + '<ul>' + x.items.map(i => `<li>${esc(i)}</li>`).join('') + '</ul>' + (named ? '</div>' : '')).join('');
+  if (html) { const box = document.getElementById('tu-subjects'); box.innerHTML = html; box.classList.toggle('by-level', named); }
 }).catch(() => {}); // on failure the list written in the page stays
 
 /* ── The problems. Each line is [math, reason]; \H{…} marks the part that just changed (it lights up in the accent).

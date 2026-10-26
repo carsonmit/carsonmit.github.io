@@ -4,6 +4,18 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+### Changed
+- Home: each door's picture is centered in its column, on phones and computers. The Projects door now shows the
+  neuron diagram from the Projects page (instead of a textbook page), and the Contact door's graph has arrows from
+  "you" to "CM". New door texts: "Personal writings, tools, widgets, and more." and "Email, social media, message
+  form, and booking links."
+- Tutoring: the in-person rate is now $90 per hour (also on Home and in the Cal.com Tutoring Session description).
+- Tutoring: six more subjects (Algebra I, Algebra II, Geometry, Combinatorics, Abstract Algebra, Real Analysis), and
+  the list is grouped by level: High School, College and Advanced College, one column each.
+- Projects: the page has its own header ("Some writing, tools, and widgets I've produced for my own work and others to
+  use."), with the textbook below it, and the opening and closing lines no longer wrap early on wide screens.
+- About Me: the math styles load without holding up the page (the math is further down), so the page appears sooner.
+
 ## [0.12.1] - 2026-10-26
 
 ### Changed
