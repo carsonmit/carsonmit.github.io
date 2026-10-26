@@ -76,7 +76,7 @@ Progress: ✅ Hero (v0.6.0) · ✅ About Me (v0.7.0) · ✅ Separate pages (v0.8
 - "/impeccable audit": accessibility, contrast, mobile, performance (done 2026-10-25: 17/20, fixes applied)
 - Favicon (the little icon on the browser tab): mock up options, e.g. "CM" in DM Serif lilac on charcoal, or the C and M the hero's circles draw (Carson asked to be reminded, 2026-10-25). Done 2026-10-25: the M inside the C.
 - "/impeccable polish": final pass on spacing and details (done 2026-10-25, with the full review pipeline on all five pages)
-- Restyle Neuron Diagram Maker and Star Battle Solver (in `carsonmit/Widgets-and-Miscellaneous`) to match the site's look, then revisit how the Projects page shows them (Carson's plan, 2026-10-25)
+- Restyle Neuron Diagram Maker and Star Battle Solver (in `carsonmit/Widgets-and-Miscellaneous`) to match the site's look, then revisit how the Projects page shows them (Carson's plan, 2026-10-25). Done 2026-10-26: both apps restyled (Star Battle is now a web app with difficulty levels), Projects page updated; released as Widgets v0.5.0 and site v0.12.1. Booking texts shelved.
 - "Use review-animations on the whole page" (done 2026-10-25: Approve after fixes)
 - "Test the light/dark switch and the phone layout with Playwright"
 
