@@ -82,7 +82,7 @@
       <p>A point-and-click editor for the neuron diagrams used in the philosophy of causation. Draw neurons and connections, then export TikZ code for a LaTeX document, or an image for Word or Google&nbsp;Docs.</p>
       <p class="pj-facts">Runs in any browser, on a computer, iPad or phone · Works offline · No account</p>
       <a class="pb" href="https://carsonmit.github.io/Widgets-and-Miscellaneous/NeuronDiagrams/">Open the Editor <span aria-hidden="true">→</span></a>
-      <figure class="pj-shot"><img src="images/projects/neuron-diagram-maker.jpg" width="760" height="528" alt="The Neuron Diagram Maker editor, with tools on the left, a diagram of five neurons in the middle, and the selected neuron's settings on the right" loading="lazy"><figcaption>The editor itself, with the same diagram</figcaption></figure>
+      <figure class="pj-shot"><img src="images/projects/neuron-diagram-maker.jpg" data-day="images/projects/neuron-diagram-maker-day.jpg" width="760" height="528" alt="The Neuron Diagram Maker editor, with tools on the left, a diagram of five neurons on a sheet of paper in the middle, and the selected neuron's settings on the right" loading="lazy"><figcaption>The editor itself, with the same diagram</figcaption></figure>
     </div>
     <div class="pj-piece nd-piece rise">
       <div class="solve-tabs" role="tablist" aria-label="Cases"></div>
@@ -97,14 +97,15 @@
 
   <!-- Star Battle Solver, with its live piece (design/mockups/projects-starbattle.html, approved: options A and C
        together). Play the real puzzle, ask for one step, or press Solve to watch. Every step and reason is the solver's
-       own output (data/star-battle-easy.json, exported from StarBattleSolver/solver.py). -->
+       own output (data/star-battle-easy.json, exported from StarBattleSolver/solver.py on its medium example; the file
+       keeps its old name because the puzzle used to be graded easy). -->
   <section class="wrap pj-proj pj-flip" id="star-battle" aria-labelledby="stb-title">
     <div class="pj-side">
       <h2 id="stb-title">Star Battle Solver</h2>
-      <p>A solver for Star Battle puzzles, written in Python, with a window where you paint in a puzzle and watch it solved step by step, each step explained in plain English.</p>
-      <p class="pj-facts">Reasons first and guesses only when stuck · 19 of 30 random test puzzles needed no guess at all · Makes new puzzles with exactly one answer</p>
-      <a class="pb" href="https://github.com/carsonmit/Widgets-and-Miscellaneous/tree/main/StarBattleSolver">See the Code on GitHub <span aria-hidden="true">→</span></a>
-      <figure class="pj-shot"><img src="images/projects/star-battle-solver.jpg" width="760" height="717" alt="The Star Battle Solver window part-way through a hard puzzle: a colored 10 by 10 grid with stars and crosses, the controls, and a log of the steps" loading="lazy"><figcaption>The solver's own window, part-way through a hard puzzle</figcaption></figure>
+      <p>Paint in a Star Battle puzzle, or make a new one at the difficulty you choose, and watch it solved step by step. Each step is explained with the rule conventions I wrote for the Puzzle Round of the 2022 Berkeley mini Math Tournament.</p>
+      <p class="pj-facts">Runs in any browser, on a computer, iPad or phone · Four difficulty levels, each checked by solving · Makes new puzzles with exactly one answer</p>
+      <a class="pb" href="https://carsonmit.github.io/Widgets-and-Miscellaneous/StarBattleSolver/">Open the Solver <span aria-hidden="true">→</span></a>
+      <figure class="pj-shot"><img src="images/projects/star-battle-solver.jpg" data-day="images/projects/star-battle-solver-day.jpg" width="760" height="528" alt="The Star Battle Solver part-way through an expert puzzle: a pastel 10 by 10 board with stars and crosses, one region tinted to show what the step is about, and the controls beside it" loading="lazy"><figcaption>The solver itself, part-way through its expert example</figcaption></figure>
     </div>
     <div class="pj-piece stb-piece rise">
       <p class="stb-rules"><b>The rules:</b> put two stars in every row, every column and every outlined region, and no two stars may touch, not even at a corner.</p>
@@ -125,6 +126,16 @@
       </div>
     </div>
   </section>
+
+  <script>
+    // Day screenshots of the two apps, swapped in when the site is in Day mode (like the stills on Home and About).
+    (() => {
+      const shots = [...document.querySelectorAll('.pj-shot img[data-day]')];
+      shots.forEach(i => { i.dataset.night = i.getAttribute('src'); });
+      const f = () => shots.forEach(i => { const src = document.documentElement.dataset.theme === 'day' ? i.dataset.day : i.dataset.night; if (i.getAttribute('src') !== src) i.src = src; });
+      f(); document.addEventListener('themechange', f);
+    })();
+  </script>
 
   <div class="wrap pj-close">
     <p>More small programs, from a Sudoku solver to a Scrabble scorer, are on <a href="https://github.com/carsonmit/Widgets-and-Miscellaneous">GitHub</a>.</p>
@@ -336,15 +347,22 @@
   const START = 'Place stars yourself: tap a cell once to cross it out, twice for a star (its neighbors are crossed out for you). Or press Solve to watch the solver work it out, one reason at a time.';
   let about = [], P, n, sol, mine, auto = new Set(), helped = 0, timer = null; // auto: crosses placed for you around a star
 
-  // The solver's wording, tidied for the page: "1 star(s)" → "1 star", and American spelling.
+  // The solver's wording, tidied for the page (the same as in the Star Battle Solver app): "1 star(s)" → "1 star",
+  // one region named in the singular, American spelling, en dashes in ranges.
   function tidy(m) {
     return m
-      .replace(/(\d+) (more |open )?(star|cell)\(s\)/g, (_, k, w2, w) => `${k} ${w2 || ''}${w}${k === '1' ? '' : 's'}`)
-      .replace(/open cells? left, so they all get stars/, s => s.startsWith('open cell left') ? 'open cell left, so it gets a star' : s)
-      .replace(/it gets a star \(and their neighbou?rs/, 'it gets a star (and its neighbors')
-      .replace(/region\(s\) ([A-J]) fit entirely inside (\w+ \d+), so they use up all of its stars/, 'region $1 fits entirely inside $2, so its two stars are $2\'s two stars').replace(/region\(s\) /, 'regions ')
-      .replace(/(rows|columns) (\d+)-(\d+), so they use up all of its/, '$1 $2–$3, so they use up all of their')
-      .replace(/^Squeeze: /, '').replace(/neighbours/g, 'neighbors').replace(/colour/g, 'color')
+      .replace(/(\d+) ((?:more |open )?)(star|cell|region)\(s\)/g, (_, k, between, w) => `${k} ${between}${w}${k === '1' ? '' : 's'}`)
+      .replace(/region\(s\) ([A-J])(?!, [A-J]\b)/g, 'region $1')
+      .replace(/exactly 1 open cell left, so they all get stars \(and their neighbours/g, 'exactly 1 open cell left, so it gets a star (and its neighbours')
+      .replace(/(\d+)-(\d+)/g, '$1–$2')
+      .replace(/region ([A-J]) fit entirely inside ([^,]+), so they use/g, 'region $1 fits entirely inside $2, so it uses')
+      .replace(/from region ([A-J]), which fills those regions up\. Their cells/g, 'from region $1, which fills it up. Its cells')
+      .replace(/region\(s\)/g, 'regions')
+      .replace(/needs 1 more star but there's no room for them/g, "needs 1 more star but there's no room for it")
+      .replace(/its other 1 star\b/g, 'its other star').replace(/for the 1 star it still needs/g, 'for the star it still needs')
+      .replace(/2x2/g, '2×2')
+      .replace(/neighbours/g, 'neighbors').replace(/colour/g, 'color').replace(/go round/g, 'go around')
+      .replace(/ - /g, ' — ')
       .replace(/^./, c => c.toUpperCase());
   }
   // Four tones for the regions, so that touching regions never share one (a greedy map coloring).

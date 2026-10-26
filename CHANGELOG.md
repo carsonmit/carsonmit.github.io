@@ -6,6 +6,12 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ### Changed
 - Tutoring: the Putnam Integral problem's intro now reads "Evaluate this integral." instead of repeating the integral that sits right below it.
+- Projects: the Star Battle Solver is now a web app, so its button is "Open the Solver" (it used to link to the code on
+  GitHub), and its text and facts describe the app, its four difficulty levels and the rule conventions from Carson's
+  2022 Berkeley mini Math Tournament Puzzle Round.
+- Projects: new screenshots of both apps in their new look, with Night and Day versions that follow the site's mode.
+- Projects: the Star Battle puzzle uses the updated solver's steps: the rule names Completed Sections, No More Space,
+  Too Much Space, Rude Roommates, Nosy Neighbors and Chunking, and one step per reason (48 steps instead of 69).
 
 ## [0.12.0] - 2026-10-26
 

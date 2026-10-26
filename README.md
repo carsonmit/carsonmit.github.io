@@ -74,7 +74,7 @@ To change a design decision (a color or a font), update `DESIGN.md` first, then 
 
 **After editing `styles.css` or `site.js`,** change the version tag where every page links them (`styles.css?v=2026-10-26-1`, `site.js?v=…`) to something new, for example today's date. Browsers keep old copies of these files; a new tag makes them fetch the new one. Find and replace across the five HTML files does it in one go.
 
-**Tutoring subjects** live in `content/subjects.md`: one per line starting with `- `, below the `## Subjects` line. **Textbook pictures** in `images/gre/` are made from the PDF and don't update when the book changes; ask Claude to re-render them if the pages change. The same goes for `data/star-battle-easy.json` (made by running the solver) and the program screenshots in `images/projects/`.
+**Tutoring subjects** live in `content/subjects.md`: one per line starting with `- `, below the `## Subjects` line. **Textbook pictures** in `images/gre/` are made from the PDF and don't update when the book changes; ask Claude to re-render them if the pages change. The same goes for `data/star-battle-easy.json` (made by running the solver on its medium example) and the program screenshots in `images/projects/` (a Night and a `-day` version of each).
 
 ## Tools
 
