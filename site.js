@@ -43,3 +43,14 @@ const katexReady = new Promise(r => { const el = document.querySelector('script[
 document.querySelectorAll('a.email').forEach(a => a.addEventListener('click', e => {
   e.preventDefault(); location.href = 'mailto:' + a.dataset.user + '@' + a.dataset.host;
 }));
+
+/* ── Links that leave the site (booking, apps, PDF, LinkedIn…) open in a new tab, so the site stays open.
+   The menu's own pages, same-page jumps, downloads and email links are left alone.
+   `noopener` stops the new tab from being able to control this one. ── */
+const sitePages = /^\/(index|about|tutoring|projects|contact)?(\.html)?$/;
+document.querySelectorAll('a[href]').forEach(a => {
+  const u = new URL(a.getAttribute('href'), location.href);
+  if (a.hasAttribute('download') || !/^https?:$/.test(u.protocol) || a.classList.contains('email')) return;
+  if (u.origin === location.origin && sitePages.test(u.pathname)) return;
+  a.target = '_blank'; a.rel = 'noopener';
+});

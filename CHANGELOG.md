@@ -5,6 +5,9 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 ## [Unreleased]
 
 ### Changed
+- Every link that leaves the site (booking buttons, both apps, the textbook PDF, LinkedIn, GitHub) now opens in a new
+  tab, so the site stays open behind it. The menu, the download button and email links work as before.
+- Workflow: Stages 4 and 5 marked done, with a "What's Next" list of the later items.
 - README: a new Lighthouse baseline for the redesigned site (the old one was measured on the one-page site), and how to read its run-to-run swings.
 
 ## [0.13.0] - 2026-10-26

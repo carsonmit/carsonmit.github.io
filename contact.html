@@ -139,7 +139,7 @@
 
 </main>
 
-<script src="site.js?v=2026-10-26-1"></script>
+<script src="site.js?v=2026-10-26-2"></script>
 <script>
 /* ── Blocks rise into place as they come on screen. ── */
 (() => {
@@ -166,7 +166,7 @@
       if (d1 >= R1 + 3 && d2 >= R2 + 11) pts.push(p);
     }
     // Each whole path is a link: pointing at it lights it, clicking it goes where that path leads.
-    const g = el('g', { class: 'edge', 'data-k': key }, svg), link = el('a', { href, tabindex: -1 }, g);
+    const g = el('g', { class: 'edge', 'data-k': key }, svg), link = el('a', href.startsWith('http') ? { href, tabindex: -1, target: '_blank', rel: 'noopener' } : { href, tabindex: -1 }, g);
     const d = 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L');
     el('path', { class: 'hit', d }, link); // a wide invisible band, so the thin line is easy to hit
     el('path', { class: 'line', pathLength: 1, d }, link);
