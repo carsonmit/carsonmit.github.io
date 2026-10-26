@@ -4,6 +4,9 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+### Changed
+- Tutoring: the Putnam Integral problem's intro now reads "Evaluate this integral." instead of repeating the integral that sits right below it.
+
 ## [0.12.0] - 2026-10-26
 
 The whole site polished: a browser-tab icon, a technical audit and a full design review of all five pages, with the fixes they found.
