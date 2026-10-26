@@ -4,6 +4,8 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.13.1] - 2026-10-26
+
 ### Changed
 - Every link that leaves the site (booking buttons, both apps, the textbook PDF, LinkedIn, GitHub) now opens in a new
   tab, so the site stays open behind it. The menu, the download button and email links work as before.
@@ -263,7 +265,8 @@ Setup for the redesign. No visible change to the live site.
 - First version of the site from a template: hero, about, and connect sections, with animation effects.
 - A custom domain file (`CNAME`) was added and then removed the same day.
 
-[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.13.1...HEAD
+[0.13.1]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.11.0...v0.12.0
