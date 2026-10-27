@@ -45,7 +45,8 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 | `images/` | Pictures used on the site: `carson.jpg` (original photo), `carson-1000.webp` and `carson-1000.jpg` (the web-sized copy About Me shows: WebP, a smaller modern format, with the JPEG for older browsers), `permutahedron-still.jpg` and `permutahedron-still-day.jpg` (night and day pictures of the 3D shape, shown until it loads and on the Home door), `gre/` (pages of the GRE textbook shown on Tutoring) |
 | `media/` | Videos on the site: the Banach–Tarski animation in a night and a day version, with a still "poster" image for each |
 | `design/manim/` | Source of the Banach–Tarski animation (`banach_tarski.py`) and `encode.py`, which shrinks a render into the web videos in `media/` |
-| `design/mockups/` | Interactive pieces as standalone pages (open in a browser): the hero circles, the About pieces, the Tutoring problem, the two Projects pieces, the Contact graph, the favicon options and the Home doors. The site must match the approved ones. |
+| `design/mockups/` | Interactive pieces as standalone pages (open in a browser): the hero circles, the About pieces, the Tutoring problem, the two Projects pieces, the Contact graph, the favicon options and the Home doors (round 1 in `home-doors-3d.html`, rounds 2–3, "The Study", in `home-doors-3d-r2.html`). The site must match the approved ones. |
+| `scripts/contact-sheet.sh` | Takes Night/Day, computer/phone screenshots of a mockup and reports errors (see Tools) |
 | `WORKFLOW.md` | The step-by-step process for building and changing the site |
 | `CHANGELOG.md` | Version history in plain language |
 | `CLAUDE.md` | Instructions for Claude Code, the AI assistant used to build the site |
@@ -86,6 +87,7 @@ Setup for a new computer (macOS with [Homebrew](https://brew.sh)). Node.js 22 or
 | GitHub CLI (`gh`) | Check Pages deploys and the PDF pipeline's runs, make releases | `brew install gh`, then `gh auth login` |
 | Manim | Pre-rendered math animation videos for the site | See below |
 | Lighthouse | Score speed, accessibility, best practices, SEO | Nothing to install (runs via `npx`) |
+| playwright-cli | Drives a hidden browser; used by the contact-sheet script | `npm install -g @playwright/cli`, then `playwright-cli install-browser` |
 
 **Manim** (3Blue1Brown's Python animation library) lives in its own Python environment, so its packages don't clash with anything else:
 
@@ -112,6 +114,14 @@ To remake the Banach–Tarski video after editing `design/manim/banach_tarski.py
 ```
 
 The last argument on the night line (`2,2,-1`) nudges the colors so the video's dark background lands exactly on the page's background after compression. The page's captions are timed to the video's steps (the `beats` list in `about.html`), so update those times if the animation's timing changes.
+
+**Contact sheet for a mockup** (`scripts/contact-sheet.sh`): opens a mockup in a hidden browser and saves one picture of it in Night and Day, at computer width (1280×900) and phone width (375×812), plus a report of any console errors (script mistakes) and any sideways scrolling on phones. Start the local server on port 8770 first (`python3 -m http.server 8770 --bind 127.0.0.1`), then:
+
+```bash
+scripts/contact-sheet.sh design/mockups/home-doors-3d-r2.html
+```
+
+The pictures land in `design/mockups/shots/` (not saved in git). An optional second number sets how long each view settles, in milliseconds (default 3000).
 
 **Lighthouse** on the live site (Chrome must be installed):
 

@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup: The Study, Round 7</title>
+<script>try { if (localStorage.getItem('theme') === 'day') document.documentElement.dataset.theme = 'day'; } catch (e) {} document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../styles.css?v=2026-10-26-2">
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
+<style>
+  /* Mockup only: the Study, with Carson's own things in it and labels beside the objects.
+     Round 1 (three directions, three layouts) stays in home-doors-3d.html as a record. */
+  .mk-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding-top: 24px; }
+  .mk-bar button { font: 500 14px/1 var(--sans); color: var(--mu); background: transparent; border: 1.5px solid var(--track); border-radius: 999px; padding: 10px 14px; cursor: pointer; margin-left: auto; }
+  .mk-h { font: 400 clamp(34px, 4vw, 52px)/1.05 var(--serif-display); margin: 28px 0 10px; }
+  .mk-note { max-width: 66ch; margin: 0; color: var(--mu); }
+
+  /* The stage: the 3D view, a layer of dotted leader lines, and the four doors as labels */
+  .d3s { position: relative; margin: 12px 0 80px; height: clamp(660px, 72vw, 920px); }
+  .view { position: absolute; inset: 0; }
+  .view canvas { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity .45s var(--ease-out); touch-action: pan-y; }
+  .d3s.ready .view canvas { opacity: 1; }
+  .d3l { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; opacity: 0; transition: opacity .4s var(--ease-out) .15s; }
+  .d3s.ready .d3l { opacity: 1; }
+  .d3l line { stroke: var(--track); stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: .5 6; transition: stroke .2s ease; }
+  .d3l line.on { stroke: var(--ac); }
+  @media (prefers-reduced-motion: no-preference) { .d3l line.on { animation: march .9s linear infinite; } }
+  @keyframes march { to { stroke-dashoffset: -13; } }
+  .d3l circle { fill: var(--bg); stroke: var(--track); stroke-width: 1.6; transition: fill .2s ease, stroke .2s ease; }
+  .d3l circle.on { fill: var(--ac); stroke: var(--ac); }
+
+  .cards { position: absolute; inset: 0; pointer-events: none; }
+  .c3 { position: absolute; left: 0; top: 0; width: max-content; max-width: 250px; pointer-events: auto; padding: 8px 13px 10px; border-radius: 12px; color: var(--ink); text-decoration: none;
+    background: color-mix(in srgb, var(--card) 78%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+    opacity: 0; transition: opacity .4s var(--ease-out), border-color .2s ease; }
+  .d3s.ready .c3 { opacity: 1; }
+  .d3s.ready .c3:nth-child(2) { transition-delay: .06s; } .d3s.ready .c3:nth-child(3) { transition-delay: .12s; } .d3s.ready .c3:nth-child(4) { transition-delay: .18s; }
+  .c3-t { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font: 400 24px/1.1 var(--serif-display); transition: color .18s ease; }
+  .c3-go { font: 500 19px var(--sans); color: var(--ac); transition: transform .2s var(--ease-out); }
+  .c3-d { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .3s var(--ease-out), opacity .2s ease; }
+  .c3-d > span { overflow: hidden; font-size: 16.5px; line-height: 1.4; }
+  .c3-d > span > span { display: block; padding-top: 6px; }
+  .c3.on { border-color: color-mix(in srgb, var(--ac) 60%, transparent); z-index: 2; }
+  .c3.on .c3-t { color: var(--ac); }
+  .c3.on .c3-d { grid-template-rows: 1fr; opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) { .c3.on .c3-go { transform: translateX(5px); } }
+  @media (prefers-reduced-motion: reduce) { .c3, .c3-d, .view canvas, .d3l { transition: none; } }
+
+  /* Dexter's name tag, and the bone's quiet invitation: not links, just small notes in the room */
+  .dx, .bh { position: absolute; left: 0; top: 0; pointer-events: none; font: italic 400 17px/1 var(--serif); color: var(--ink); padding: 5px 10px 6px; border-radius: 999px;
+    background: color-mix(in srgb, var(--card) 82%, transparent); border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+    opacity: 0; transition: opacity .35s var(--ease-out); white-space: nowrap; }
+  .bh { font-size: 15px; color: var(--mu); }
+  .tp { font: 400 14px/1.2 var(--sans); z-index: 3; }
+  .tp i { font: italic 400 16px var(--serif); }
+  .dx.on, .bh.on { opacity: 1; }
+
+  /* Phones: titles only, on the scene */
+  @media (max-width: 760px) {
+    .d3s { height: auto; }
+    .view { position: relative; inset: auto; aspect-ratio: 1 / .92; }
+    .c3-d { display: none; }
+    .c3 { padding: 6px 10px 7px; border-radius: 10px; }
+    .c3-t { font-size: 18px; margin: 0; gap: 8px; }
+    .c3-go { font-size: 15px; }
+    .bh { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="mk-bar"><button type="button" id="mode-t">Switch Day/Night</button></div>
+  <h1 class="mk-h">The Study, Round 7</h1>
+  <p class="mk-note">Drag the bone onto Dexter: he catches it, does a lap, tosses it, pounces on it, does another lap, and sniffs his way back to bed. Watch the chalkboard write itself, and lean the room (move your pointer) to see the Campanile shift through the window.</p>
+
+  <section class="d3s" aria-label="Pages">
+    <div class="view"></div>
+    <svg class="d3l" aria-hidden="true"></svg>
+    <div class="cards">
+      <a class="c3" data-k="about" href="../../about.html"><span class="c3-t">About Me<span class="c3-go" aria-hidden="true">→</span></span><span class="c3-d"><span><span>Who I am and some math I find beautiful and interesting.</span></span></span></a>
+      <a class="c3" data-k="tutoring" href="../../tutoring.html"><span class="c3-t">Tutoring<span class="c3-go" aria-hidden="true">→</span></span><span class="c3-d"><span><span>Math tutoring for all levels, online or in person in South Orange County.</span></span></span></a>
+      <a class="c3" data-k="projects" href="../../projects.html"><span class="c3-t">Projects<span class="c3-go" aria-hidden="true">→</span></span><span class="c3-d"><span><span>Personal writings, tools, widgets, and more.</span></span></span></a>
+      <a class="c3" data-k="contact" href="../../contact.html"><span class="c3-t">Contact<span class="c3-go" aria-hidden="true">→</span></span><span class="c3-d"><span><span>Email, social media, message form, and booking links.</span></span></span></a>
+    </div>
+    <span class="dx" aria-hidden="true">Dexter</span>
+    <span class="bh" aria-hidden="true"></span>
+    <span class="dx tp" aria-hidden="true"></span>
+  </section>
+</main>
+
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { ConvexGeometry } from 'three/addons/geometries/ConvexGeometry.js';
+
+const root = document.documentElement;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const coarse = matchMedia('(pointer: coarse)').matches;
+const stage = document.querySelector('.d3s'), view = stage.querySelector('.view'), svg = stage.querySelector('.d3l'), dxTag = stage.querySelector('.dx'), boneHint = stage.querySelector('.bh'), tipEl = stage.querySelector('.tp');
+boneHint.textContent = coarse ? 'Tap me, then Dexter' : 'Drag me to Dexter';
+const cardEls = [...stage.querySelectorAll('.c3')], KEYS = cardEls.map(c => c.dataset.k);
+const isDay = () => root.dataset.theme === 'day';
+const isPhone = () => innerWidth <= 760;
+const ease = k => 1 - Math.pow(1 - k, 4);                                   // close to the site's strong ease-out
+const easeIO = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const clamp01 = k => Math.max(0, Math.min(1, k));
+const seg = (t, a, b) => clamp01((t - a) / (b - a));                        // 0 → 1 as t goes from a to b
+
+/* ───────── Renderer and camera ───────── */
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+view.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, .1, 80);
+let room = null;
+const view3 = { x: 0, y: 0 };   // how far the view has swayed from its rest angle (−1 to 1), for the window's parallax
+
+/* ───────── Day/night: every themed value tweens together (0.75 s), so the lamp "comes on" ───────── */
+const themed = [], hooks = []; let tw0 = -1;
+const col = h => new THREE.Color(h);
+function th(obj, prop, night, day) {
+  const e = { obj, prop, night: typeof night === 'number' ? night : col(night), day: typeof day === 'number' ? day : col(day), from: null };
+  const v = isDay() ? e.day : e.night;
+  if (typeof v === 'number') obj[prop] = v; else obj[prop].copy(v);
+  themed.push(e); return obj;
+}
+function stepTheme(k) {
+  const d = isDay();
+  for (const e of themed) { const to = d ? e.day : e.night; if (typeof to === 'number') e.obj[e.prop] = e.from + (to - e.from) * k; else e.obj[e.prop].lerpColors(e.from, to, k); }
+}
+document.addEventListener('themechange', () => {
+  for (const e of themed) e.from = typeof e.night === 'number' ? e.obj[e.prop] : e.obj[e.prop].clone();
+  hooks.forEach(f => f(isDay()));
+  if (reduce) stepTheme(1); else tw0 = performance.now();
+});
+const DK = th({ v: 0 }, 'v', 0, 1);   // 0 at night, 1 by day, tweening in between (the window uses it)
+
+/* ───────── Small building helpers ───────── */
+const M = (night, day, o = {}) => th(new THREE.MeshStandardMaterial({ roughness: .85, metalness: 0, ...o }), 'color', night, day);
+function glow(m, night, day, nI, dI) { th(m, 'emissive', night, day); th(m, 'emissiveIntensity', nI, dI); return m; }
+function mesh(geo, m, cast = true) { const o = new THREE.Mesh(geo, m); o.castShadow = cast; o.receiveShadow = true; return o; }
+const bx = (w, h, d, m, r = 0) => mesh(r ? new RoundedBoxGeometry(w, h, d, 2, r) : new THREE.BoxGeometry(w, h, d), m);
+const cy = (rt, rb, h, m, seg = 24) => mesh(new THREE.CylinderGeometry(rt, rb, h, seg), m);
+const sp = (r, m, ws = 20, hs = 14) => mesh(new THREE.SphereGeometry(r, ws, hs), m);
+const cap = (r, l, m) => mesh(new THREE.CapsuleGeometry(r, l, 4, 12), m);
+function put(o, x, y, z, parent) { o.position.set(x, y, z); if (parent) parent.add(o); return o; }
+const flat = (w, h, mat) => { const o = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat); o.receiveShadow = true; return o; };
+let seed = 7; const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+
+/* ───────── Canvas textures (drawn after the fonts load) ───────── */
+function canvasTex(w, h, draw) {
+  const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+  t.redraw = (...a) => { draw(cv.getContext('2d'), w, h, ...a); t.needsUpdate = true; };
+  t.redraw(isDay()); return t;
+}
+const texMat = (t, o = {}) => new THREE.MeshStandardMaterial({ map: t, roughness: .9, ...o });
+const MATH = 'Newsreader, "STIX Two Math", "Cambria Math", "Apple Symbols", serif';
+// Math with one level of _{subscripts} and ^{superscripts}; shrinks itself to fit maxW
+function tex(x, str, X, Y, size, maxW = 1e9) {
+  const parts = []; let i = 0;
+  while (i < str.length) {
+    if ((str[i] === '_' || str[i] === '^') && str[i + 1] === '{') { const j = str.indexOf('}', i); parts.push([str.slice(i + 2, j), str[i]]); i = j + 1; }
+    else { let j = i; while (j < str.length && !((str[j] === '_' || str[j] === '^') && str[j + 1] === '{')) j++; parts.push([str.slice(i, j), '']); i = j; }
+  }
+  const run = (sz, draw) => parts.reduce((cx, [t, k]) => { const s2 = k ? sz * .6 : sz; x.font = `italic 400 ${s2}px ${MATH}`; if (draw) x.fillText(t, cx, Y + (k === '_' ? sz * .22 : k === '^' ? -sz * .4 : 0)); return cx + x.measureText(t).width + (k ? sz * .05 : 0); }, X) - X;
+  const wd = run(size, false), f = wd > maxW ? maxW / wd : 1;
+  run(size * f, true); return wd * f;   // the width actually drawn
+}
+
+// The chalkboard, in two layers: the slate itself, and the writing (all logic, every line a true statement), which a floating
+// piece of chalk writes line by line and an eraser wipes away. BOARD_ITEMS holds each written thing's box, in writing order.
+const chalkBg = (x, w, h) => {
+  x.fillStyle = '#2b313b'; x.fillRect(0, 0, w, h);
+  for (let i = 0; i < 90; i++) { x.fillStyle = `rgba(255,255,255,${(rnd() * .045).toFixed(3)})`; x.beginPath(); x.ellipse(rnd() * w, rnd() * h, 60 + rnd() * w * .16, 18 + rnd() * h * .08, rnd() * 3, 0, 7); x.fill(); }   // old eraser smudges
+  for (let i = 0; i < 6000; i++) { x.fillStyle = 'rgba(255,255,255,.025)'; x.fillRect(rnd() * w, rnd() * h, 2, 2); }
+};
+const BOARD_ITEMS = [];
+const chalkText = (x, w, h) => {
+  x.clearRect(0, 0, w, h); BOARD_ITEMS.length = 0;
+  const s = w / 2048, box = (x0, y0, x1, y1) => BOARD_ITEMS.push([x0 * s / w, 1 - y1 * s / h, x1 * s / w, 1 - y0 * s / h]);   // as texture coordinates (v runs up)
+  const grow = (x0, y0, x1, y1) => { const b = BOARD_ITEMS.at(-1); b[0] = Math.min(b[0], x0 * s / w); b[1] = Math.min(b[1], 1 - y1 * s / h); b[2] = Math.max(b[2], x1 * s / w); b[3] = Math.max(b[3], 1 - y0 * s / h); };   // fold a stroke into the item just written
+  const T = (str, X, Y, sz, maxW, a = .93) => { x.fillStyle = `rgba(236,232,223,${a})`; const wd = tex(x, str, X * s, Y * s, sz * s, maxW * s) / s; box(X - 8, Y - sz, X + wd + 8, Y + sz * .45); };
+  x.strokeStyle = 'rgba(236,232,223,.6)'; x.lineCap = 'round';
+  T('T = Th(ℕ) ∪ {c > n̲ : n < ω}', 60, 140, 86, 1060);                                      // compactness
+  x.lineWidth = 4 * s; x.beginPath(); x.moveTo(60 * s, 175 * s); x.lineTo(1040 * s, 175 * s); x.stroke(); grow(50, 165, 1050, 185);   // its underline
+  T('⟹  ∃𝔐 ⊨ T,  ℕ ≺ 𝔐', 1180, 140, 86, 820);
+  T('∏_{i∈I}𝔐_{i}/𝒰 ⊨ φ([f]_{𝒰})  ⟺  {i ∈ I : 𝔐_{i} ⊨ φ(f(i))} ∈ 𝒰', 60, 300, 84, 1930);  // Łoś
+  T('PA ⊢ σ ↔ ¬Prov_{PA}(⌜σ⌝)', 60, 460, 86, 1100);                                          // Gödel
+  T('PA ⊬ Con(PA)', 1300, 460, 86, 700);
+  T('⊢_{GL} □(□φ → φ) → □φ', 60, 615, 86, 900);                                              // Löb
+  T('M[G] ⊨ φ  ⟺  ∃p ∈ G  (p ⊩ φ)', 1040, 615, 80, 960);                                    // the forcing truth lemma
+  T('ℙ = Fn(ω₂ × ω, 2)  ⟹  M[G] ⊨ 2^{ℵ₀} ≥ ℵ₂', 60, 775, 84, 1300);                         // Cohen
+  T('ZFC ⊬ CH', 1470, 780, 80, 500);
+  x.strokeStyle = 'rgba(236,232,223,.75)'; x.lineWidth = 5 * s; x.strokeRect(1430 * s, 700 * s, 560 * s, 105 * s); grow(1420, 690, 2000, 815);   // its box
+  T('L ⊨ ZFC + GCH', 60, 935, 80, 640);                                                       // Gödel's L
+  T('|𝔐| ≥ |ℒ| + ℵ₀  ⟹  ∃𝔑 ≼ 𝔐,  |𝔑| = |ℒ| + ℵ₀', 760, 935, 78, 1240);                      // downward Löwenheim–Skolem
+  T('ℝ ⊨ ∃x (ax² + bx + c = 0) ↔ (a ≠ 0 ∧ b² ≥ 4ac) ∨ (a = 0 ∧ (b ≠ 0 ∨ c = 0))', 60, 1095, 70, 1930, .82);   // Tarski
+  x.globalCompositeOperation = 'destination-out';   // chalky gaps in the strokes
+  for (let i = 0; i < 9000; i++) { x.fillStyle = 'rgba(0,0,0,.55)'; x.fillRect(rnd() * w, rnd() * h, 2 * s + 1, 2 * s + 1); }
+  x.globalCompositeOperation = 'source-over';
+};
+
+// Sketches for the corkboard (bold enough to read from across the room)
+const ND = { nodes: { c: [18, 20], d: [68, 20], e: [130, 44], a: [18, 68], b: [68, 68] },
+  arrows: [[29, 20, 52, 20], [80, 25, 118, 41], [29, 68, 52, 68], [80, 63, 118, 47]], stop: [25, 29, 56, 59] };
+const paper = (x, w, h, sd = 3) => { let s2 = sd; const r2 = () => (s2 = s2 * 16807 % 2147483647) / 2147483647; x.fillStyle = '#f6f1e6'; x.fillRect(0, 0, w, h); for (let i = 0; i < 600; i++) { x.fillStyle = `rgba(120,100,80,${(r2() * .05).toFixed(3)})`; x.fillRect(r2() * w, r2() * h, 2, 2); } };
+const pencil = (x, wd = 3) => { x.strokeStyle = 'rgba(48,44,50,.92)'; x.fillStyle = 'rgba(48,44,50,.92)'; x.lineWidth = wd; x.lineCap = x.lineJoin = 'round'; };
+// The preemption run, replaying every 4.2 s: c and a fire; c's signal stops b (b never fires); d fires, then e
+function sketchNeuron(x, w, h, t = 2.6) {
+  paper(x, w, h); pencil(x, 6);
+  const u = t % 4.2, ramp = (a, b) => clamp01((u - a) / (b - a)), fade = 1 - ramp(3.6, 4.1);
+  const fire = { c: ramp(0, .25) * fade, a: ramp(0, .25) * fade, d: ramp(1.0, 1.2) * fade, e: ramp(1.9, 2.1) * fade, b: 0 };
+  const s = 3.1, ox = 30, oy = 34, P = (a, b) => [ox + a * s, oy + b * s];
+  for (const [a, b, c, d] of ND.arrows) {
+    const [x1, y1] = P(a, b), [x2, y2] = P(c, d), ang = Math.atan2(y2 - y1, x2 - x1);
+    x.beginPath(); x.moveTo(x1, y1); x.lineTo(x2, y2); x.stroke();
+    x.beginPath(); x.moveTo(x2, y2); x.lineTo(x2 - 16 * Math.cos(ang - .45), y2 - 16 * Math.sin(ang - .45)); x.moveTo(x2, y2); x.lineTo(x2 - 16 * Math.cos(ang + .45), y2 - 16 * Math.sin(ang + .45)); x.stroke();
+  }
+  const [s1, s2] = [P(ND.stop[0], ND.stop[1]), P(ND.stop[2], ND.stop[3])];
+  x.beginPath(); x.moveTo(...s1); x.lineTo(...s2); x.stroke(); x.beginPath(); x.arc(...P(57, 60), 9, 0, 7); x.fill();
+  // signals travelling along the lines
+  const dot = ([a, b, c, d], t0, t1) => { const f = (u - t0) / (t1 - t0); if (f < 0 || f > 1) return; const [x1, y1] = P(a, b), [x2, y2] = P(c, d); x.save(); x.fillStyle = '#6C4487'; x.beginPath(); x.arc(x1 + (x2 - x1) * f, y1 + (y2 - y1) * f, 10, 0, 7); x.fill(); x.restore(); };
+  dot(ND.arrows[0], .3, 1.0); dot(ND.arrows[2], .3, 1.0); dot(ND.stop, .3, 1.0); dot(ND.arrows[1], 1.2, 1.9);
+  for (const [k, [a, b]] of Object.entries(ND.nodes)) {
+    const [cx, cy2] = P(a, b), f = fire[k];
+    x.beginPath(); x.arc(cx, cy2, 31, 0, 7);
+    x.save(); x.fillStyle = `rgb(${Math.round(246 - 138 * f)},${Math.round(241 - 173 * f)},${Math.round(230 - 95 * f)})`; x.fill(); x.restore();
+    if (k === 'b' && u > 1.0 && u < 4.1) { x.save(); x.setLineDash([8, 7]); x.stroke(); x.restore(); } else x.stroke();
+    x.save(); x.fillStyle = f > .5 ? '#fff' : 'rgba(48,44,50,.92)'; x.font = 'italic 400 40px Newsreader'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(k, cx, cy2 + 2); x.restore();
+  }
+}
+const sketchProof = (x, w, h) => {
+  paper(x, w, h, 5); pencil(x, 3);
+  x.font = 'italic 400 34px Newsreader';
+  ['Lemma. Every finite poset', 'has a linear extension.', 'Pf. Remove a minimal p,', 'extend the rest, put p first.'].forEach((s, i) => x.fillText(s, 20, 50 + i * 46));
+  x.fillRect(w - 44, h - 46, 22, 22);
+};
+const sketchStack = (x, w, h) => {
+  paper(x, w, h, 9); pencil(x, 4);
+  x.font = 'italic 400 46px Newsreader'; x.textAlign = 'center';
+  ['2341', '2314', '2134', '1234'].forEach((s, i) => { x.fillText(s, w / 2, 58 + i * 74); if (i < 3) { const y0 = 72 + i * 74; x.beginPath(); x.moveTo(w / 2, y0); x.lineTo(w / 2, y0 + 22); x.moveTo(w / 2 - 8, y0 + 13); x.lineTo(w / 2, y0 + 23); x.lineTo(w / 2 + 8, y0 + 13); x.stroke(); } });
+  x.textAlign = 'left';
+};
+// Covers, spines, cards, the diploma, Dexter's portrait, the record sleeve
+const cover = (x, w, h) => {
+  x.fillStyle = '#6C4487'; x.fillRect(0, 0, w, h);
+  x.strokeStyle = 'rgba(243,235,221,.7)'; x.lineWidth = 5; x.strokeRect(18, 18, w - 36, h - 36);
+  x.fillStyle = '#F3EBDD'; x.textAlign = 'center';
+  x.font = '400 64px "DM Serif Display"'; x.fillText('Mathematics', w / 2, h * .34); x.fillText('for the GRE', w / 2, h * .34 + 74);
+  x.font = 'italic 400 32px Newsreader'; x.fillText('Carson Mitchell', w / 2, h * .85);
+};
+const card12 = (x, w, h) => {
+  x.fillStyle = '#f6f1e6'; x.fillRect(0, 0, w, h); x.strokeStyle = 'rgba(108,68,135,.7)'; x.lineWidth = 8; x.strokeRect(10, 10, w - 20, h - 20);
+  x.fillStyle = '#2a1f36'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.font = '400 170px "DM Serif Display"';
+  x.fillText('1', w * .2, h * .56); x.fillText('2', w * .8, h * .56);
+  const bar = (y) => { x.beginPath(); x.roundRect(w * .36, y, w * .28, 22, 11); x.fill(); };   // a bold equals sign, drawn
+  bar(h * .5 - 34); bar(h * .5 + 12);
+};
+const spine = (title, author, bg, fg) => (x, w, h) => {
+  x.fillStyle = bg; x.fillRect(0, 0, w, h);
+  x.fillStyle = fg; x.globalAlpha = .55; x.fillRect(0, 26, w, 3); x.fillRect(0, h - 30, w, 3); x.globalAlpha = 1;
+  x.save(); x.translate(w / 2, 44); x.rotate(Math.PI / 2); x.textBaseline = 'middle';
+  let sz = w * .4; x.font = `400 ${sz}px "DM Serif Display"`; while (x.measureText(title).width > h * .7 && sz > 8) { sz -= 1; x.font = `400 ${sz}px "DM Serif Display"`; }
+  x.fillText(title, 0, 0);
+  x.font = `italic 400 ${w * .28}px Newsreader`; x.textAlign = 'right'; x.fillText(author, h - 88, 0); x.restore();
+};
+const diploma = (x, w, h) => {
+  x.fillStyle = '#f7f1e2'; x.fillRect(0, 0, w, h); x.strokeStyle = '#b49a5e'; x.lineWidth = 6; x.strokeRect(14, 14, w - 28, h - 28);
+  x.fillStyle = '#1f2a44'; x.textAlign = 'center';
+  x.font = 'italic 400 26px Newsreader'; x.fillText('The Regents of the', w / 2, 62);
+  x.font = '400 38px "DM Serif Display"'; x.fillText('University of California', w / 2, 104);
+  x.font = 'italic 400 22px Newsreader'; x.fillText('have conferred upon', w / 2, 148);
+  x.font = '400 46px "DM Serif Display"'; x.fillText('Carson Mitchell', w / 2, 204);
+  x.font = 'italic 400 22px Newsreader'; x.fillText('a bachelor’s degree in Mathematics', w / 2, 246);
+  x.font = '400 22px Newsreader'; x.fillText('Berkeley · 2023', w / 2, 282);
+  x.fillStyle = '#c9a548'; x.beginPath(); x.arc(w * .82, h * .8, 34, 0, 7); x.fill(); x.fillStyle = '#1f2a44'; x.beginPath(); x.arc(w * .82, h * .8, 24, 0, 7); x.fill();   // the seal
+};
+const portrait = (x, w, h) => {   // a drawn portrait of Dexter (never his real photos)
+  x.fillStyle = '#d9c8e6'; x.fillRect(0, 0, w, h);
+  const cx = w / 2, cy0 = h * .52;
+  x.fillStyle = '#c99a62';
+  [[-1], [1]].forEach(([s]) => { x.beginPath(); x.moveTo(cx + s * 40, cy0 - 50); x.lineTo(cx + s * 92, cy0 - 120); x.lineTo(cx + s * 96, cy0 - 30); x.fill(); x.save(); x.fillStyle = '#b8895a'; x.beginPath(); x.moveTo(cx + s * 76, cy0 - 98); x.lineTo(cx + s * 92, cy0 - 120); x.lineTo(cx + s * 110, cy0 - 92); x.fill(); x.restore(); });
+  x.beginPath(); x.ellipse(cx, cy0, 82, 78, 0, 0, 7); x.fill();
+  x.fillStyle = '#2b9ab0'; x.fillRect(cx - 62, cy0 + 70, 124, 16);                                                   // teal collar
+  x.fillStyle = '#efe6d8'; x.beginPath(); x.ellipse(cx, cy0 + 46, 40, 26, 0, 0, 7); x.fill();                         // frosted chin
+  x.fillStyle = '#2e2622'; x.beginPath(); x.ellipse(cx, cy0 + 26, 40, 30, 0, 0, 7); x.fill();                         // black muzzle
+  x.fillStyle = '#111'; x.beginPath(); x.ellipse(cx, cy0 + 12, 16, 11, 0, 0, 7); x.fill();
+  x.fillStyle = '#e07a8c'; x.beginPath(); x.ellipse(cx, cy0 + 56, 13, 18, 0, 0, Math.PI); x.fill();                   // tongue
+  [[-1], [1]].forEach(([s]) => { x.fillStyle = '#111'; x.beginPath(); x.arc(cx + s * 30, cy0 - 18, 8, 0, 7); x.fill(); x.fillStyle = '#e6dfd4'; x.beginPath(); x.ellipse(cx + s * 30, cy0 - 36, 12, 4, 0, 0, 7); x.fill(); });
+};
+const SB = { regions: null, steps: [], i: 0 };
+const REG_TONES = ['#e9e1f0', '#f3ece0', '#d6cce3', '#efe2d2', '#e1d7eb', '#f7efe4', '#d2c7df', '#eadfcf', '#ded3e9', '#f2e7da'];
+const starBattle = (x, w, h) => {
+  paper(x, w, h);
+  const n = 10, m = 20, cs = (w - 2 * m) / n, g = SB.steps[SB.i]?.g, R = SB.regions;
+  if (R) for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) { x.fillStyle = REG_TONES[R[r].charCodeAt(c) - 65]; x.fillRect(m + c * cs, m + r * cs, cs, cs); }
+  x.strokeStyle = 'rgba(60,56,60,.4)'; x.lineWidth = 2;
+  for (let i = 0; i <= n; i++) { x.beginPath(); x.moveTo(m + i * cs, m); x.lineTo(m + i * cs, m + n * cs); x.moveTo(m, m + i * cs); x.lineTo(m + n * cs, m + i * cs); x.stroke(); }
+  if (R) { x.strokeStyle = 'rgba(30,26,30,.95)'; x.lineWidth = 6; x.lineCap = 'round';
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
+      if (c < n - 1 && R[r][c] !== R[r][c + 1]) { x.beginPath(); x.moveTo(m + (c + 1) * cs, m + r * cs); x.lineTo(m + (c + 1) * cs, m + (r + 1) * cs); x.stroke(); }
+      if (r < n - 1 && R[r][c] !== R[r + 1][c]) { x.beginPath(); x.moveTo(m + c * cs, m + (r + 1) * cs); x.lineTo(m + (c + 1) * cs, m + (r + 1) * cs); x.stroke(); }
+    }
+    x.strokeRect(m, m, n * cs, n * cs); }
+  if (g) for (let k = 0; k < 100; k++) {
+    const cx = m + (k % n + .5) * cs, cy2 = m + (Math.floor(k / n) + .5) * cs;
+    if (g[k] === '1') { x.fillStyle = '#6C4487'; x.beginPath(); for (let j = 0; j < 10; j++) { const a = -Math.PI / 2 + j * Math.PI / 5, rr = j % 2 ? cs * .19 : cs * .42; x.lineTo(cx + rr * Math.cos(a), cy2 + rr * Math.sin(a)); } x.fill(); }
+    else if (g[k] === '2') { pencil(x, 4); const q = cs * .2; x.beginPath(); x.moveTo(cx - q, cy2 - q); x.lineTo(cx + q, cy2 + q); x.moveTo(cx + q, cy2 - q); x.lineTo(cx - q, cy2 + q); x.stroke(); }
+  }
+};
+
+/* ───────── The window view: Berkeley's Campanile alone in the right pane; floodlit by Night ───────── */
+const lerpHex = (a, b, k) => '#' + col(a).lerp(col(b), k).getHexString();
+function windowView(x, w, h, t, dk, ox = 0, oy = 0) {
+  const L = (k, f) => { x.save(); x.translate(ox * k, oy * k * .6); f(); x.restore(); };   // a layer, shifted by its depth
+  const g = x.createLinearGradient(0, 0, 0, h);
+  g.addColorStop(0, lerpHex('#121a33', '#8fb6e0', dk)); g.addColorStop(1, lerpHex('#2f3a62', '#eadfce', dk));
+  x.fillStyle = g; x.fillRect(0, 0, w, h);
+  L(1, () => {   // sky things: farthest away, so they slide the most against the window
+  if (dk < 1) { let s2 = 11; const r2 = () => (s2 = s2 * 16807 % 2147483647) / 2147483647;
+    for (let i = 0; i < 50; i++) { const sx = r2() * w, sy = r2() * h * .55, tw = .5 + .5 * Math.sin(t * (1 + r2() * 2) + i); x.fillStyle = `rgba(255,248,230,${((1 - dk) * (.3 + .6 * tw)).toFixed(3)})`; x.fillRect(sx, sy, 2.4, 2.4); } }
+  x.fillStyle = `rgba(246,238,220,${(1 - dk).toFixed(3)})`; x.beginPath(); x.arc(w * .24, h * .2, 28, 0, 7); x.fill();
+  x.fillStyle = `rgba(20,28,54,${(1 - dk).toFixed(3)})`; x.beginPath(); x.arc(w * .24 + 12, h * .2 - 7, 24, 0, 7); x.fill();
+  const sg = x.createRadialGradient(w * .22, h * .22, 4, w * .22, h * .22, 80);
+  sg.addColorStop(0, `rgba(255,246,222,${dk})`); sg.addColorStop(.35, `rgba(255,240,205,${dk * .8})`); sg.addColorStop(1, 'rgba(255,240,205,0)');
+  x.fillStyle = sg; x.fillRect(-60, -60, w + 120, h + 120); });
+  L(.85, () => { for (let i = 0; i < 3; i++) { const cx = ((t * 6 + i * 190) % (w + 200)) - 100, cy2 = 60 + i * 42;
+    x.fillStyle = `rgba(255,255,255,${(dk * .8).toFixed(3)})`; [[0, 0, 40], [34, 6, 30], [-32, 8, 26], [10, 14, 34]].forEach(([a, b, r]) => { x.beginPath(); x.ellipse(cx + a, cy2 + b, r, r * .55, 0, 0, 7); x.fill(); }); } });
+  L(.65, () => { x.fillStyle = lerpHex('#272c48', '#b3aecb', dk); x.beginPath(); x.moveTo(-80, h * .62); x.quadraticCurveTo(w * .3, h * .42, w * .62, h * .54); x.quadraticCurveTo(w * .85, h * .6, w + 80, h * .46); x.lineTo(w + 80, h + 80); x.lineTo(-80, h + 80); x.fill(); });   // the Berkeley hills
+  L(.4, () => {   // the campus: a building, and the Campanile
+  const b0 = w * .16, bw = 120, bh = 70, base = h * .92;
+  x.fillStyle = lerpHex('#3a4058', '#e6dccb', dk); x.fillRect(b0 - bw / 2, base - bh, bw, bh);
+  for (let i = 0; i < 5; i++) for (let j = 0; j < 2; j++) if ((i + j) % 3) { x.fillStyle = `rgba(255,207,138,${((1 - dk) * .9).toFixed(3)})`; x.fillRect(b0 - bw / 2 + 10 + i * 22, base - bh + 12 + j * 24, 10, 13); }
+  const cx = w * .75, top = h * .1, sw = 46, face = lerpHex('#e8d8b4', '#e6dfd2', dk), side = lerpHex('#b9a582', '#c2b6a2', dk), edge = lerpHex('#7d6c52', '#8d8273', dk);
+  const shaftTop = top + 112;
+  if (dk < 1) { const fl = x.createRadialGradient(cx, h * .55, 10, cx, h * .55, 170); fl.addColorStop(0, `rgba(255,220,160,${(.22 * (1 - dk)).toFixed(3)})`); fl.addColorStop(1, 'rgba(255,220,160,0)'); x.fillStyle = fl; x.fillRect(0, 0, w, h); }
+  x.fillStyle = face; x.fillRect(cx - sw / 2, shaftTop, sw, h + 60 - shaftTop);
+  x.fillStyle = side; x.fillRect(cx + sw / 2 - 12, shaftTop, 12, h + 60 - shaftTop);
+  x.strokeStyle = edge; x.lineWidth = 1.5; x.strokeRect(cx - sw / 2, shaftTop, sw, h - shaftTop);
+  for (let y0 = shaftTop + 70; y0 < h; y0 += 46) { x.fillStyle = edge; x.fillRect(cx - 4, y0, 4, 14); }
+  x.fillStyle = lerpHex('#c9ac6a', '#9b7a3a', dk); x.beginPath(); x.arc(cx - 3, shaftTop + 24, 9, 0, 7); x.fill();
+  x.strokeStyle = lerpHex('#4a3a20', '#3a2e18', dk); x.lineWidth = 1.6; x.beginPath(); x.moveTo(cx - 3, shaftTop + 24); x.lineTo(cx - 3, shaftTop + 18); x.moveTo(cx - 3, shaftTop + 24); x.lineTo(cx + 1, shaftTop + 26); x.stroke();
+  const bt = top + 44; x.fillStyle = face; x.fillRect(cx - sw / 2 - 4, bt, sw + 8, 68); x.fillStyle = side; x.fillRect(cx + sw / 2 - 10, bt, 14, 68);
+  x.fillStyle = lerpHex('#ffcf8a', '#5b5246', dk);
+  [-13, 0, 13].forEach(o => { x.beginPath(); x.moveTo(cx + o - 4.5, bt + 58); x.lineTo(cx + o - 4.5, bt + 18); x.arc(cx + o, bt + 18, 4.5, Math.PI, 0); x.lineTo(cx + o + 4.5, bt + 58); x.fill(); });
+  x.fillStyle = edge; x.fillRect(cx - sw / 2 - 7, bt - 5, sw + 14, 6); x.fillRect(cx - sw / 2 - 6, bt + 66, sw + 12, 5);
+  x.fillStyle = lerpHex('#8f8a80', '#a49d92', dk); x.beginPath(); x.moveTo(cx - sw / 2 - 6, bt - 5); x.lineTo(cx, top); x.lineTo(cx + sw / 2 + 6, bt - 5); x.fill();
+  x.fillStyle = lerpHex('#6f6a62', '#857e73', dk); x.beginPath(); x.moveTo(cx, top); x.lineTo(cx + sw / 2 + 6, bt - 5); x.lineTo(cx + 6, bt - 5); x.fill();
+  x.fillStyle = edge; x.fillRect(cx - 1.5, top - 14, 3, 14); });
+  L(.15, () => [[w * .06, .9], [w * .36, 1.05], [w * .58, .8], [w * .93, .85]].forEach(([tx2, s], i) => {
+    const sw2 = Math.sin(t * .9 + i) * 2;
+    x.fillStyle = lerpHex('#3a3046', '#8c6a4e', dk); x.fillRect(tx2 - 3, h - 40 * s, 6, 40 * s);
+    x.fillStyle = lerpHex('#5c4a78', '#c3a9db', dk); x.beginPath(); x.ellipse(tx2 + sw2, h - 54 * s, 32 * s, 26 * s, 0, 0, 7); x.fill();
+    x.beginPath(); x.ellipse(tx2 + 16 * s + sw2, h - 40 * s, 22 * s, 18 * s, 0, 0, 7); x.fill();
+    x.fillStyle = lerpHex('#3a3046', '#8c6a4e', dk); x.fillRect(tx2 - 3, h - 2, 6, 40);
+  }));   // the nearest trees, which barely slide
+}
+
+/* ───────── The permutahedron Π₄, upright with 1234 on top (as on About Me) ───────── */
+function permutahedron(scale) {
+  const perms = [], go = (a, l) => { if (!l.length) perms.push(a); l.forEach((v, i) => go([...a, v], l.filter((_, j) => j !== i))); };
+  go([], [1, 2, 3, 4]);
+  const U = [[1, -1, 0, 0].map(v => v / Math.SQRT2), [1, 1, -2, 0].map(v => v / Math.sqrt(6)), [1, 1, 1, -3].map(v => v / Math.sqrt(12))];
+  const dot = (a, b) => a.reduce((s, v, i) => s + v * b[i], 0);
+  const pts = perms.map(q => new THREE.Vector3(dot(q, U[0]), dot(q, U[1]), dot(q, U[2])));
+  const top = pts[perms.findIndex(q => q.join('') === '1234')], bot = pts[perms.findIndex(q => q.join('') === '4321')];
+  const q = new THREE.Quaternion().setFromUnitVectors(top.clone().sub(bot).normalize(), new THREE.Vector3(0, 1, 0));
+  pts.forEach(v => v.applyQuaternion(q).multiplyScalar(scale));
+  const geo = new ConvexGeometry(pts), g = new THREE.Group();
+  g.add(mesh(geo, M('#C9ACDE', '#9b78b8', { flatShading: true, roughness: .45 })));
+  g.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo, 5), th(new THREE.LineBasicMaterial(), 'color', '#F2EFE8', '#3a2c4a')));
+  return g;
+}
+
+/* ════════════════ The Study ════════════════ */
+function buildStudy() {
+  const g = new THREE.Group(), T = [];
+  const hemi = new THREE.HemisphereLight(); th(hemi, 'color', '#8792b4', '#fffaf0'); th(hemi, 'groundColor', '#3a3a4a', '#cdbb9c'); th(hemi, 'intensity', 2.7, 1.6); g.add(hemi);
+  const sun = new THREE.DirectionalLight(); th(sun, 'color', '#a9bce6', '#fff0d6'); th(sun, 'intensity', 1.1, 2.4);
+  sun.position.set(-6, 7, 3.5); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+  Object.assign(sun.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6, near: 1, far: 40 }); sun.shadow.bias = -.0004; sun.shadow.normalBias = .02; g.add(sun);
+  const fill = new THREE.PointLight('#ffcf9a', 0, 0, 2); th(fill, 'intensity', 6, 0); put(fill, 1.2, 2.6, 1.6, g);
+  const wood = M('#6a5646', '#a98262'), woodD = M('#54453a', '#8c6a4e'), cream = M('#ddd6c8', '#f6f0e4');
+  put(bx(6.6, .5, 6.6, M('#2a3240', '#E3D6BF'), .12), 0, -.31, 0, g);              // the floating slab
+  put(bx(6.2, .06, 6.2, M('#4a4044', '#d9c2a2')), 0, -.03, 0, g);                   // wooden floor, top at y = 0
+  const wl = put(bx(.16, 3, 6.2, M('#323b4b', '#EFE5D4')), -3.02, 1.5, 0, g), wr = put(bx(6.2, 3, .16, M('#384356', '#E7DAC4')), 0, 1.5, -3.02, g);
+  wl.castShadow = wr.castShadow = false;                                             // so the sun can come in
+  put(bx(.04, .14, 6.2, wood), -2.92, .07, 0, g); put(bx(6.2, .14, .04, wood), 0, .07, -2.92, g);
+  const live = [];   // canvas textures redrawn every frame
+  const tips = [];   // things that say what they are when you point at them
+
+  // The window (left wall): two tall panes, the Campanile alone in the right one; a sunbeam lies on the floor by day
+  const viewTex = canvasTex(520, 452, () => {}), vctx = viewTex.image.getContext('2d');
+  put(flat(1.5, 1.3, new THREE.MeshBasicMaterial({ map: viewTex })), -2.93, 1.75, 1.1, g).rotation.y = Math.PI / 2;
+  [[2.43, 1.1, .06, 1.58], [1.07, 1.1, .06, 1.58], [1.75, .34, 1.42, .06], [1.75, 1.86, 1.42, .06], [1.75, 1.1, 1.3, .04]]
+    .forEach(([y, z, h, w]) => put(bx(.05, h, w, wood), -2.9, y, z, g));
+  const beam = put(new THREE.Mesh(new THREE.PlaneGeometry(2.8, 1.5).rotateX(-Math.PI / 2), th(new THREE.MeshBasicMaterial({ color: '#fff4dc', transparent: true, depthWrite: false }), 'opacity', 0, .3)), -1.45, .006, .95, g);
+  beam.rotation.y = -.32;
+
+  // The Berkeley diploma, framed on the left wall between the shelf and the window
+  const dip = put(new THREE.Group(), -2.92, 1.85, -.2, g); dip.rotation.y = Math.PI / 2;
+  put(bx(.86, .64, .045, M('#2a2f3a', '#2f3440', { roughness: .5 }), .01), 0, 0, 0, dip); put(bx(.8, .58, .046, M('#c9b98a', '#d8c89a')), 0, 0, .002, dip);
+  put(flat(.7, .48, texMat(canvasTex(560, 384, diploma), { roughness: .8 })), 0, 0, .026, dip);
+
+  // About Me: the bookshelf: Carson's books (lettered spines), the permutahedron, the Banach–Tarski apple, Dexter's portrait on top
+  const shelf = new THREE.Group(), H = 2.5, Wd = 1.6;
+  put(bx(.5, H, .06, wood), 0, H / 2, -Wd / 2 + .03, shelf); put(bx(.5, H, .06, wood), 0, H / 2, Wd / 2 - .03, shelf);
+  put(bx(.04, H, Wd, woodD), -.23, H / 2, 0, shelf);
+  [.04, .62, 1.2, 2.0, 2.48].forEach(y => put(bx(.5, .05, Wd, wood), 0, y, 0, shelf));
+  const bookMs = [['#7b5a95', '#6C4487'], ['#C9ACDE', '#b393cf'], ['#d9cdb8', '#efe6d6'], ['#4a566a', '#4d5a70'], ['#b5677f', '#B23A62'], ['#6585bd', '#4a6da8']].map(([n, d]) => M(n, d, { roughness: .7 }));
+  const row = (y, z0, z1, hMax) => { let z = z0; while (z < z1 - .1) { const t = .06 + rnd() * .06, h = hMax - .16 + rnd() * .16; const b = put(bx(.36, h, t, bookMs[Math.floor(rnd() * bookMs.length)]), .02, y + h / 2, z + t / 2, shelf); if (rnd() < .1) b.rotation.x = .16; z += t + .006; } };
+  row(.065, -.74, .74, .5); row(.645, -.74, .74, .5);
+  // the top row: his eight books, spines toward the room
+  const MINE = [['Computing the Continuous Discretely', 'Beck · Robins', '#e3c04a', '#1f1a14', .11, .4], ['A Walk Through Combinatorics', 'Bóna', '#2f5f9a', '#f3ebdd', .1, .38],
+    ['The Order of Things', 'Foucault', '#1f1d22', '#e8d9b8', .1, .36], ['A Mathematical Introduction to Logic', 'Enderton', '#8c2f2f', '#f3ebdd', .11, .4],
+    ['Mathematical Statistics and Data Analysis', 'Rice', '#3f5a7a', '#f3ebdd', .12, .41], ['Principia Mathematica', 'Whitehead · Russell', '#5a1f2a', '#d9b866', .13, .42],
+    ['The Stranger', 'Camus', '#efe8da', '#1f1a14', .08, .34], ['Philosophical Investigations', 'Wittgenstein', '#2c3a5a', '#e8d9b8', .1, .38]];
+  let zb = -.74;
+  MINE.forEach(([title, author, bg, fg, t, h]) => {
+    const b = put(bx(.36, h, t, th(new THREE.MeshStandardMaterial({ roughness: .7 }), 'color', lerpHex(bg, '#000000', .25), bg)), .045, 2.025 + h / 2, zb + t / 2, shelf);
+    b.userData.tip = `<i>${title}</i> · ${author.replace(' · ', ' and ')}`; tips.push(b);
+    const sTex = canvasTex(Math.round(t * 900), Math.round(h * 900), spine(title, author, bg, fg));
+    put(flat(t * .98, h * .98, th(new THREE.MeshStandardMaterial({ map: sTex, roughness: .7 }), 'color', '#9a96a6', '#ffffff')), .181, 0, 0, b).rotation.y = Math.PI / 2;
+    zb += t + .006;
+  });
+  row(2.025, zb, .74, .4);
+  const per = put(permutahedron(.13), .03, 1.55, -.42, shelf);
+  // the apple that becomes two: two halves slide apart, and each grows its missing half back
+  const appleProfile = [[0, -.1], [.045, -.112], [.095, -.09], [.122, -.035], [.12, .03], [.1, .078], [.06, .1], [.025, .09], [.006, .075], [0, .074]].map(([a, b]) => new THREE.Vector2(a, b));
+  const skin = M('#9c3a34', '#c8453c', { roughness: .4 }), flesh = M('#d9ccae', '#f4e8cb', { roughness: .8 }), stemM = M('#4a3a2c', '#5a4636');
+  const fleshShape = new THREE.Shape(appleProfile.map(p => new THREE.Vector2(p.x, p.y)).concat(appleProfile.slice().reverse().map(p => new THREE.Vector2(-p.x, p.y))));
+  const half = (side, stem) => {   // side +1: the half on +x; its cut face looks toward −x
+    const h = new THREE.Group(), a = side > 0 ? 0 : Math.PI;
+    put(mesh(new THREE.LatheGeometry(appleProfile, 24, a, Math.PI), skin), 0, 0, 0, h);
+    put(mesh(new THREE.ShapeGeometry(fleshShape, 6).rotateY(side > 0 ? -Math.PI / 2 : Math.PI / 2), flesh, false), 0, 0, 0, h);
+    if (stem) put(cy(.006, .009, .05, stemM, 6), 0, .095, 0, h).rotation.z = .2 * side;
+    return h;
+  };
+  const AY = 1.225 + .112, AZ = .35;
+  const apples = put(new THREE.Group(), .04, AY, 0, shelf);
+  const H1 = put(half(1, true), 0, 0, AZ, apples), H2 = put(half(-1, false), 0, 0, AZ, apples), G1 = put(half(-1, false), 0, 0, .2, apples), G2 = put(half(1, true), 0, 0, .5, apples);
+  [H1, H2, G1, G2].forEach(o => o.rotation.y = Math.PI / 2);   // their local +x now points along −z, the shelf's length
+  const card = put(new THREE.Group(), .25, 1.225, .35, shelf); card.rotation.y = Math.PI / 2 - .45;   // at the shelf's front edge, clear of both apples
+  put(flat(.3, .17, texMat(canvasTex(440, 250, card12), { side: THREE.DoubleSide, roughness: .7 })), 0, .09, 0, card).rotation.x = -.18;
+  // Dexter's portrait, standing on top of the shelf
+  const pf = put(new THREE.Group(), .05, 2.505, .25, shelf); pf.rotation.order = 'YXZ'; pf.rotation.set(-.12, Math.PI / 2 - .5, 0);
+  put(bx(.34, .42, .035, woodD, .01), 0, .21, 0, pf); put(flat(.27, .34, texMat(canvasTex(300, 380, portrait), { roughness: .7 })), 0, .21, .019, pf);
+  put(shelf, -2.62, 0, -1.55, g);
+  T.push({ key: 'about', obj: shelf, anchor: new THREE.Vector3(.1, 2.75, 0), tag: new THREE.Vector3(-3.6, 3.5, -1.3), side: 'l' });
+
+  // Tutoring: the chalkboard, filled with logic
+  const board = new THREE.Group();
+  put(bx(2.82, 1.66, .06, wood), 0, 1.82, 0, board);
+  put(flat(2.7, 1.55, texMat(canvasTex(2048, 1176, chalkBg), { roughness: .95 })), 0, 1.82, .031, board);
+  const writing = canvasTex(2048, 1176, chalkText), NI = BOARD_ITEMS.length;
+  const boxes = Array.from({ length: 16 }, (_, i) => new THREE.Vector4(...(BOARD_ITEMS[i] ?? [2, 2, 2, 2])));
+  const revs = Array.from({ length: 16 }, () => new THREE.Vector2(0, reduce ? 1 : 0));   // for each item: the part from x to y (0–1, left to right) is showing
+  const writeM = new THREE.MeshStandardMaterial({ map: writing, transparent: true, depthWrite: false, roughness: .95 });
+  writeM.onBeforeCompile = sh => {
+    Object.assign(sh.uniforms, { uBox: { value: boxes }, uRev: { value: revs } });
+    sh.fragmentShader = 'uniform vec4 uBox[16];\nuniform vec2 uRev[16];\n' + sh.fragmentShader.replace('#include <map_fragment>', `
+      { bool keep = false;
+        for (int i = 0; i < 16; i++) { vec4 b = uBox[i];
+          if (vMapUv.x >= b.x && vMapUv.x <= b.z && vMapUv.y >= b.y && vMapUv.y <= b.w) { float f = (vMapUv.x - b.x) / max(b.z - b.x, 1e-4); if (f >= uRev[i].x && f <= uRev[i].y) keep = true; } }
+        if (!keep) discard; }
+      #include <map_fragment>`);
+  };
+  put(flat(2.7, 1.55, writeM), 0, 1.82, .034, board);
+  const itemW = BOARD_ITEMS.map(b => b[2] - b[0]), cum = itemW.map((_, i) => itemW.slice(0, i).reduce((a, b) => a + b, 0)), TOTW = itemW.reduce((a, b) => a + b, 0);
+  const onBoard = (u, v, out) => out.set((u - .5) * 2.7, 1.82 + (v - .5) * 1.55, .09);
+  const chalkPc = put(new THREE.Group(), -.7, 1.08, .09, board);
+  put(cy(.02, .02, .13, cream, 8), 0, .065, 0, chalkPc).rotation.z = 0;
+  const WRITE = 18, HOLD = 7, ERASE = 4.5, GAP = 1.5, BOARD_LOOP = WRITE + HOLD + ERASE + GAP;
+  put(bx(2.7, .04, .12, wood), 0, 1.0, .07, board);
+  put(cy(.02, .02, .14, cream, 8).rotateZ(Math.PI / 2), -.55, 1.04, .08, board);
+  const eraser = put(new THREE.Group(), .8, 1.05, .08, board);
+  put(bx(.22, .05, .08, woodD, .01), 0, .03, 0, eraser); put(bx(.22, .025, .08, M('#4a566a', '#4d5a70', { roughness: 1 })), 0, 0, 0, eraser);
+  put(board, 1.55, 0, -2.9, g);
+  T.push({ key: 'tutoring', obj: board, anchor: new THREE.Vector3(.95, 2.45, .05), tag: new THREE.Vector3(3.2, 3.6, -3.3), side: 'r' });
+
+  // Projects: the desk, with the textbook on a stand and the Star Battle on a clipboard, both turned to face you; the corkboard above
+  const proj = new THREE.Group(), desk = put(new THREE.Group(), 0, 0, .06, proj); desk.scale.setScalar(1.2);
+  put(bx(2.0, .07, .95, wood, .02), 0, .92, 0, desk);
+  [[-.92, -.4], [.92, -.4], [-.92, .4], [.92, .4]].forEach(([x0, z0]) => put(bx(.07, .88, .07, woodD), x0, .44, z0, desk));
+  const book = put(new THREE.Group(), .74, 1.185, .14, desk); book.rotation.order = 'YXZ'; book.rotation.set(-.32, Math.PI / 4, 0);
+  put(bx(.32, .44, .05, M('#4a2f5e', '#5a3772', { roughness: .6 }), .01), 0, 0, 0, book); put(bx(.3, .42, .052, cream), .012, 0, -.002, book);
+  put(flat(.32, .44, texMat(canvasTex(440, 600, cover), { roughness: .6 })), 0, 0, .027, book);
+  put(bx(.05, .36, .03, woodD), 0, -.03, -.1, book).rotation.x = .55;                                       // the stand's leg
+  const clip = put(new THREE.Group(), .22, 1.2, .16, desk); clip.rotation.order = 'YXZ'; clip.rotation.set(-.62, Math.PI / 4, 0);
+  put(bx(.48, .56, .018, M('#6e5a48', '#9a7a5c', { roughness: .7 })), 0, 0, 0, clip);
+  put(bx(.14, .04, .026, M('#8a8f99', '#b9bcc4', { metalness: .4, roughness: .4 }), .01), 0, .27, .013, clip);   // the clip
+  const sbTex = canvasTex(600, 600, starBattle), SBW = .44;
+  put(flat(SBW, SBW, texMat(sbTex)), 0, -.025, .01, clip);
+  put(bx(.04, .26, .03, woodD), 0, -.08, -.11, clip).rotation.x = .7;
+  const pencilG = put(new THREE.Group(), 0, 0, .04, clip);
+  const pen = put(new THREE.Group(), 0, 0, 0, pencilG); pen.rotation.set(.9, 0, -.5);
+  put(cy(.011, .011, .26, M('#C9ACDE', '#d8b54a', { roughness: .5 }), 6), 0, .15, 0, pen); put(mesh(new THREE.ConeGeometry(.011, .035, 6), M('#e9d6b4', '#e9d6b4')), 0, .0, 0, pen).rotation.x = Math.PI;
+  put(cy(.06, .06, .12, cream, 20), -.32, 1.015, -.3, desk);                          // a mug
+  const lamp = put(new THREE.Group(), -.72, .955, .02, desk);
+  put(cy(.11, .13, .04, M('#2a3240', '#3a3f48')), 0, .02, 0, lamp);
+  const arm = put(new THREE.Group(), 0, .04, 0, lamp); arm.rotation.z = -.42;
+  put(cy(.015, .015, .5, M('#2a3240', '#3a3f48'), 8), 0, .25, 0, arm);
+  put(mesh(new THREE.CylinderGeometry(.05, .15, .18, 24, 1, true), M('#C9ACDE', '#6C4487', { side: THREE.DoubleSide })), 0, .51, 0, arm);
+  put(sp(.045, glow(M('#fff3dd', '#e9e2d6'), '#ffd9a0', '#000000', 2, 0), 16, 12), 0, .45, 0, arm);
+  const bulb = put(new THREE.PointLight('#ffcf8f', 0, 2.6, 2), 0, .43, 0, arm); th(bulb, 'intensity', 3.2, 0);   // gentle, so the corkboard stays readable
+  put(cy(.2, .2, .05, wood), .2, .45, .85, desk); put(cy(.04, .04, .42, woodD, 8), .2, .21, .85, desk);   // a stool
+  // the corkboard: the neuron sketch fires; three sheets, spaced so none overlap
+  const cork = put(new THREE.Group(), 0, 2.15, -.47, proj);
+  put(bx(1.96, 1.12, .05, woodD), 0, 0, 0, cork); put(bx(1.86, 1.02, .052, M('#8a6a4c', '#c19a6b', { roughness: 1 })), 0, 0, .004, cork);
+  const pinMs = [M('#C9ACDE', '#6C4487'), M('#F28DAE', '#B23A62'), M('#ddd6c8', '#f6f0e4')];
+  const neuronTex = canvasTex(520, 340, (x, w, h, t) => sketchNeuron(x, w, h, typeof t === 'number' ? t : 2.6)); live.push(t => neuronTex.redraw(t));
+  const sheets = [[neuronTex, -.42, .02, .86, .56, -.03], [canvasTex(520, 260, sketchProof), .5, .24, .74, .37, .04], [canvasTex(240, 330, sketchStack), .5, -.27, .3, .41, -.05]]
+    .map(([tx0, x0, y0, sw, sh, rz], i) => {
+      const hang = put(new THREE.Group(), x0, y0 + sh / 2 - .03, .04 + i * .012, cork); hang.rotation.z = rz;
+      put(flat(sw, sh, texMat(tx0)), 0, -sh / 2 + .03, 0, hang);
+      put(sp(.024, pinMs[i % 3], 10, 8), 0, 0, .016, hang); return hang;
+    });
+  put(proj, -1.0, 0, -2.45, g);
+  T.push({ key: 'projects', obj: proj, anchor: new THREE.Vector3(-.3, 2.65, -.4), tag: new THREE.Vector3(-1.9, 4.1, -3.4), side: 'r' });
+
+  // The record player, back right: Oxnard, spinning, with notes drifting up
+  const rec = put(new THREE.Group(), 2.5, 0, -2.55, g);
+  put(bx(.8, .56, .5, wood, .02), 0, .28, 0, rec); put(bx(.72, .012, .01, woodD), 0, .3, .252, rec);   // a drawer line
+  [-.2, .2].forEach(x0 => put(cy(.02, .02, .02, M('#c9ac6a', '#b8953f'), 10).rotateX(Math.PI / 2), x0, .36, .255, rec));   // knobs
+  put(bx(.52, .07, .4, M('#3a3540', '#5a4a3e', { roughness: .5 }), .015), -.05, .595, 0, rec);
+  rec.userData.tip = 'Now playing: <i>Oxnard</i> · Anderson .Paak'; tips.push(rec);
+  const platter = put(new THREE.Group(), -.1, .635, 0, rec);
+  put(cy(.17, .17, .012, M('#141418', '#141418', { roughness: .35 }), 40), 0, 0, 0, platter);
+  for (let r = .08; r < .17; r += .022) put(mesh(new THREE.TorusGeometry(r, .0015, 4, 40).rotateX(Math.PI / 2), M('#2a2a32', '#2a2a32'), false), 0, .0065, 0, platter);   // grooves
+  put(cy(.055, .055, .013, M('#C9ACDE', '#b23a62'), 24), 0, .001, 0, platter);
+  put(bx(.02, .013, .06, M('#f3ebdd', '#f3ebdd')), .035, .008, 0, platter);                                                  // a mark on the label, so you can see it turn
+  const tone = put(new THREE.Group(), .14, .64, -.13, rec); tone.rotation.y = .9;
+  put(cy(.008, .008, .26, M('#b9bcc4', '#c9ccd4', { metalness: .5, roughness: .3 }), 8).rotateZ(Math.PI / 2), -.13, .02, 0, tone);
+  const crate = put(new THREE.Group(), -.62, 0, .05, rec);                                                                   // a crate of records beside it
+  put(bx(.34, .3, .4, woodD, .01), 0, .15, 0, crate);
+  ['#2a2230', '#b23a62', '#e8c56a', '#4a6da8', '#efe8da', '#6C4487'].forEach((c0, i) => put(bx(.3, .3, .012, M(lerpHex(c0, '#000000', .3), c0, { roughness: .7 })), 0, .27, -.16 + i * .06, crate));
+  const noteTex = canvasTex(64, 64, x => { x.clearRect(0, 0, 64, 64); x.fillStyle = '#fff'; x.font = '52px "Apple Symbols", "Segoe UI Symbol", serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('♪', 32, 34); });
+  const notes = [0, 1, 2].map(() => { const m = th(new THREE.SpriteMaterial({ map: noteTex, transparent: true, depthWrite: false }), 'color', '#C9ACDE', '#6C4487'); const s = new THREE.Sprite(m); s.scale.set(.14, .14, 1); rec.add(s); return s; });
+
+  // Contact: the letter-writing corner, in the front-left corner by the window
+  const wc = new THREE.Group(); wc.scale.setScalar(1.15);
+  put(cy(.38, .38, .04, wood, 32), 0, .66, 0, wc); put(cy(.04, .05, .62, woodD, 10), 0, .32, 0, wc); put(cy(.2, .24, .04, woodD, 24), 0, .02, 0, wc);
+  const tray = put(new THREE.Group(), -.04, .68, .02, wc); tray.rotation.y = .4;
+  put(bx(.44, .015, .32, woodD), 0, .008, 0, tray); [-.22, .22].forEach(x0 => put(bx(.015, .06, .32, woodD), x0, .03, 0, tray));
+  const envM = M('#e4ddd0', '#fbf6ec');
+  const envs = [0, 1, 2].map(i => { const e = put(bx(.38, .012, .26, envM, .004), (rnd() - .5) * .03, .022 + i * .014, (rnd() - .5) * .03, tray); e.rotation.y = (rnd() - .5) * .2; return e; });
+  const topEnv = envs[2]; put(cy(.04, .04, .008, M('#8a5aa8', '#6C4487'), 16), 0, .01, .03, topEnv);
+  const fpen = put(new THREE.Group(), .2, .695, .22, wc); fpen.rotation.set(0, -.7, Math.PI / 2);
+  put(cy(.014, .014, .22, M('#3a2c4a', '#3a2c4a', { roughness: .4 }), 10), 0, 0, 0, fpen); put(mesh(new THREE.ConeGeometry(.014, .04, 10), M('#c9ac6a', '#b8953f', { metalness: .4, roughness: .4 })), 0, .13, 0, fpen);
+  put(bx(.08, .08, .08, M('#262b36', '#2c3140', { roughness: .3 }), .015), -.24, .72, -.17, wc); put(cy(.025, .025, .03, M('#C9ACDE', '#6C4487'), 12), -.24, .775, -.17, wc);
+  put(wc, -2.35, 0, 2.45, g);
+  T.push({ key: 'contact', obj: wc, anchor: new THREE.Vector3(0, .8, 0), tag: new THREE.Vector3(-2.9, -.1, 3.7), side: 'l',
+    lift: k => { topEnv.position.y = .05 + k * .2; topEnv.rotation.z = k * .35; } });
+
+  // The paper plane, always on its way in
+  const pg = new THREE.BufferGeometry();
+  pg.setAttribute('position', new THREE.Float32BufferAttribute([0, 0, .2, -.13, 0, -.12, 0, .025, -.08, 0, 0, .2, 0, .025, -.08, .13, 0, -.12, 0, 0, .2, 0, -.05, -.1, 0, .025, -.08], 3)); pg.computeVertexNormals();
+  const plane = put(mesh(pg, M('#ECE8DF', '#ffffff', { side: THREE.DoubleSide })), 1.4, 1.8, 1.6, g);
+  const path = new THREE.CatmullRomCurve3([[-2.2, 1.6, 2.6], [-.6, 2.4, 2.2], [1.6, 2.7, .6], [1.2, 2.6, -1.2], [-.6, 2.5, -.6], [-1.6, 1.9, 1.6]].map(p => new THREE.Vector3(...p)), true);
+
+  /* ── Dexter ── */
+  const HOME = new THREE.Vector3(.35, 0, .75), HOME_YAW = -Math.PI / 2 + .45, DS = 1.55;
+  const bed = put(new THREE.Group(), HOME.x, 0, HOME.z, g);
+  put(mesh(new THREE.TorusGeometry(.54 * DS, .085 * DS, 14, 48).rotateX(Math.PI / 2), M('#6e5a88', '#a687c4', { roughness: 1 })), 0, .085 * DS, 0, bed);
+  put(cy(.54 * DS, .54 * DS, .06, M('#d8cfc0', '#efe6d6', { roughness: 1 }), 48), 0, .03, 0, bed);
+  const tan = M('#a27e57', '#c99a62', { roughness: .8 }), tanL = M('#b48f66', '#d8ad78', { roughness: .8 }), mask = M('#2e2622', '#3a2e28', { roughness: .7 }),
+    frost = M('#a49c92', '#d6cfc4', { roughness: .9 }), brow = M('#3e3026', '#4a3a2e', { roughness: .9 }), white = M('#e2d9cb', '#f1e9dc', { roughness: .8 }), black = M('#141414', '#141414', { roughness: .3 });
+  // a rounded ear piece, base width w, top width tw, height h, facing forward (+x); `root` carries it down below y = 0 (into the head)
+  const earGeo = (w, tw, h, root = 0, d = .014) => { const sh = new THREE.Shape(); sh.moveTo(-w / 2, -root); sh.lineTo(-w / 2, 0); sh.quadraticCurveTo(-w * .44, h * .6, -tw / 2, h); if (tw) sh.lineTo(tw / 2, h); sh.quadraticCurveTo(w * .44, h * .6, w / 2, 0); sh.lineTo(w / 2, -root); sh.lineTo(-w / 2, -root);
+    return new THREE.ExtrudeGeometry(sh, { depth: d, bevelEnabled: true, bevelThickness: d * .45, bevelSize: .007, bevelSegments: 3, curveSegments: 10 }).translate(0, 0, -d / 2).rotateY(Math.PI / 2); };
+  const dogG = put(new THREE.Group(), HOME.x, 0, HOME.z, g); dogG.rotation.y = HOME_YAW; dogG.scale.setScalar(DS);
+  const body = put(new THREE.Group(), -.04, .03, 0, dogG);                 // rises when he stands; tips for a bow, a pounce, lying down front first
+  const torso = put(new THREE.Group(), 0, .19, 0, body);                   // breathes (scaled about its own center)
+  put(mesh(new THREE.CapsuleGeometry(.16, .42, 6, 16).rotateZ(Math.PI / 2), tan), 0, 0, 0, torso);
+  put(sp(.13, tan), -.24, -.02, .07, torso); put(sp(.13, tan), -.24, -.02, -.07, torso);
+  put(sp(.115, white), .25, -.04, 0, torso).scale.set(1, 1.05, .85);
+  // legs: a thigh, a joint (wrist in front, hock behind), a slimmer lower leg, and a paw with toes
+  const leg = (x0, z0, hind) => {
+    const p = put(new THREE.Group(), x0, .1, z0, body);
+    put(cap(hind ? .058 : .05, .09, tan), 0, -.075, 0, p);
+    const knee = put(new THREE.Group(), 0, -.155, 0, p); put(sp(hind ? .042 : .037, tan, 12, 10), 0, 0, 0, knee);
+    put(cap(.034, .085, tan), 0, -.065, 0, knee);
+    const paw = put(new THREE.Group(), 0, -.135, 0, knee);
+    put(sp(.048, tanL, 16, 12), .012, 0, 0, paw).scale.set(1.35, .55, 1.05);
+    [-.024, 0, .024].forEach(zz => put(sp(.017, tanL, 8, 6), .066, -.004, zz, paw));
+    p.userData = { knee, paw, hind }; return p;
+  };
+  const legs = [leg(.3, .085, false), leg(.3, -.085, false), leg(-.24, .12, true), leg(-.24, -.12, true)];   // front left, front right, back left, back right
+  const neck = put(new THREE.Group(), .3, .24, 0, body);
+  put(cap(.085, .09, tan), .055, .055, 0, neck).rotation.z = -Math.PI / 4;
+  put(mesh(new THREE.TorusGeometry(.092, .022, 8, 24).rotateY(Math.PI / 2), M('#2f8fa6', '#2b8aa8', { roughness: .5 })), .045, .045, 0, neck).rotation.z = Math.PI / 4;   // his teal collar
+  put(cap(.018, .03, M('#c2443a', '#c2443a', { roughness: .4 })).rotateZ(Math.PI / 2), .12, -.03, 0, neck);                                                             // and red bone tag
+  const head = put(new THREE.Group(), .07, .07, 0, neck); head.scale.setScalar(1.12);
+  put(sp(.115, tan, 24, 18), .06, .06, 0, head).scale.set(1.08, .95, .95);
+  put(bx(.075, .1, .118, frost, .04), .13, .03, 0, head);                                              // gray frosting where the muzzle meets his face
+  put(bx(.15, .085, .105, mask, .04), .2, .03, 0, head);
+  put(sp(.028, black, 10, 8), .275, .052, 0, head);
+  const eyes = [.05, -.05].map(z0 => put(sp(.016, black, 10, 8), .155, .11, z0, head));
+  [.05, -.05].forEach(z0 => { put(sp(.021, brow, 10, 8), .15, .143, z0, head).scale.set(.75, .42, 1.25); put(sp(.011, frost, 8, 6), .152, .151, z0 * 1.1, head).scale.set(.8, .5, 1.4); });
+  const jaw = put(new THREE.Group(), .14, -.005, 0, head);
+  put(bx(.12, .03, .09, frost, .014), .05, -.02, 0, jaw);
+  const tongue = put(bx(.06, .01, .045, M('#d06a7c', '#e07a8c', { roughness: .5 }), .005), .09, -.012, 0, jaw);
+  const cheeks = [1, -1].map(sg => put(cap(.012, .04, mask).rotateZ(Math.PI / 2), .17, -.012, .05 * sg, head));
+  const ears = [1, -1].map(sg => {
+    const e = put(new THREE.Group(), .02, .135, .068 * sg, head);
+    put(mesh(earGeo(.125, .054, .098, .06, .02), tan), 0, 0, 0, e);
+    const tip = put(new THREE.Group(), 0, .094, 0, e);
+    put(mesh(earGeo(.056, 0, .054, 0, .018), tan), 0, 0, 0, tip); e.userData = { sg, tip };
+    return e;
+  });
+  // the tail: each link swings side to side in its own frame (the wag), then tilts up or down, so it never spins on its own length
+  const tail = []; let par = put(new THREE.Group(), -.4, .17, 0, body);
+  for (let i = 0; i < 4; i++) { const link = put(new THREE.Group(), i ? -.1 : 0, 0, 0, par); link.rotation.order = 'ZYX'; put(cap(.03 - i * .004, .07, i === 3 ? white : tan).rotateZ(Math.PI / 2), -.05, 0, 0, link); tail.push(link); par = link; }
+  const dogT = { key: 'dexter', obj: dogG, anchor: new THREE.Vector3(.45, .85, 0) };
+  // snoring: soft z's drifting up while he sleeps
+  const zTex = canvasTex(64, 64, x => { x.clearRect(0, 0, 64, 64); x.fillStyle = '#fff'; x.font = 'italic 400 50px Newsreader'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('z', 32, 28); });
+  const zs = [0, 1, 2].map(() => { const s2 = new THREE.Sprite(th(new THREE.SpriteMaterial({ map: zTex, transparent: true, depthWrite: false, opacity: 0 }), 'color', '#C9ACDE', '#6C4487')); g.add(s2); return s2; });
+
+  // The bone: drag it onto Dexter (or tap it, then tap him) and he plays with it
+  const bone = put(new THREE.Group(), 1.55, .05, 1.85, g); bone.rotation.y = .6;
+  const boneM = M('#e9e0cf', '#f7f0e2', { roughness: .6 });
+  put(cap(.035, .22, boneM).rotateZ(Math.PI / 2), 0, 0, 0, bone);
+  [[.14, .035], [.14, -.035], [-.14, .035], [-.14, -.035]].forEach(([x0, z0]) => put(sp(.045, boneM, 14, 10), x0, 0, z0, bone));
+  const boneT = { key: 'bone', obj: bone };
+  // his zoomies: from the bed, around the free floor (clear of the desk, shelf, corner and record player), and home
+  // his run: out of bed (the way he's facing), one lap the long way round the room on the open floor, ending on a stretch across the
+  // front floor where he's running sideways to you; there he throws the bone straight ahead. Clear of the desk, shelf, corner and record player.
+  const romp = new THREE.CatmullRomCurve3([[HOME.x, 0, HOME.z], [.6, 0, 1.95], [-.6, 0, 2.15], [-1.6, 0, 1.35], [-1.75, 0, -.2], [-.3, 0, -.75], [1.3, 0, -1.25], [2.3, 0, -.25], [2.15, 0, .75], [1.55, 0, 1.4]].map(p => new THREE.Vector3(...p)), false, 'centripetal');
+  // the play, phase by phase (seconds)
+  const RUN = 1.9;   // his average running speed (room units a second); each run's time comes from its real length
+  // a run's pace: speed up, then bursts and easings by turns (zoomies, not a treadmill), then slow down; u(k) is how far along he is
+  const pace = seed => { const N = 240, v = [], c = [0];
+    for (let i = 0; i < N; i++) { const k = (i + .5) / N; v.push(Math.max(.06, Math.min(1, k / .1, (1 - k) / .12)) * (1 + .34 * Math.sin(k * Math.PI * 5 + seed) + .12 * Math.sin(k * Math.PI * 13 + seed * 2))); c.push(c[i] + v[i]); }
+    return k => { const x = clamp01(k) * N, i = Math.min(N - 1, Math.floor(x)); return (c[i] + v[i] * (x - i)) / c[N]; }; };
+  const pace1 = pace(.4), pace2 = pace(2.1);
+  const PH = [['rise', .7], ['shake', .8], ['run1', romp.getLength() / RUN], ['toss', .35], ['bow', .75], ['crouch', .35], ['pounce', .5], ['pick2', .5], ['shake2', .6], ['run2', 1.6], ['circle', 2.4], ['lie', 1.1], ['sigh', .8]];
+  const phaseAt = t => { let a = 0; for (const [n, d] of PH) { if (t < a + d) return [n, (t - a) / d]; a += d; } return ['done', 1]; };
+  let aw = isDay() ? 1 : 0, hello = 0, joy = 0, frontSt = 0, rearSt = 0, gait = 0, yaw = HOME_YAW, given = false;
+  let mode = 'bed', mt = 0, phase = '', boneState = 'rest', boneDrop = null, pickup = null, P = {};
+  const v4 = new THREE.Vector3(), v5 = new THREE.Vector3(), v6 = new THREE.Vector3(), lastPos = new THREE.Vector3().copy(HOME);
+  const MOUTH = new THREE.Vector3(.08, -.04, 0), HOLD_Q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, Math.PI / 2, 0));
+  const mouthWorld = out => jaw.localToWorld(out.copy(MOUTH));
+  const fwd = (out, a = yaw) => out.set(Math.cos(a), 0, -Math.sin(a));
+  // picking the bone up: it rises smoothly into his mouth instead of snapping there
+  // taking the bone: it travels smoothly into his mouth (in an arc if it's thrown to him from further away)
+  function holdBone(dur = .22) { const far = bone.getWorldPosition(v6).distanceTo(mouthWorld(v5)); jaw.attach(bone); pickup = { p: bone.position.clone(), q: bone.quaternion.clone(), s: bone.scale.x, t: 0, dur: far > .6 ? .45 : dur, arc: far > .6 ? .5 : 0 }; boneState = 'held'; }
+  function dropBone(at, hop = 0, dur = .35) { g.attach(bone); pickup = null; bone.scale.setScalar(1); boneDrop = { from: bone.position.clone(), to: at.clone().setY(.05), t: 0, hop, dur, spin: hop ? 5 : 0, q0: bone.rotation.y }; boneState = 'fall'; }
+  function give() { if (mode !== 'bed') return; mode = 'play'; mt = 0; phase = ''; joy = 1; given = true; }
+  const angLerp = (a, b, k) => a + (((b - a + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI) * k;
+  const faceTo = (p, k) => { yaw = angLerp(yaw, Math.atan2(-(p.z - dogG.position.z), p.x - dogG.position.x), k); };
+  // a run: speed up for the first 15%, cruise (a little faster, a little slower by turns), slow down for the last 15%
+  function enter(n) {   // set up the start of a phase
+    const d = dogG.position;
+    if (n === 'rise') holdBone(.3);   // he takes it straight from you
+    if (n === 'toss' && boneState === 'held') { fwd(v5); v4.copy(d).addScaledVector(v5, 1.2); v4.x = Math.max(-2.55, Math.min(2.55, v4.x)); v4.z = Math.max(-2.55, Math.min(2.55, v4.z)); dropBone(v4, .45, .55); }   // straight ahead, the way he's running
+    if (n === 'crouch') P.p1 = d.clone();
+    if (n === 'pounce') {   // land so that his mouth (head down) ends right at the bone
+      fwd(v5); const reach = mouthWorld(v4).sub(d).dot(v5) + .12;
+      v6.copy(bone.position).sub(d).setY(0).normalize(); P.p2 = bone.position.clone().setY(0).addScaledVector(v6, -reach); P.p1 = d.clone(); P.y2 = Math.atan2(-v6.z, v6.x);
+    }
+    if (n === 'run2') {   // home, at a happy trot: on a little the way he's facing, a wide curve round the front of the bed, and in
+      fwd(v5); P.home = new THREE.CatmullRomCurve3([d.clone(), d.clone().addScaledVector(v5, .5), new THREE.Vector3(-.2, 0, 2.4), new THREE.Vector3(-.55, 0, 1.5), HOME.clone()], false, 'centripetal');
+      PH.find(p => p[0] === 'run2')[1] = Math.max(1.5, P.home.getLength() / 1.15);
+    }
+    if (n === 'circle') {   // sniff around in a small circle, ending on his spot, facing the usual way
+      P.y0 = yaw; let D = ((HOME_YAW - yaw) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI); if (D < 3.4) D += 2 * Math.PI; P.D = D; P.R = .24;
+      P.c0 = d.clone().sub(v4.set(Math.sin(yaw), 0, Math.cos(yaw)).multiplyScalar(P.R)); P.c1 = HOME.clone().sub(v4.set(Math.sin(HOME_YAW), 0, Math.cos(HOME_YAW)).multiplyScalar(P.R));
+    }
+    if (n === 'lie' && boneState === 'held') { fwd(v5, HOME_YAW); v4.copy(HOME).addScaledVector(v5, 1.05).add(v6.set(-v5.z, 0, v5.x).multiplyScalar(.35)); dropBone(v4, .08, .35); }
+  }
+
+  // The Star Battle solving itself, one solver step at a time, then starting over
+  let sbT = 0;
+  fetch('../../data/star-battle-easy.json').then(r => r.json()).then(d => { SB.regions = d.regions; SB.steps = d.steps; SB.i = reduce ? 24 : 0; sbTex.redraw(); }).catch(() => {});
+  const cellPos = k => { const c = k % 10, r = Math.floor(k / 10), m = 20 / 600 * SBW, cs = (SBW - 2 * m) / 10; return [-SBW / 2 + m + (c + .5) * cs, -.025 + SBW / 2 - m - (r + .5) * cs]; };
+
+  return { group: g, targets: T, extras: [dogT, boneT], fit: { h: 9.75, w: 11.3 }, look: new THREE.Vector3(0, 1.15, 0),
+    tips, dbg: { tail, dogG }, dog: dogT, bone, setHello: v => hello = v, dogPos: () => dogG.position, mode: () => mode, boneState: () => boneState, given: () => given,
+    boneDrag(p) { if (boneState === 'held' || boneState === 'waiting' || mode === 'play') return false; if (boneState !== 'drag') { g.attach(bone); boneState = 'drag'; } bone.position.set(p.x, .4, p.z); return true; },
+    bonePick() { if (mode === 'play' || boneState === 'held' || boneState === 'waiting') return false; boneState = 'picked'; return true; },
+    boneRelease(p) {   // dropped on or near Dexter → he takes it; anywhere else it falls to the floor there
+      const near = v4.set(p.x, 0, p.z).distanceTo(v5.set(dogG.position.x, 0, dogG.position.z)) < 1.0;
+      if (near && mode === 'bed') { give(); boneState = 'waiting'; }
+      else dropBone(v4.set(Math.max(-2.7, Math.min(2.7, p.x)), 0, Math.max(-2.7, Math.min(2.7, p.z))));
+    },
+    update(t, dt) {
+      const tt = reduce ? 0 : t, sm = k => reduce ? 1 : 1 - Math.exp(-dt * k);
+      // the chalkboard: the chalk writes it line by line, it stays a while, the eraser scrubs it away, and it starts again
+      if (!reduce) {
+        const bt = (t + WRITE) % BOARD_LOOP,   /* the room opens with the board already written */ writingNow = bt < WRITE, erasingNow = bt >= WRITE + HOLD && bt < WRITE + HOLD + ERASE;
+        let cu = null;
+        if (writingNow) { const q = bt / WRITE * TOTW; for (let i = 0; i < NI; i++) { const f = clamp01((q - cum[i]) / itemW[i]); revs[i].set(0, f); if (f > 0 && f < 1) cu = [i, f]; } }
+        else if (erasingNow) { const q = (bt - WRITE - HOLD) / ERASE * TOTW; for (let i = 0; i < NI; i++) { const f = clamp01((q - cum[i]) / itemW[i]); revs[i].set(f, 1); if (f > 0 && f < 1) cu = [i, f]; } }
+        else revs.forEach(r => r.set(bt < WRITE + HOLD ? 0 : 1, 1));
+        const at = cu && BOARD_ITEMS[cu[0]], u = at && at[0] + (at[2] - at[0]) * cu[1], v = at && (at[1] + at[3]) / 2;
+        if (writingNow && at) { onBoard(u, v + Math.sin(t * 31) * .012, v4); chalkPc.position.lerp(v4, sm(20)); chalkPc.rotation.set(0, 0, -.55 + Math.sin(t * 17) * .06); }
+        else { chalkPc.position.lerp(v4.set(-.7, 1.08, .09), sm(5)); chalkPc.rotation.z += (Math.PI / 2 - chalkPc.rotation.z) * sm(5); }
+        if (erasingNow && at) { onBoard(u, v + Math.sin(t * 26) * .05, v4); v4.z = .07; eraser.position.lerp(v4, sm(18)); eraser.rotation.set(Math.PI / 2, 0, Math.sin(t * 13) * .12); }
+        else { eraser.position.lerp(v4.set(.8, 1.05, .08), sm(5)); eraser.rotation.x += (0 - eraser.rotation.x) * sm(6); eraser.rotation.z *= 1 - sm(6); }
+      }
+      windowView(vctx, 520, 452, tt, DK.v, view3.x * 70, view3.y * 70); viewTex.needsUpdate = true;
+      live.forEach(f => f(reduce ? 2.6 : t));
+      if (!reduce) per.rotation.y += dt * .35;
+      sheets[1].rotation.x = reduce ? 0 : -Math.pow(Math.max(0, Math.sin(t * .45)), 8) * .45;
+      // Banach–Tarski, every 10 s: one apple; its halves slide apart; each grows its other half; two apples; and back
+      const at = reduce ? 5 : t % 10, s = easeIO(seg(at, 2.4, 3.3)) * (1 - easeIO(seg(at, 8.2, 9.1))), gr = ease(seg(at, 3.4, 4.2)) * (1 - easeIO(seg(at, 7.4, 8.1)));
+      H1.position.z = AZ - .15 * s; H2.position.z = AZ + .15 * s; H1.rotation.z = H2.rotation.z = Math.sin(Math.PI * seg(at, 2.4, 3.3)) * .15;
+      G1.visible = G2.visible = gr > .01; G1.scale.setScalar(Math.max(.001, gr)); G2.scale.setScalar(Math.max(.001, gr)); G1.position.z = AZ - .15; G2.position.z = AZ + .15;
+      // the record turns and notes drift up
+      platter.rotation.y -= reduce ? 0 : dt * 3.5;
+      notes.forEach((n, i) => { const f = reduce ? .4 : (t * .3 + i / 3) % 1; n.position.set(-.1 + Math.sin(f * 6 + i) * .12, .75 + f * .9, .02 * i); n.material.opacity = Math.sin(Math.PI * f) * .9; });
+      if (reduce) { plane.position.copy(path.getPointAt(.9)); plane.lookAt(path.getPointAt(.92)); }
+      else { const u = t * .045 % 1; plane.position.copy(path.getPointAt(u)); plane.lookAt(path.getPointAt((u + .01) % 1)); plane.rotateZ(Math.sin(t * 1.3) * .25); }
+      if (!reduce && SB.steps.length) {
+        sbT += dt; const hold = SB.i === SB.steps.length - 1 ? 5 : 1.4;
+        if (sbT > hold) { sbT = 0; SB.i = (SB.i + 1) % SB.steps.length; sbTex.redraw(); }
+        const c = SB.steps[SB.i].c, k = c.length ? c[c.length - 1] : 44, [px0, py0] = cellPos(k);
+        pencilG.position.lerp(v4.set(px0 + .015, py0 + .015, .04 + Math.abs(Math.sin(t * 7)) * .015 * (sbT < .5 ? 1 : 0)), sm(6));
+      }
+
+      /* Dexter */
+      if (boneState === 'fall') { boneDrop.t = Math.min(1, boneDrop.t + dt / boneDrop.dur); const k = reduce ? 1 : boneDrop.t; bone.position.lerpVectors(boneDrop.from, boneDrop.to, k); bone.position.y = boneDrop.from.y + (boneDrop.to.y - boneDrop.from.y) * k * k + boneDrop.hop * 4 * k * (1 - k); bone.rotation.set(0, boneDrop.q0 + boneDrop.spin * k, 0); if (k === 1) boneState = 'rest'; }
+      if (pickup) { pickup.t = Math.min(1, pickup.t + dt / pickup.dur); const k = reduce ? 1 : ease(pickup.t); bone.position.lerpVectors(pickup.p, MOUTH, k); bone.position.y += pickup.arc * 4 * k * (1 - k); bone.quaternion.slerpQuaternions(pickup.q, HOLD_Q, k); bone.scale.setScalar(pickup.s + (.9 / DS / 1.12 - pickup.s) * k); if (pickup.t === 1) pickup = null; }
+      if (boneState === 'picked') bone.position.y = .12 + (reduce ? 0 : Math.abs(Math.sin(t * 5)) * .08);
+      if (boneState === 'rest' && !given && !reduce) { const k = (t % 4.5) / .5; bone.position.y = .05 + (k < 1 ? Math.sin(Math.PI * k) * .09 : 0); bone.rotation.z = k < 1 ? Math.sin(Math.PI * 2 * k) * .25 : 0; }   // a little hop now and then, until he's had it
+      const boneNear = (boneState === 'drag' || boneState === 'picked') && bone.position.distanceTo(v5.set(dogG.position.x, bone.position.y, dogG.position.z)) < 1.8;
+      // the play
+      let tF = 0, tR = 0, shake = 0, dip = 0, bow = 0, crouch = 0, leap = 0, leapK = 0, sniff = 0, flick = 0, sigh = 0, walking = false;
+      if (mode === 'play') {
+        mt += dt;
+        const [n, k] = reduce ? [mt < 2.5 ? 'still' : 'done', 0] : phaseAt(mt);
+        if (n !== phase) { phase = n; enter(n); }
+        const d = dogG.position;
+        if (n === 'still') { tF = tR = 1; if (mt > .3 && boneState !== 'held' && boneState !== 'fall') holdBone(); if (mt > 2 && boneState === 'held') { fwd(v5, HOME_YAW); dropBone(v4.copy(HOME).addScaledVector(v5, 1.05)); } }
+        else if (n === 'rise') { tF = tR = ease(k); yaw = HOME_YAW + .28 * Math.sin(k * 14) * (1 - k); }                 // up with a happy wiggle, bone in his mouth
+        else if (n === 'pick2') { tF = tR = 1; dip = 1 - ease(seg(k, .3, 1)); if (boneState === 'rest') holdBone(); }       // already nose-down from the pounce: grab it and lift
+        else if (n === 'shake' || n === 'shake2') { tF = tR = 1; shake = Math.sin(Math.PI * Math.min(1, k * 1.2)); }
+        else if (n === 'run1') { tF = tR = 1; const p = romp.getPointAt(pace1(k)); d.set(p.x, 0, p.z); }
+        else if (n === 'toss') { tF = tR = 1; flick = Math.sin(Math.PI * k); }
+        else if (n === 'bow') { tF = tR = 1; bow = Math.sin(Math.PI * Math.min(1, k * 1.3)); faceTo(bone.position, sm(8)); }
+        else if (n === 'crouch') { tF = tR = 1; crouch = ease(k); faceTo(bone.position, sm(10)); }
+        else if (n === 'pounce') { tF = tR = 1; leapK = k; leap = Math.sin(Math.PI * k); crouch = 1 - ease(Math.min(1, k * 3)); d.lerpVectors(P.p1, P.p2, easeIO(k)); yaw = angLerp(yaw, P.y2, sm(12)); dip = ease(seg(k, .5, 1)); }
+        else if (n === 'run2') { tF = tR = 1; const p = P.home.getPointAt(pace2(k)); d.set(p.x, 0, p.z); }
+        else if (n === 'circle') { tF = tR = 1; sniff = 1; walking = true; const y = P.y0 + P.D * easeIO(k); yaw = y; v6.lerpVectors(P.c0, P.c1, easeIO(k)); d.set(v6.x + P.R * Math.sin(y), 0, v6.z + P.R * Math.cos(y)); }
+        else if (n === 'lie') { tF = 1 - ease(seg(k, 0, .55)); tR = 1 - ease(seg(k, .35, 1)); d.lerp(v4.copy(HOME), sm(6)); yaw = angLerp(yaw, HOME_YAW, sm(8)); }
+        else if (n === 'sigh') { sigh = Math.sin(Math.PI * k); }
+        else { mode = 'bed'; joy = 0; dogG.position.copy(HOME); }
+        // heading follows the path while he runs
+        if (n === 'run1' || n === 'run2') { v6.copy(d).sub(lastPos); if (v6.lengthSq() > 1e-6) yaw = angLerp(yaw, Math.atan2(-v6.z, v6.x), sm(1.5 + 9 * Math.min(1, v6.length() / dt / 1.6))); }   // he can only turn as fast as he's moving: easing around when slow, cutting bends at a run
+      }
+      // legs step at his real ground speed, so he never skates
+      const speed = dt > 0 ? dogG.position.distanceTo(lastPos) / dt : 0; lastPos.copy(dogG.position);
+      const running = Math.min(1.2, speed / 1.4), stride = mode === 'play' ? speed : 0;
+      gait += dt * (stride * 5.5 + (walking ? 3 : 0));
+      dogG.rotation.y = yaw;
+      frontSt += (tF - frontSt) * sm(14); rearSt += (tR - rearSt) * sm(14);
+      const st = (frontSt + rearSt) / 2;
+      aw += ((isDay() || mode === 'play' ? 1 : 0) - aw) * (reduce ? 1 : 1 - Math.exp(-dt * 1.6));
+      const hk = dogT.k = (dogT.k ?? 0) + (Math.max(hello, boneNear ? 1 : 0, joy) - (dogT.k ?? 0)) * sm(6);
+      const up = Math.max(aw, hk), perk = hk, asleep = mode === 'bed' ? clamp01(1 - up * 2.5) : 0;
+      // breathing: slow and deep asleep, quicker awake; a sigh when he settles
+      const breath = reduce ? 0 : Math.sin(t * (asleep > .5 ? 1.9 : 3.2));
+      torso.scale.set(1, 1 + (.045 + .02 * asleep) * breath * (1 - st * .6) + .08 * sigh, 1 + .035 * breath * (1 - st * .6) + .06 * sigh);
+      // body: height from the legs; a bow, a crouch, a leap; lying down front first
+      const rimD = Math.hypot(dogG.position.x - HOME.x, dogG.position.z - HOME.z), rimHop = mode === 'play' && running > .15 ? Math.cos(Math.PI / 2 * Math.min(1, Math.abs(rimD - .84) / .3)) : 0;   // hopping the bed's rim
+      body.position.y = .17 * rimHop + .03 + .2 * st + Math.abs(Math.sin(gait)) * .045 * Math.min(1, running) - .07 * bow - .09 * crouch + .3 * leap;
+      body.rotation.z = (frontSt - rearSt) * .45 - .3 * bow - .12 * crouch + .3 * Math.sin(2 * Math.PI * leapK) * (leap > 0 ? 1 : 0) - .18 * dip * st;
+      legs.forEach((l, i) => {
+        const front = i < 2, s0 = front ? frontSt : rearSt, ph = gait + (i === 0 || i === 3 ? 0 : Math.PI);
+        const swing = Math.sin(ph) * (.55 * Math.min(1, running) + (walking ? .3 : 0));
+        l.rotation.z = (1 - s0) * (Math.PI / 2 + (front ? .2 : 0)) + s0 * (swing + (front ? 0 : .22)) + (front ? 1.0 * bow + .3 * crouch + 1.0 * leap : -.25 * crouch - .7 * leap);
+        const lift = Math.max(0, Math.sin(ph + Math.PI / 2)) * (Math.min(1, running) + (walking ? .5 : 0));
+        l.userData.knee.rotation.z = s0 * ((front ? -.9 : .9) * lift * .6 + (front ? 0 : -.4)) + (front ? -.4 * leap : .5 * leap + .6 * crouch);
+        l.userData.paw.rotation.z = -(l.rotation.z + l.userData.knee.rotation.z) * .85;
+      });
+      // head and neck: chin on his paws asleep (rising a little with each breath); nose down to sniff or pick up; a flick to toss; a shake
+      neck.rotation.z = -.35 + .45 * up + .05 * st - .25 * bow - .5 * sniff - 1.0 * dip + .5 * flick + .03 * breath * asleep;
+      head.rotation.z = .25 * (1 - up) + (reduce ? 0 : Math.sin(t * (running > .3 ? 13 : .7)) * (running > .3 ? .07 : .04) * up) - .25 * dip + (sniff ? Math.sin(t * 9) * .08 : 0);
+      let look = 0;
+      if (mode === 'bed' && !reduce) { dogG.worldToLocal(bone.getWorldPosition(v6)); const toBone = Math.max(-.6, Math.min(.6, Math.atan2(-v6.z, v6.x))); look = (boneState === 'drag' || boneState === 'picked' || (!given && Math.sin(t * .35) > .4)) ? toBone : Math.sin(t * .23) * .25; }
+      head.rotation.y = .45 * (1 - up) * (1 - st) + look * aw * (1 - hello) + hello * .3 * (1 - st) + (reduce ? 0 : shake * Math.sin(t * 22) * .55 + sniff * Math.sin(t * 2.3) * .35);
+      head.rotation.x = reduce ? 0 : shake * Math.sin(t * 22 + 1) * .22;
+      eyes.forEach(e => e.scale.y = .12 + .88 * up * (reduce || Math.sin(t * 1.3) < .985 ? 1 : .1));
+      const smile = aw * .35 + perk * .65;
+      jaw.rotation.z = -(.04 + .24 * smile + .14 * perk) - .03 * breath * asleep;
+      tongue.visible = smile > .2 && boneState !== 'held';
+      tongue.scale.set(1 + .6 * perk + .4 * Math.min(1, running), 1, 1 + .15 * perk); tongue.position.set(.09 + .035 * perk, -.012 - .014 * perk, 0); tongue.rotation.z = -.5 * perk;   // hanging out, happy
+      cheeks.forEach(c => { c.position.set(.17 - .025 * smile, -.012 + .022 * smile, c.position.z); c.scale.setScalar(.6 + .9 * smile); });   // the corners of his smile, pulled back and up
+      ears.forEach(e => { const { sg, tip } = e.userData;
+        e.rotation.x = sg * (.3 * (1 - up) + .3 * up * (1 - perk) + .16 * perk + .25 * Math.min(1, running)) + (reduce ? 0 : Math.max(0, Math.sin(t * .6 + sg)) ** 30 * .25 * asleep);
+        e.scale.setScalar(1 - .2 * (1 - up));   // asleep, his ears relax back against his head, smaller
+        e.rotation.z = 1.3 * (1 - up) + .15 * up * (1 - perk) - .12 * perk + .45 * Math.min(1, running) + (reduce ? 0 : Math.sin(gait * 2 + sg) * .12 * Math.min(1, running));
+        tip.rotation.z = -1.7 * (1 - up) - 1.2 * up * (1 - perk) - .6 * perk; });
+      // tail: resting on the bed asleep; awake it sweeps side to side, the whole tail in step from the base (staggered joints made the tip
+      // trace a circle, the "helicopter"); low along the bed while he lies, up while he stands, streaming out behind when he runs
+      const amp = reduce ? 0 : (.28 * aw + .17 * hk + .2 * bow) * (1 - .6 * Math.min(1, running)), freq = 4.6 + 1.8 * Math.max(hk, bow), wag = Math.sin(t * freq);   // about 0.7 wags a second relaxed, 1 when he's happy
+      tail.forEach((l, i) => {
+        l.rotation.y = (1 - up) * .55 + amp * wag * (i ? .3 : 1);
+        l.rotation.z = (1 - up) * (i ? .05 : .45) + up * ((1 - st) * (i ? .02 : .12) + st * (i ? -.12 : -.55)) + .35 * Math.min(1, running) * (i ? 0 : 1);
+      });
+      // snoring: z's drift up from his nose while he's fast asleep
+      head.localToWorld(v6.set(.2, .15, 0)); g.worldToLocal(v6);
+      zs.forEach((z, i) => { const f = (t * .22 + i / 3) % 1; z.position.set(v6.x + f * .25, v6.y + .1 + f * .55, v6.z - f * .1); z.scale.setScalar(.09 + f * .1); z.material.opacity = reduce ? 0 : Math.sin(Math.PI * f) * .85 * asleep * (1 - hk); });
+    } };
+}
+
+/* ───────── Pointing, dragging, tapping ───────── */
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), floorPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), hitP = new THREE.Vector3();
+let hoverKey = null, cardKey = null, focusKey = null, tapKey = null, lastType = 'mouse', dragging = false, dragMoved = false;
+const activeKey = () => cardKey ?? hoverKey ?? focusKey ?? tapKey;
+function aim(e) { const r = renderer.domElement.getBoundingClientRect(); ndc.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(ndc, camera); }
+function pick(e) {
+  if (!room) return null;
+  aim(e);
+  const all = [...room.targets, ...room.extras], hit = ray.intersectObjects(all.map(t => t.obj), true)[0];
+  if (!hit) return null;
+  for (let o = hit.object; o; o = o.parent) { const t = all.find(t => t.obj === o); if (t) return t.key; }
+  return null;
+}
+// a book's title, or what's on the record player, beside the pointer
+let boneHover = false;
+function showTip(e) {
+  const hit = room && ray.intersectObjects(room.tips, true)[0];
+  let o = hit?.object; while (o && !o.userData.tip) o = o.parent;
+  if (!o) { tipEl.classList.remove('on'); return; }
+  const r = stage.getBoundingClientRect();
+  tipEl.innerHTML = o.userData.tip; tipEl.style.transform = `translate(${Math.min(e.clientX - r.left + 14, r.width - tipEl.offsetWidth)}px, ${e.clientY - r.top + 16}px)`; tipEl.classList.add('on');
+}
+function floorAt(e) { aim(e); if (ray.ray.intersectPlane(floorPlane, hitP)) room.group.worldToLocal(hitP); return hitP; }
+const href = k => cardEls[KEYS.indexOf(k)].href;
+let px = 0, py = 0, tx = 0, ty = 0;
+const cv = renderer.domElement;
+cv.addEventListener('pointerdown', e => {
+  lastType = e.pointerType; dragMoved = false;
+  if (lastType === 'mouse' && pick(e) === 'bone' && room.boneDrag(floorAt(e))) { dragging = true; cv.setPointerCapture(e.pointerId); cv.style.cursor = 'grabbing'; e.preventDefault(); }
+});
+cv.addEventListener('pointermove', e => {
+  if (dragging) { dragMoved = true; room.boneDrag(floorAt(e)); return; }
+  if (e.pointerType !== 'mouse') return;
+  const k = pick(e); hoverKey = k === 'dexter' || k === 'bone' ? null : k; room?.setHello(k === 'dexter' ? 1 : 0); boneHover = k === 'bone';
+  cv.style.cursor = k === 'bone' ? 'grab' : hoverKey ? 'pointer' : '';
+  showTip(e);
+});
+cv.addEventListener('pointerup', e => { if (!dragging) return; dragging = false; cv.style.cursor = ''; room.boneRelease(floorAt(e)); });
+cv.addEventListener('pointerleave', () => { if (dragging) return; hoverKey = null; boneHover = false; room?.setHello(0); cv.style.cursor = ''; tipEl.classList.remove('on'); });
+cv.addEventListener('click', e => {
+  if (dragMoved) { dragMoved = false; return; }
+  const k = pick(e); if (lastType !== 'mouse') showTip(e);
+  // on a phone: tap the bone to pick it up, then tap Dexter to give it to him (or the floor to put it down)
+  if (room.boneState() === 'picked') { tapKey = null; room.boneRelease(k === 'dexter' ? room.dogPos() : floorAt(e)); return; }
+  if (k === 'bone') { if (lastType !== 'mouse') room.bonePick(); return; }
+  if (k === 'dexter') { tapKey = null; room.setHello(1); if (lastType !== 'mouse') setTimeout(() => room.setHello(0), 2200); return; }
+  if (!k) { tapKey = null; return; }
+  if (lastType === 'mouse' || tapKey === k) location.href = href(k); else tapKey = k;   // touch: first tap lights the label, second goes
+});
+addEventListener('pointermove', e => {
+  if (e.pointerType !== 'mouse') return;
+  const r = stage.getBoundingClientRect();
+  tx = Math.max(-1, Math.min(1, (e.clientX - r.left - r.width / 2) / (r.width / 2)));
+  ty = Math.max(-1, Math.min(1, (e.clientY - r.top - r.height / 2) / (r.height / 2)));
+});
+cardEls.forEach(c => {
+  c.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') cardKey = c.dataset.k; });
+  c.addEventListener('pointerleave', () => cardKey = null);
+  c.addEventListener('focus', () => focusKey = c.dataset.k);
+  c.addEventListener('blur', () => focusKey = null);
+});
+
+/* ───────── Leader lines (SVG) ───────── */
+const NS = 'http://www.w3.org/2000/svg';
+const L = KEYS.map(() => { const l = document.createElementNS(NS, 'line'), c = document.createElementNS(NS, 'circle'); c.setAttribute('r', 4.5); svg.append(l, c); return { l, c }; });
+const v3 = new THREE.Vector3();
+
+/* ───────── Size ───────── */
+function resize() {
+  const w = view.clientWidth, h = view.clientHeight; if (!w || !h || !room) return;
+  renderer.setSize(w, h, false);
+  const a = w / h, vs = Math.max(room.fit.h, room.fit.w / a) * .86;   // tall enough and wide enough for every corner of the room
+  Object.assign(camera, { left: -vs * a / 2, right: vs * a / 2, top: vs / 2, bottom: -vs / 2 }); camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(view);
+
+document.getElementById('mode-t').addEventListener('click', () => {
+  const day = !isDay(); root.classList.add('fade'); root.dataset.theme = day ? 'day' : 'night';
+  try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+  document.dispatchEvent(new Event('themechange')); setTimeout(() => root.classList.remove('fade'), 350);
+});
+
+/* ───────── The frame loop (paused while the room is off screen or the tab is hidden) ───────── */
+let onScreen = true;
+new IntersectionObserver(es => onScreen = es[0].isIntersecting).observe(stage);
+const clock = new THREE.Clock(); let intro0 = 0;
+const toScreen = (obj, p, sr, vr) => { obj.localToWorld(v3.copy(p)).project(camera); return [vr.left - sr.left + (v3.x + 1) / 2 * vr.width, vr.top - sr.top + (1 - v3.y) / 2 * vr.height]; };
+function frame() {
+  requestAnimationFrame(frame);
+  const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTime, now = performance.now();
+  if (!room || !onScreen || document.hidden) return;
+  if (tw0 >= 0) { const k = Math.min(1, (now - tw0) / 750); stepTheme(easeIO(k)); if (k === 1) tw0 = -1; }
+  // Camera: an isometric view that sways a little and leans toward the cursor (none for reduced motion, or while dragging the bone)
+  const sm = 1 - Math.exp(-dt * 3.5); if (!dragging) { px += (tx - px) * sm; py += (ty - py) * sm; }
+  const az = Math.PI / 4 + (reduce ? 0 : Math.sin(t * .4) * .035 + px * .05), el = .6 + (reduce ? 0 : -py * .03), R = 24;
+  view3.x = (az - Math.PI / 4) / .085; view3.y = -(el - .6) / .03;
+  camera.position.set(room.look.x + R * Math.cos(el) * Math.sin(az), room.look.y + R * Math.sin(el), room.look.z + R * Math.cos(el) * Math.cos(az));
+  camera.lookAt(room.look);
+  const ik = reduce ? 1 : ease(Math.min(1, (now - intro0) / 900));
+  room.group.position.y = -.6 * (1 - ik); room.group.scale.setScalar(.95 + .05 * ik);
+  const act = activeKey();
+  cardEls.forEach(c => c.classList.toggle('on', c.dataset.k === act));
+  for (const tg of room.targets) {
+    const goal = tg.key === act ? 1 : 0; tg.k = reduce ? goal : tg.k + (goal - tg.k) * (1 - Math.exp(-dt * 12));
+    tg.obj.position.y = tg.baseY + tg.k * .14; tg.lift?.(tg.k);
+  }
+  const at = room.targets.find(t => t.key === act);
+  if (at) { const p = at.obj.position; room.ring.position.x = p.x; room.ring.position.z = at.key === 'projects' ? p.z + .3 : p.z; }
+  const rs = room.ring.userData.s = (room.ring.userData.s ?? 0) + ((at ? 1 : 0) - (room.ring.userData.s ?? 0)) * (reduce ? 1 : 1 - Math.exp(-dt * 12));
+  room.ring.scale.setScalar(.8 + .2 * rs); room.ring.material.opacity = rs * .9; room.ring.visible = rs > .01;
+  room.update(t, dt);
+  renderer.render(scene, camera);
+  // Labels sit in empty space beside their objects (each target's "tag" point), with a dotted line to the object
+  const sr = stage.getBoundingClientRect(), vr = view.getBoundingClientRect();
+  const P = room.targets.map(tg => {
+    const i = KEYS.indexOf(tg.key), card = cardEls[i], [ax, ay] = toScreen(tg.obj, tg.anchor, sr, vr), [gx, gy] = toScreen(room.group, tg.tag, sr, vr), cw = card.offsetWidth, ch = card.offsetHeight;
+    return { i, card, ax, ay, cw, ch, l0: Math.max(0, Math.min(sr.width - cw, tg.side === 'l' ? gx - cw : gx)), t0: Math.max(0, Math.min(vr.height - ch, gy - ch / 2)) };
+  });
+  [...P].sort((a, b) => a.t0 - b.t0).forEach((p, j, S) => S.slice(0, j).forEach(q => {
+    if (p.l0 < q.l0 + q.cw + 6 && q.l0 < p.l0 + p.cw + 6 && p.t0 < q.t0 + q.ch + 6) p.t0 = q.t0 + q.ch + 6;
+  }));
+  P.forEach(({ i, card, ax, ay, l0, t0, cw, ch }) => {
+    const { l, c } = L[i], on = KEYS[i] === act;
+    card.style.transform = `translate(${l0}px, ${t0}px)`;
+    const ex = Math.max(l0 + 8, Math.min(l0 + cw - 8, ax)), ey = Math.max(t0, Math.min(t0 + ch, ay));
+    l.setAttribute('x1', ax); l.setAttribute('y1', ay); l.setAttribute('x2', ex); l.setAttribute('y2', ey);
+    c.setAttribute('cx', ax); c.setAttribute('cy', ay);
+    l.classList.toggle('on', on); c.classList.toggle('on', on);
+  });
+  // Dexter's name tag above his head while he says hello; the bone's note beside it until he's had it
+  const [dx, dy] = toScreen(room.dog.obj, room.dog.anchor, sr, vr);
+  dxTag.style.transform = `translate(${dx - dxTag.offsetWidth / 2}px, ${dy - dxTag.offsetHeight - 6}px)`;
+  dxTag.classList.toggle('on', (room.dog.k ?? 0) > .5 && room.mode() === 'bed');
+  const [bx2, by2] = toScreen(room.bone, v3.set(0, 0, 0), sr, vr);
+  boneHint.style.transform = `translate(${bx2 + 18}px, ${by2 + 10}px)`;
+  boneHint.textContent = room.boneState() === 'picked' ? 'Now tap Dexter' : coarse ? 'Tap me, then Dexter' : 'Drag me to Dexter';
+  boneHint.classList.toggle('on', room.mode() === 'bed' && ((boneHover && room.boneState() === 'rest') || room.boneState() === 'picked'));
+}
+
+const fontsReady = Promise.race([Promise.all(['400 100px "DM Serif Display"', 'italic 400 60px Newsreader', '400 60px Newsreader'].map(f => document.fonts.load(f))), new Promise(r => setTimeout(r, 2000))]);
+fontsReady.then(() => {
+  room = buildStudy();
+  const ring = put(new THREE.Mesh(new THREE.RingGeometry(.78, .86, 64).rotateX(-Math.PI / 2), th(new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }), 'color', '#C9ACDE', '#6C4487')), 0, .012, 0, room.group);
+  room.ring = ring; room.targets.forEach(t => { t.baseY = t.obj.position.y; t.k = 0; });
+  scene.add(room.group); resize(); intro0 = performance.now();
+  requestAnimationFrame(() => stage.classList.add('ready'));
+  frame();
+  window.mk = { camera, room };   // for inspecting the mockup from the console
+});
+</script>
+</body>
+</html>

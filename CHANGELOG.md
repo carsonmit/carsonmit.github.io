@@ -4,6 +4,25 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+### Added
+- Mockup, rounds 2 to 7 of the Home page as a small 3D room ("The Study", `design/mockups/home-doors-3d-r2.html`).
+  Carson's own things are in it: his eight favorite books on the shelf (point at one to see its title), the
+  permutahedron, an apple that splits into two (Banach–Tarski), his UC Berkeley diploma, a drawn portrait of Dexter, a
+  chalkboard dense with mathematical logic (Tutoring), the GRE textbook and a self-solving Star Battle on the desk under
+  a corkboard whose neuron sketch fires (Projects), a letter-writing corner (Contact), *Oxnard* on a record player, and
+  Berkeley's Campanile out the window. His dog Dexter sleeps (breathing, snoring) by Night, wakes by Day, perks up when
+  you point at him, and plays with a bone you drag onto him: a shake, a toss, a play bow and pounce, a lap of the room,
+  and a sniffing circle before he lies back down. A floating piece of chalk writes the chalkboard and an eraser wipes
+  it, and the view out the window shifts with the room's perspective. Mockup only; the live site is unchanged.
+- `scripts/contact-sheet.sh`: one command that screenshots a mockup in Night and Day at computer and phone width and
+  reports script errors and sideways scrolling.
+
+### Changed
+- `.gitignore`: Carson's private photos of Dexter (`images/Dexter/`, used only as reference) and the contact-sheet
+  screenshots are never saved in git.
+- DESIGN.md: the round-2 decisions for the 3D room, including soft shadows inside the room (an exception to "Flat")
+  and lifting the "one live piece per screen" rule for the room.
+
 ## [1.0.0] - 2026-10-26
 
 The redesigned site, complete: the first version Carson calls finished. No new changes in this release; it marks the
