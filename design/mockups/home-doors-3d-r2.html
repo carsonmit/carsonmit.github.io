@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mockup: The Study, Round 7</title>
+<title>Mockup: The Study, Round 8</title>
 <script>try { if (localStorage.getItem('theme') === 'day') document.documentElement.dataset.theme = 'day'; } catch (e) {} document.documentElement.classList.add('js');</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=IBM+Plex+Sans:wght@400;500&display=swap">
 <link rel="stylesheet" href="../../styles.css?v=2026-10-26-2">
@@ -14,56 +14,70 @@
   .mk-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding-top: 24px; }
   .mk-bar button { font: 500 14px/1 var(--sans); color: var(--mu); background: transparent; border: 1.5px solid var(--track); border-radius: 999px; padding: 10px 14px; cursor: pointer; margin-left: auto; }
   .mk-h { font: 400 clamp(34px, 4vw, 52px)/1.05 var(--serif-display); margin: 28px 0 10px; }
-  .mk-note { max-width: 66ch; margin: 0; color: var(--mu); }
+  .mk-note { max-width: 58ch; margin: 0; color: var(--mu); }
 
-  /* The stage: the 3D view, a layer of dotted leader lines, and the four doors as labels */
-  .d3s { position: relative; margin: 12px 0 80px; height: clamp(660px, 72vw, 920px); }
-  .view { position: absolute; inset: 0; }
-  .view canvas { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity .45s var(--ease-out); touch-action: pan-y; }
-  .d3s.ready .view canvas { opacity: 1; }
-  .d3l { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; opacity: 0; transition: opacity .4s var(--ease-out) .15s; }
-  .d3s.ready .d3l { opacity: 1; }
-  .d3l line { stroke: var(--track); stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: .5 6; transition: stroke .2s ease; }
-  .d3l line.on { stroke: var(--ac); }
-  @media (prefers-reduced-motion: no-preference) { .d3l line.on { animation: march .9s linear infinite; } }
-  @keyframes march { to { stroke-dashoffset: -13; } }
-  .d3l circle { fill: var(--bg); stroke: var(--track); stroke-width: 1.6; transition: fill .2s ease, stroke .2s ease; }
-  .d3l circle.on { fill: var(--ac); stroke: var(--ac); }
-
-  .cards { position: absolute; inset: 0; pointer-events: none; }
-  .c3 { position: absolute; left: 0; top: 0; width: max-content; max-width: 250px; pointer-events: auto; padding: 8px 13px 10px; border-radius: 12px; color: var(--ink); text-decoration: none;
+  /* The stage. Without 3D (no WebGL, or Three.js didn't load) the four doors are a plain list of links with their descriptions;
+     once the 3D is running (.live) they become labels beside their objects in the room, joined to them by dotted lines. */
+  .d3s { margin: 28px 0 80px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .view, .d3l { display: none; }
+  .c3 { display: block; padding: 12px 15px 14px; border-radius: 12px; color: var(--ink); text-decoration: none;
     background: color-mix(in srgb, var(--card) 78%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-    border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
-    opacity: 0; transition: opacity .4s var(--ease-out), border-color .2s ease; }
-  .d3s.ready .c3 { opacity: 1; }
-  .d3s.ready .c3:nth-child(2) { transition-delay: .06s; } .d3s.ready .c3:nth-child(3) { transition-delay: .12s; } .d3s.ready .c3:nth-child(4) { transition-delay: .18s; }
-  .c3-t { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font: 400 24px/1.1 var(--serif-display); transition: color .18s ease; }
+    border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); transition: opacity .4s var(--ease-out), border-color .2s var(--ease-out); }
+  .c3-t { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font: 400 24px/1.1 var(--serif-display); transition: color .18s var(--ease-out); }
   .c3-go { font: 500 19px var(--sans); color: var(--ac); transition: transform .2s var(--ease-out); }
-  .c3-d { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .3s var(--ease-out), opacity .2s ease; }
+  .c3-d { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .22s var(--ease-out), opacity .18s var(--ease-out); }
   .c3-d > span { overflow: hidden; font-size: 16.5px; line-height: 1.4; }
   .c3-d > span > span { display: block; padding-top: 6px; }
   .c3.on { border-color: color-mix(in srgb, var(--ac) 60%, transparent); z-index: 2; }
   .c3.on .c3-t { color: var(--ac); }
-  .c3.on .c3-d { grid-template-rows: 1fr; opacity: 1; }
+  @media (hover: hover) and (pointer: fine) { .c3:hover .c3-t { color: var(--ac); } }
   @media (prefers-reduced-motion: no-preference) { .c3.on .c3-go { transform: translateX(5px); } }
-  @media (prefers-reduced-motion: reduce) { .c3, .c3-d, .view canvas, .d3l { transition: none; } }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) { .c3:hover .c3-go { transform: translateX(5px); } }
+  /* phones: no gray tap flash, no long-press text selection or callout on a door, no double-tap delay; a press you can feel instead */
+  .c3 { touch-action: manipulation; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; scale: 1; }
+  @media (prefers-reduced-motion: no-preference) { .c3 { transition: opacity .4s var(--ease-out), border-color .2s var(--ease-out), scale .16s var(--ease-out); } .c3:active { scale: .97; transition-duration: .4s, .2s, .1s; } }   /* press 100 ms, release 160 ms */
+
+  .d3s.live { position: relative; margin-top: 12px; height: clamp(420px, min(72vw, 100svh - 24px), 920px); }   /* never taller than the screen, so the whole room fits in one view */
+  .live .view { display: block; position: absolute; inset: 0; }
+  .live .view canvas { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity .45s var(--ease-out); touch-action: pan-y; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+  .live.ready .view canvas { opacity: 1; }
+  .live .d3l { display: block; position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; opacity: 0; transition: opacity .4s var(--ease-out) .15s; }
+  .live.ready .d3l { opacity: 1; }
+  .d3l line { stroke: var(--mu); stroke-opacity: .9; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1 5; transition: stroke .2s var(--ease-out); }
+  .d3l line.on { stroke: var(--ac); stroke-opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) { .d3l line.on { animation: march .9s linear infinite; } }
+  @keyframes march { to { stroke-dashoffset: -12; } }
+  .d3l circle { fill: color-mix(in srgb, var(--ac) 45%, var(--bg)); stroke: var(--ac); stroke-width: 1.6; transition: fill .2s var(--ease-out); }   /* each object's dot, quietly in the accent even at rest */
+  .d3l circle.on { fill: var(--ac); }
+  .live .cards { display: block; position: absolute; inset: 0; pointer-events: none; }
+  .live .c3 { position: absolute; left: 0; top: 0; width: 214px; pointer-events: auto; padding: 8px 13px 10px; opacity: 0;
+    background: color-mix(in srgb, var(--card) 92%, transparent); -webkit-backdrop-filter: none; backdrop-filter: none; }   /* no frosted blur over the moving room: it was recomputed every frame */
+  .live.ready .c3 { opacity: 1; }
+  .live.ready .c3:nth-child(2) { transition-delay: .06s, 0s, 0s; } .live.ready .c3:nth-child(3) { transition-delay: .12s, 0s, 0s; } .live.ready .c3:nth-child(4) { transition-delay: .18s, 0s, 0s; }   /* the fade only: never the hover or press */
+  .live .c3-d { grid-template-rows: 0fr; opacity: 0; }
+  .live .c3.on .c3-d { grid-template-rows: 1fr; opacity: 1; }
+  .c3:focus-visible .c3-d, .c3:focus-visible .c3-t, .c3:focus-visible .c3-go { transition: none; }   /* keyboard: no animation, just the result */
+  @media (prefers-reduced-motion: reduce) { .c3 { transition: opacity .2s var(--ease-out), border-color .2s var(--ease-out); } .c3-d { transition: opacity .2s var(--ease-out); } .c3-go { transition: none; } .live .view canvas, .live .d3l { transition: opacity .2s var(--ease-out); } }   /* gentler, not zero: fades stay, movement goes */
 
   /* Dexter's name tag, and the bone's quiet invitation: not links, just small notes in the room */
   .dx, .bh { position: absolute; left: 0; top: 0; pointer-events: none; font: italic 400 17px/1 var(--serif); color: var(--ink); padding: 5px 10px 6px; border-radius: 999px;
     background: color-mix(in srgb, var(--card) 82%, transparent); border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
-    opacity: 0; transition: opacity .35s var(--ease-out); white-space: nowrap; }
+    opacity: 0; transition: opacity .2s var(--ease-out); white-space: nowrap; }
+  .bh { transition-duration: .3s; }
   .bh { font-size: 15px; color: var(--mu); }
+  .bh.on { pointer-events: auto; cursor: pointer; }   /* tapping the hint picks the bone up, too */
   .tp { font: 400 14px/1.2 var(--sans); z-index: 3; }
   .tp i { font: italic 400 16px var(--serif); }
   .dx.on, .bh.on { opacity: 1; }
 
-  /* Phones: titles only, on the scene */
+  /* Phones: a taller stage with the room a little closer, and title-only labels in its four corners, each at least 44 px tall */
   @media (max-width: 760px) {
-    .d3s { height: auto; }
-    .view { position: relative; inset: auto; aspect-ratio: 1 / .92; }
-    .c3-d { display: none; }
-    .c3 { padding: 6px 10px 7px; border-radius: 10px; }
-    .c3-t { font-size: 18px; margin: 0; gap: 8px; }
+    .d3s.live { height: auto; }
+    .live .view { position: relative; inset: auto; aspect-ratio: 1 / 1.32; }
+    .live .c3-d { display: none; }
+    .live .c3 { width: max-content; min-height: 44px; display: flex; align-items: center; padding: 0 13px; border-radius: 10px; }
+    .live .c3-t { font-size: 19px; margin: 0; gap: 10px; }
     .c3-go { font-size: 15px; }
     .bh { font-size: 13px; }
   }
@@ -72,25 +86,36 @@
 <body>
 <main class="wrap">
   <div class="mk-bar"><button type="button" id="mode-t">Switch Day/Night</button></div>
-  <h1 class="mk-h">The Study, Round 7</h1>
-  <p class="mk-note">Drag the bone onto Dexter: he catches it, does a lap, tosses it, pounces on it, does another lap, and sniffs his way back to bed. Watch the chalkboard write itself, and lean the room (move your pointer) to see the Campanile shift through the window.</p>
+  <h1 class="mk-h">The Study, Round 8</h1>
+  <p class="mk-note">After the review pipeline. Drag the bone onto Dexter (on a phone, tap it, then him): he catches it, runs a lap, tosses it and pounces on it, then trots back to bed. Point at a book to see which one it is.</p>
 
-  <section class="d3s" aria-label="Pages">
+  <section class="d3s" aria-labelledby="study-name" aria-describedby="study-desc">
+    <h2 class="vh" id="study-name">The Study</h2>
+    <p class="vh" id="study-desc">An illustrated room of Carson's things: a bookshelf for About Me, a desk under a corkboard for Projects, a chalkboard of logic for Tutoring, and a letter-writing table for Contact. His dog Dexter sleeps on a bed in the middle.</p>
     <div class="view"></div>
     <svg class="d3l" aria-hidden="true"></svg>
     <div class="cards">
       <a class="c3" data-k="about" href="../../about.html"><span class="c3-t">About Me<span class="c3-go" aria-hidden="true">→</span></span><span class="c3-d"><span><span>Who I am and some math I find beautiful and interesting.</span></span></span></a>
-      <a class="c3" data-k="tutoring" href="../../tutoring.html"><span class="c3-t">Tutoring<span class="c3-go" aria-hidden="true">→</span></span><span class="c3-d"><span><span>Math tutoring for all levels, online or in person in South Orange County.</span></span></span></a>
       <a class="c3" data-k="projects" href="../../projects.html"><span class="c3-t">Projects<span class="c3-go" aria-hidden="true">→</span></span><span class="c3-d"><span><span>Personal writings, tools, widgets, and more.</span></span></span></a>
+      <a class="c3" data-k="tutoring" href="../../tutoring.html"><span class="c3-t">Tutoring<span class="c3-go" aria-hidden="true">→</span></span><span class="c3-d"><span><span>Math tutoring for all levels, online or in person in South Orange County.</span></span></span></a>
       <a class="c3" data-k="contact" href="../../contact.html"><span class="c3-t">Contact<span class="c3-go" aria-hidden="true">→</span></span><span class="c3-d"><span><span>Email, social media, message form, and booking links.</span></span></span></a>
     </div>
     <span class="dx" aria-hidden="true">Dexter</span>
     <span class="bh" aria-hidden="true"></span>
     <span class="dx tp" aria-hidden="true"></span>
   </section>
+  <script>
+    // Before the first paint: if this browser can draw 3D, lay the stage out for the room now (labels hidden until it's ready),
+    // so the four doors don't flash as a list first. If the room isn't up within 8 s (Three.js didn't load), back to the list.
+    (() => { const s = document.querySelector('.d3s'); let ok = false;
+      try { const c = document.createElement('canvas'); ok = !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) {}
+      if (!ok) return;
+      s.classList.add('live');
+      setTimeout(() => { if (!s.classList.contains('ready')) { s.classList.remove('live'); s.dataset.gaveUp = '1'; s.querySelectorAll('.c3').forEach(c => c.style.transform = ''); } }, 8000); })();
+  </script>
 </main>
 
-<script type="module">
+<script type="module" onerror="const s = document.querySelector('.d3s'); s.classList.remove('live'); s.dataset.gaveUp = '1';">   // Three.js failed to download: straight to the list
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { ConvexGeometry } from 'three/addons/geometries/ConvexGeometry.js';
@@ -109,12 +134,16 @@ const clamp01 = k => Math.max(0, Math.min(1, k));
 const seg = (t, a, b) => clamp01((t - a) / (b - a));                        // 0 → 1 as t goes from a to b
 
 /* ───────── Renderer and camera ───────── */
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+const toList = () => { stage.classList.remove('live', 'ready'); cardEls.forEach(c => c.style.transform = ''); };
+let renderer = null;
+if (!stage.dataset.gaveUp) try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); } catch (e) {}
+if (!renderer) { toList(); await new Promise(() => {}); }   // no 3D here (or we already gave up waiting): the doors stay a plain list, quietly
+renderer.domElement.addEventListener('webglcontextlost', e => { e.preventDefault(); toList(); });   // the browser took the graphics away (a GPU reset): the list again
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 view.appendChild(renderer.domElement);
 const scene = new THREE.Scene();
-const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, .1, 80);
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, .1, 80), restCam = camera.clone();   // restCam: the view at rest, for placing the labels
 let room = null;
 const view3 = { x: 0, y: 0 };   // how far the view has swayed from its rest angle (−1 to 1), for the window's parallax
 
@@ -207,7 +236,13 @@ const chalkText = (x, w, h) => {
 // Sketches for the corkboard (bold enough to read from across the room)
 const ND = { nodes: { c: [18, 20], d: [68, 20], e: [130, 44], a: [18, 68], b: [68, 68] },
   arrows: [[29, 20, 52, 20], [80, 25, 118, 41], [29, 68, 52, 68], [80, 63, 118, 47]], stop: [25, 29, 56, 59] };
-const paper = (x, w, h, sd = 3) => { let s2 = sd; const r2 = () => (s2 = s2 * 16807 % 2147483647) / 2147483647; x.fillStyle = '#f6f1e6'; x.fillRect(0, 0, w, h); for (let i = 0; i < 600; i++) { x.fillStyle = `rgba(120,100,80,${(r2() * .05).toFixed(3)})`; x.fillRect(r2() * w, r2() * h, 2, 2); } };
+const paperCache = {};   // each sheet's speckled paper, drawn once and reused (the neuron sketch redraws often)
+const paper = (x, w, h, sd = 3) => {
+  const key = w + 'x' + h + ':' + sd;
+  if (!paperCache[key]) { const c = paperCache[key] = document.createElement('canvas'); c.width = w; c.height = h; const p = c.getContext('2d'); let s2 = sd; const r2 = () => (s2 = s2 * 16807 % 2147483647) / 2147483647;
+    p.fillStyle = '#f6f1e6'; p.fillRect(0, 0, w, h); for (let i = 0; i < 600; i++) { p.fillStyle = `rgba(120,100,80,${(r2() * .05).toFixed(3)})`; p.fillRect(r2() * w, r2() * h, 2, 2); } }
+  x.drawImage(paperCache[key], 0, 0);
+};
 const pencil = (x, wd = 3) => { x.strokeStyle = 'rgba(48,44,50,.92)'; x.fillStyle = 'rgba(48,44,50,.92)'; x.lineWidth = wd; x.lineCap = x.lineJoin = 'round'; };
 // The preemption run, replaying every 4.2 s: c and a fire; c's signal stops b (b never fires); d fires, then e
 function sketchNeuron(x, w, h, t = 2.6) {
@@ -381,7 +416,7 @@ function buildStudy() {
   const g = new THREE.Group(), T = [];
   const hemi = new THREE.HemisphereLight(); th(hemi, 'color', '#8792b4', '#fffaf0'); th(hemi, 'groundColor', '#3a3a4a', '#cdbb9c'); th(hemi, 'intensity', 2.7, 1.6); g.add(hemi);
   const sun = new THREE.DirectionalLight(); th(sun, 'color', '#a9bce6', '#fff0d6'); th(sun, 'intensity', 1.1, 2.4);
-  sun.position.set(-6, 7, 3.5); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+  sun.position.set(-6, 7, 3.5); sun.castShadow = true; sun.shadow.mapSize.setScalar(coarse ? 1024 : 2048);   // phones: a smaller shadow map
   Object.assign(sun.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6, near: 1, far: 40 }); sun.shadow.bias = -.0004; sun.shadow.normalBias = .02; g.add(sun);
   const fill = new THREE.PointLight('#ffcf9a', 0, 0, 2); th(fill, 'intensity', 6, 0); put(fill, 1.2, 2.6, 1.6, g);
   const wood = M('#6a5646', '#a98262'), woodD = M('#54453a', '#8c6a4e'), cream = M('#ddd6c8', '#f6f0e4');
@@ -390,7 +425,8 @@ function buildStudy() {
   const wl = put(bx(.16, 3, 6.2, M('#323b4b', '#EFE5D4')), -3.02, 1.5, 0, g), wr = put(bx(6.2, 3, .16, M('#384356', '#E7DAC4')), 0, 1.5, -3.02, g);
   wl.castShadow = wr.castShadow = false;                                             // so the sun can come in
   put(bx(.04, .14, 6.2, wood), -2.92, .07, 0, g); put(bx(6.2, .14, .04, wood), 0, .07, -2.92, g);
-  const live = [];   // canvas textures redrawn every frame
+  const live = [];   // canvas textures redrawn as they change
+  let lastTick = -1, neuronStill = false;
   const tips = [];   // things that say what they are when you point at them
 
   // The window (left wall): two tall panes, the Campanile alone in the right one; a sunbeam lies on the floor by day
@@ -450,7 +486,7 @@ function buildStudy() {
   const pf = put(new THREE.Group(), .05, 2.505, .25, shelf); pf.rotation.order = 'YXZ'; pf.rotation.set(-.12, Math.PI / 2 - .5, 0);
   put(bx(.34, .42, .035, woodD, .01), 0, .21, 0, pf); put(flat(.27, .34, texMat(canvasTex(300, 380, portrait), { roughness: .7 })), 0, .21, .019, pf);
   put(shelf, -2.62, 0, -1.55, g);
-  T.push({ key: 'about', obj: shelf, anchor: new THREE.Vector3(.1, 2.75, 0), tag: new THREE.Vector3(-3.6, 3.5, -1.3), side: 'l' });
+  T.push({ key: 'about', obj: shelf, anchor: new THREE.Vector3(.22, 2.2, -.3), tag: new THREE.Vector3(-3.6, 3.5, -1.3), side: 'l' });
 
   // Tutoring: the chalkboard, filled with logic
   const board = new THREE.Group();
@@ -553,7 +589,7 @@ function buildStudy() {
   put(cy(.014, .014, .22, M('#3a2c4a', '#3a2c4a', { roughness: .4 }), 10), 0, 0, 0, fpen); put(mesh(new THREE.ConeGeometry(.014, .04, 10), M('#c9ac6a', '#b8953f', { metalness: .4, roughness: .4 })), 0, .13, 0, fpen);
   put(bx(.08, .08, .08, M('#262b36', '#2c3140', { roughness: .3 }), .015), -.24, .72, -.17, wc); put(cy(.025, .025, .03, M('#C9ACDE', '#6C4487'), 12), -.24, .775, -.17, wc);
   put(wc, -2.35, 0, 2.45, g);
-  T.push({ key: 'contact', obj: wc, anchor: new THREE.Vector3(0, .8, 0), tag: new THREE.Vector3(-2.9, -.1, 3.7), side: 'l',
+  T.push({ key: 'contact', obj: wc, anchor: new THREE.Vector3(0, .8, 0), tag: new THREE.Vector3(-3.1, -.45, 3.9), side: 'l',
     lift: k => { topEnv.position.y = .05 + k * .2; topEnv.rotation.z = k * .35; } });
 
   // The paper plane, always on its way in
@@ -615,6 +651,8 @@ function buildStudy() {
   // the tail: each link swings side to side in its own frame (the wag), then tilts up or down, so it never spins on its own length
   const tail = []; let par = put(new THREE.Group(), -.4, .17, 0, body);
   for (let i = 0; i < 4; i++) { const link = put(new THREE.Group(), i ? -.1 : 0, 0, 0, par); link.rotation.order = 'ZYX'; put(cap(.03 - i * .004, .07, i === 3 ? white : tan).rotateZ(Math.PI / 2), -.05, 0, 0, link); tail.push(link); par = link; }
+  const hitZone = (geo, parent, x, y, z) => { const m = put(new THREE.Mesh(geo, new THREE.MeshBasicMaterial()), x, y, z, parent); m.visible = false; return m; };   // invisible, but pointers and fingertips still hit it
+  hitZone(new THREE.SphereGeometry(.42, 12, 8), dogG, .05, .25, 0);   // a generous target around Dexter
   const dogT = { key: 'dexter', obj: dogG, anchor: new THREE.Vector3(.45, .85, 0) };
   // snoring: soft z's drifting up while he sleeps
   const zTex = canvasTex(64, 64, x => { x.clearRect(0, 0, 64, 64); x.fillStyle = '#fff'; x.font = 'italic 400 50px Newsreader'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('z', 32, 28); });
@@ -625,6 +663,7 @@ function buildStudy() {
   const boneM = M('#e9e0cf', '#f7f0e2', { roughness: .6 });
   put(cap(.035, .22, boneM).rotateZ(Math.PI / 2), 0, 0, 0, bone);
   [[.14, .035], [.14, -.035], [-.14, .035], [-.14, -.035]].forEach(([x0, z0]) => put(sp(.045, boneM, 14, 10), x0, 0, z0, bone));
+  hitZone(coarse ? new THREE.BoxGeometry(.9, .5, .7) : new THREE.BoxGeometry(.5, .3, .36), bone, 0, .05, 0);   // and around the bone: bigger on touch screens (~44 px on a phone)
   const boneT = { key: 'bone', obj: bone };
   // his zoomies: from the bed, around the free floor (clear of the desk, shelf, corner and record player), and home
   // his run: out of bed (the way he's facing), one lap the long way round the room on the open floor, ending on a stretch across the
@@ -682,9 +721,9 @@ function buildStudy() {
     tips, dbg: { tail, dogG }, dog: dogT, bone, setHello: v => hello = v, dogPos: () => dogG.position, mode: () => mode, boneState: () => boneState, given: () => given,
     boneDrag(p) { if (boneState === 'held' || boneState === 'waiting' || mode === 'play') return false; if (boneState !== 'drag') { g.attach(bone); boneState = 'drag'; } bone.position.set(p.x, .4, p.z); return true; },
     bonePick() { if (mode === 'play' || boneState === 'held' || boneState === 'waiting') return false; boneState = 'picked'; return true; },
-    boneRelease(p) {   // dropped on or near Dexter → he takes it; anywhere else it falls to the floor there
+    boneRelease(p, canGive = true) {   // dropped on or near Dexter → he takes it; anywhere else it falls to the floor there
       const near = v4.set(p.x, 0, p.z).distanceTo(v5.set(dogG.position.x, 0, dogG.position.z)) < 1.0;
-      if (near && mode === 'bed') { give(); boneState = 'waiting'; }
+      if (near && canGive && mode === 'bed') { give(); boneState = 'waiting'; }
       else dropBone(v4.set(Math.max(-2.7, Math.min(2.7, p.x)), 0, Math.max(-2.7, Math.min(2.7, p.z))));
     },
     update(t, dt) {
@@ -702,8 +741,10 @@ function buildStudy() {
         if (erasingNow && at) { onBoard(u, v + Math.sin(t * 26) * .05, v4); v4.z = .07; eraser.position.lerp(v4, sm(18)); eraser.rotation.set(Math.PI / 2, 0, Math.sin(t * 13) * .12); }
         else { eraser.position.lerp(v4.set(.8, 1.05, .08), sm(5)); eraser.rotation.x += (0 - eraser.rotation.x) * sm(6); eraser.rotation.z *= 1 - sm(6); }
       }
-      windowView(vctx, 520, 452, tt, DK.v, view3.x * 70, view3.y * 70); viewTex.needsUpdate = true;
-      live.forEach(f => f(reduce ? 2.6 : t));
+      const tick = Math.floor(t * 30);   // a 30-a-second clock for the two hand-drawn textures: plenty for drifting clouds and a pencil sketch
+      if (tick !== lastTick || tw0 >= 0) { lastTick = tick; windowView(vctx, 520, 452, tt, DK.v, view3.x * 70, view3.y * 70); viewTex.needsUpdate = true;
+        const u = t % 4.2, firing = u < 2.2 || (u > 3.55 && u < 4.15);   // the neuron sketch only changes while it fires and fades
+        if (reduce ? !neuronStill : firing || !neuronStill) { live.forEach(f => f(reduce ? 2.6 : t)); neuronStill = reduce || !firing; } }
       if (!reduce) per.rotation.y += dt * .35;
       sheets[1].rotation.x = reduce ? 0 : -Math.pow(Math.max(0, Math.sin(t * .45)), 8) * .45;
       // Banach–Tarski, every 10 s: one apple; its halves slide apart; each grows its other half; two apples; and back
@@ -811,12 +852,14 @@ function buildStudy() {
 /* ───────── Pointing, dragging, tapping ───────── */
 const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), floorPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), hitP = new THREE.Vector3();
 let hoverKey = null, cardKey = null, focusKey = null, tapKey = null, lastType = 'mouse', dragging = false, dragMoved = false;
-const activeKey = () => cardKey ?? hoverKey ?? focusKey ?? tapKey;
+const activeKey = () => cardKey ?? focusKey ?? hoverKey ?? tapKey;   // keyboard focus wins over a pointer resting on the room
 function aim(e) { const r = renderer.domElement.getBoundingClientRect(); ndc.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(ndc, camera); }
 function pick(e) {
   if (!room) return null;
   aim(e);
-  const all = [...room.targets, ...room.extras], hit = ray.intersectObjects(all.map(t => t.obj), true)[0];
+  const all = [...room.targets, ...room.extras], hits = ray.intersectObjects(all.map(t => t.obj), true);
+  const boneHit = hits.find(h => { for (let o = h.object; o; o = o.parent) if (o === room.bone) return true; });
+  const hit = boneHit ?? hits[0];   // the bone wins over Dexter's generous tap area, even lying behind him
   if (!hit) return null;
   for (let o = hit.object; o; o = o.parent) { const t = all.find(t => t.obj === o); if (t) return t.key; }
   return null;
@@ -826,9 +869,9 @@ let boneHover = false;
 function showTip(e) {
   const hit = room && ray.intersectObjects(room.tips, true)[0];
   let o = hit?.object; while (o && !o.userData.tip) o = o.parent;
-  if (!o) { tipEl.classList.remove('on'); return; }
+  if (!o) { tipEl.classList.remove('on'); return false; }
   const r = stage.getBoundingClientRect();
-  tipEl.innerHTML = o.userData.tip; tipEl.style.transform = `translate(${Math.min(e.clientX - r.left + 14, r.width - tipEl.offsetWidth)}px, ${e.clientY - r.top + 16}px)`; tipEl.classList.add('on');
+  tipEl.innerHTML = o.userData.tip; tipEl.style.transform = `translate(${Math.min(e.clientX - r.left + 14, r.width - tipEl.offsetWidth)}px, ${e.clientY - r.top + 16}px)`; tipEl.classList.add('on'); return true;
 }
 function floorAt(e) { aim(e); if (ray.ray.intersectPlane(floorPlane, hitP)) room.group.worldToLocal(hitP); return hitP; }
 const href = k => cardEls[KEYS.indexOf(k)].href;
@@ -841,17 +884,19 @@ cv.addEventListener('pointerdown', e => {
 cv.addEventListener('pointermove', e => {
   if (dragging) { dragMoved = true; room.boneDrag(floorAt(e)); return; }
   if (e.pointerType !== 'mouse') return;
-  const k = pick(e); hoverKey = k === 'dexter' || k === 'bone' ? null : k; room?.setHello(k === 'dexter' ? 1 : 0); boneHover = k === 'bone';
+  const k = pick(e), overTip = showTip(e);   // over a book or the record player: a tooltip, not a link
+  hoverKey = k === 'dexter' || k === 'bone' || overTip ? null : k; room?.setHello(k === 'dexter' ? 1 : 0); boneHover = k === 'bone';
   cv.style.cursor = k === 'bone' ? 'grab' : hoverKey ? 'pointer' : '';
-  showTip(e);
 });
 cv.addEventListener('pointerup', e => { if (!dragging) return; dragging = false; cv.style.cursor = ''; room.boneRelease(floorAt(e)); });
+cv.addEventListener('pointercancel', () => { if (!dragging) return; dragging = false; cv.style.cursor = ''; room.boneRelease(room.bone.position, false); });   // a drag the browser cut short: just drop it there
 cv.addEventListener('pointerleave', () => { if (dragging) return; hoverKey = null; boneHover = false; room?.setHello(0); cv.style.cursor = ''; tipEl.classList.remove('on'); });
 cv.addEventListener('click', e => {
   if (dragMoved) { dragMoved = false; return; }
-  const k = pick(e); if (lastType !== 'mouse') showTip(e);
+  const k = pick(e);
   // on a phone: tap the bone to pick it up, then tap Dexter to give it to him (or the floor to put it down)
   if (room.boneState() === 'picked') { tapKey = null; room.boneRelease(k === 'dexter' ? room.dogPos() : floorAt(e)); return; }
+  if (ray.intersectObjects(room.tips, true)[0]) { showTip(e); return; }   // a book or the record player (pick just aimed the ray): say what it is, and stay
   if (k === 'bone') { if (lastType !== 'mouse') room.bonePick(); return; }
   if (k === 'dexter') { tapKey = null; room.setHello(1); if (lastType !== 'mouse') setTimeout(() => room.setHello(0), 2200); return; }
   if (!k) { tapKey = null; return; }
@@ -863,10 +908,11 @@ addEventListener('pointermove', e => {
   tx = Math.max(-1, Math.min(1, (e.clientX - r.left - r.width / 2) / (r.width / 2)));
   ty = Math.max(-1, Math.min(1, (e.clientY - r.top - r.height / 2) / (r.height / 2)));
 });
+boneHint.addEventListener('click', () => room?.bonePick());
 cardEls.forEach(c => {
   c.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') cardKey = c.dataset.k; });
   c.addEventListener('pointerleave', () => cardKey = null);
-  c.addEventListener('focus', () => focusKey = c.dataset.k);
+  c.addEventListener('focus', () => { if (c.matches(':focus-visible')) focusKey = c.dataset.k; });
   c.addEventListener('blur', () => focusKey = null);
 });
 
@@ -876,11 +922,14 @@ const L = KEYS.map(() => { const l = document.createElementNS(NS, 'line'), c = d
 const v3 = new THREE.Vector3();
 
 /* ───────── Size ───────── */
+// the camera circles the room at a fixed distance, aimed at its middle (az: around, el: up)
+const orbit = (cam, az, el, R = 24) => { cam.position.set(room.look.x + R * Math.cos(el) * Math.sin(az), room.look.y + R * Math.sin(el), room.look.z + R * Math.cos(el) * Math.cos(az)); cam.lookAt(room.look); };
 function resize() {
   const w = view.clientWidth, h = view.clientHeight; if (!w || !h || !room) return;
   renderer.setSize(w, h, false);
-  const a = w / h, vs = Math.max(room.fit.h, room.fit.w / a) * .86;   // tall enough and wide enough for every corner of the room
-  Object.assign(camera, { left: -vs * a / 2, right: vs * a / 2, top: vs / 2, bottom: -vs / 2 }); camera.updateProjectionMatrix();
+  const a = w / h, vs = Math.max(room.fit.h, room.fit.w / a) * (isPhone() ? .74 : .86);   // every corner of the room on computers; on phones a little closer, keeping every object in view
+  orbit(restCam, Math.PI / 4, .6); restCam.updateMatrixWorld();
+  for (const c of [camera, restCam]) { Object.assign(c, { left: -vs * a / 2, right: vs * a / 2, top: vs / 2, bottom: -vs / 2 }); c.updateProjectionMatrix(); }
 }
 new ResizeObserver(resize).observe(view);
 
@@ -891,47 +940,61 @@ document.getElementById('mode-t').addEventListener('click', () => {
 });
 
 /* ───────── The frame loop (paused while the room is off screen or the tab is hidden) ───────── */
-let onScreen = true;
+let onScreen = false, seenAt = 0;   // seenAt: when the room first came into view
 new IntersectionObserver(es => onScreen = es[0].isIntersecting).observe(stage);
 const clock = new THREE.Clock(); let intro0 = 0;
-const toScreen = (obj, p, sr, vr) => { obj.localToWorld(v3.copy(p)).project(camera); return [vr.left - sr.left + (v3.x + 1) / 2 * vr.width, vr.top - sr.top + (1 - v3.y) / 2 * vr.height]; };
+// Sizes and positions of the stage and its labels, measured only when something changed (a resize, a scroll, new text)
+let boxCache = null;
+const boxes = () => boxCache ??= { sr: stage.getBoundingClientRect(), vr: view.getBoundingClientRect(), cards: cardEls.map(c => [c.offsetWidth, c.offsetHeight]), dx: [dxTag.offsetWidth, dxTag.offsetHeight] };
+const remeasure = () => boxCache = null;
+addEventListener('scroll', remeasure, { passive: true }); addEventListener('resize', remeasure);
+const sizes = new ResizeObserver(remeasure); [stage, dxTag, ...cardEls].forEach(el => sizes.observe(el));   // one observer for everything we measure
+const lastT = new WeakMap();   // write a transform only when it actually changes
+const place = (el, x, y) => { const v = `translate(${Math.round(x)}px, ${Math.round(y)}px)`; if (lastT.get(el) !== v) { el.style.transform = v; lastT.set(el, v); } };
+const toScreen = (obj, p, sr, vr, cam = camera) => { obj.localToWorld(v3.copy(p)).project(cam); return [vr.left - sr.left + (v3.x + 1) / 2 * vr.width, vr.top - sr.top + (1 - v3.y) / 2 * vr.height]; };
 function frame() {
   requestAnimationFrame(frame);
   const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTime, now = performance.now();
-  if (!room || !onScreen || document.hidden) return;
+  if (!room || !onScreen || document.hidden || !stage.classList.contains('live')) return;
+  if (!seenAt) seenAt = now;
   if (tw0 >= 0) { const k = Math.min(1, (now - tw0) / 750); stepTheme(easeIO(k)); if (k === 1) tw0 = -1; }
   // Camera: an isometric view that sways a little and leans toward the cursor (none for reduced motion, or while dragging the bone)
   const sm = 1 - Math.exp(-dt * 3.5); if (!dragging) { px += (tx - px) * sm; py += (ty - py) * sm; }
-  const az = Math.PI / 4 + (reduce ? 0 : Math.sin(t * .4) * .035 + px * .05), el = .6 + (reduce ? 0 : -py * .03), R = 24;
+  const az = Math.PI / 4 + (reduce ? 0 : Math.sin(t * .4) * .035 + px * .05), el = .6 + (reduce ? 0 : -py * .03);
   view3.x = (az - Math.PI / 4) / .085; view3.y = -(el - .6) / .03;
-  camera.position.set(room.look.x + R * Math.cos(el) * Math.sin(az), room.look.y + R * Math.sin(el), room.look.z + R * Math.cos(el) * Math.cos(az));
-  camera.lookAt(room.look);
+  orbit(camera, az, el);
   const ik = reduce ? 1 : ease(Math.min(1, (now - intro0) / 900));
   room.group.position.y = -.6 * (1 - ik); room.group.scale.setScalar(.95 + .05 * ik);
   const act = activeKey();
   cardEls.forEach(c => c.classList.toggle('on', c.dataset.k === act));
   for (const tg of room.targets) {
-    const goal = tg.key === act ? 1 : 0; tg.k = reduce ? goal : tg.k + (goal - tg.k) * (1 - Math.exp(-dt * 12));
+    const goal = tg.key === act ? 1 : 0; tg.k = reduce || focusKey ? goal : tg.k + (goal - tg.k) * (1 - Math.exp(-dt * 12));   // keyboard focus: instant
     tg.obj.position.y = tg.baseY + tg.k * .14; tg.lift?.(tg.k);
   }
   const at = room.targets.find(t => t.key === act);
-  if (at) { const p = at.obj.position; room.ring.position.x = p.x; room.ring.position.z = at.key === 'projects' ? p.z + .3 : p.z; }
-  const rs = room.ring.userData.s = (room.ring.userData.s ?? 0) + ((at ? 1 : 0) - (room.ring.userData.s ?? 0)) * (reduce ? 1 : 1 - Math.exp(-dt * 12));
-  room.ring.scale.setScalar(.8 + .2 * rs); room.ring.material.opacity = rs * .9; room.ring.visible = rs > .01;
+  const RING = { about: [.35, 0, 1], projects: [0, .55, 1.55], contact: [0, 0, .9] };   // offset x, z and size per door; the chalkboard hangs on the wall, so no floor ring
+  const rg = at && RING[at.key];
+  if (rg) { const p = at.obj.position; room.ring.position.x = p.x + rg[0]; room.ring.position.z = p.z + rg[1]; room.ring.userData.size = rg[2]; }
+  const rs = room.ring.userData.s = (room.ring.userData.s ?? 0) + ((rg ? 1 : 0) - (room.ring.userData.s ?? 0)) * (reduce || focusKey ? 1 : 1 - Math.exp(-dt * 12));
+  room.ring.scale.setScalar((.8 + .2 * rs) * (room.ring.userData.size ?? 1)); room.ring.material.opacity = rs * .9; room.ring.visible = rs > .01;
   room.update(t, dt);
   renderer.render(scene, camera);
   // Labels sit in empty space beside their objects (each target's "tag" point), with a dotted line to the object
-  const sr = stage.getBoundingClientRect(), vr = view.getBoundingClientRect();
+  const { sr, vr } = boxes();   // measured on resize and scroll, not every frame (reading layout right after writing it forced a second layout per frame)
+  const PHONE_SLOT = { about: ['l', 't'], projects: ['r', 't'], tutoring: ['r', 'b'], contact: ['l', 'b'] };   // phones: the stage's four empty corners
   const P = room.targets.map(tg => {
-    const i = KEYS.indexOf(tg.key), card = cardEls[i], [ax, ay] = toScreen(tg.obj, tg.anchor, sr, vr), [gx, gy] = toScreen(room.group, tg.tag, sr, vr), cw = card.offsetWidth, ch = card.offsetHeight;
+    const i = KEYS.indexOf(tg.key), card = cardEls[i], [ax, ay] = toScreen(tg.obj, tg.anchor, sr, vr), [cw, ch] = boxes().cards[i];
+    if (isPhone()) { const [sx, sy] = PHONE_SLOT[tg.key]; return { i, card, ax, ay, cw, ch, l0: sx === 'l' ? 0 : sr.width - cw, t0: sy === 't' ? 0 : vr.height - ch }; }
+    const [gx, gy] = toScreen(room.group, tg.tag, sr, vr, restCam);   // placed from the view at rest, so labels hold still while the room sways
     return { i, card, ax, ay, cw, ch, l0: Math.max(0, Math.min(sr.width - cw, tg.side === 'l' ? gx - cw : gx)), t0: Math.max(0, Math.min(vr.height - ch, gy - ch / 2)) };
   });
+  // If two labels would overlap (narrow screens), the lower one steps down below the other
   [...P].sort((a, b) => a.t0 - b.t0).forEach((p, j, S) => S.slice(0, j).forEach(q => {
     if (p.l0 < q.l0 + q.cw + 6 && q.l0 < p.l0 + p.cw + 6 && p.t0 < q.t0 + q.ch + 6) p.t0 = q.t0 + q.ch + 6;
   }));
   P.forEach(({ i, card, ax, ay, l0, t0, cw, ch }) => {
     const { l, c } = L[i], on = KEYS[i] === act;
-    card.style.transform = `translate(${l0}px, ${t0}px)`;
+    place(card, l0, t0);
     const ex = Math.max(l0 + 8, Math.min(l0 + cw - 8, ax)), ey = Math.max(t0, Math.min(t0 + ch, ay));
     l.setAttribute('x1', ax); l.setAttribute('y1', ay); l.setAttribute('x2', ex); l.setAttribute('y2', ey);
     c.setAttribute('cx', ax); c.setAttribute('cy', ay);
@@ -939,17 +1002,20 @@ function frame() {
   });
   // Dexter's name tag above his head while he says hello; the bone's note beside it until he's had it
   const [dx, dy] = toScreen(room.dog.obj, room.dog.anchor, sr, vr);
-  dxTag.style.transform = `translate(${dx - dxTag.offsetWidth / 2}px, ${dy - dxTag.offsetHeight - 6}px)`;
+  place(dxTag, dx - boxes().dx[0] / 2, dy - boxes().dx[1] - 6);
   dxTag.classList.toggle('on', (room.dog.k ?? 0) > .5 && room.mode() === 'bed');
   const [bx2, by2] = toScreen(room.bone, v3.set(0, 0, 0), sr, vr);
-  boneHint.style.transform = `translate(${bx2 + 18}px, ${by2 + 10}px)`;
+  place(boneHint, bx2 + 18, by2 + 10);
   boneHint.textContent = room.boneState() === 'picked' ? 'Now tap Dexter' : coarse ? 'Tap me, then Dexter' : 'Drag me to Dexter';
-  boneHint.classList.toggle('on', room.mode() === 'bed' && ((boneHover && room.boneState() === 'rest') || room.boneState() === 'picked'));
+  const firstLook = !room.given() && now - seenAt > 4000 && now - seenAt < 9000;   // once, about 4 s after the room comes into view
+  boneHint.classList.toggle('on', room.mode() === 'bed' && (((boneHover || firstLook) && room.boneState() === 'rest') || room.boneState() === 'picked'));
 }
 
 const fontsReady = Promise.race([Promise.all(['400 100px "DM Serif Display"', 'italic 400 60px Newsreader', '400 60px Newsreader'].map(f => document.fonts.load(f))), new Promise(r => setTimeout(r, 2000))]);
 fontsReady.then(() => {
   room = buildStudy();
+  const ws = new THREE.Vector3();   // tiny pieces don't cast shadows: invisible at this size, but each one is drawn again for the shadow every frame
+  room.group.traverse(o => { if (!o.isMesh || !o.castShadow) return; o.geometry.computeBoundingSphere(); o.getWorldScale(ws); if (o.geometry.boundingSphere.radius * Math.max(ws.x, ws.y, ws.z) < .05) o.castShadow = false; });
   const ring = put(new THREE.Mesh(new THREE.RingGeometry(.78, .86, 64).rotateX(-Math.PI / 2), th(new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false }), 'color', '#C9ACDE', '#6C4487')), 0, .012, 0, room.group);
   room.ring = ring; room.targets.forEach(t => { t.baseY = t.obj.position.y; t.k = 0; });
   scene.add(room.group); resize(); intro0 = performance.now();

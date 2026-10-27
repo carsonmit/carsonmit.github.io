@@ -14,6 +14,12 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
   you point at him, and plays with a bone you drag onto him: a shake, a toss, a play bow and pounce, a lap of the room,
   and a sniffing circle before he lies back down. A floating piece of chalk writes the chalkboard and an eraser wipes
   it, and the view out the window shifts with the room's perspective. Mockup only; the live site is unchanged.
+- Study mockup, review fixes: the four doors show as a plain list if the 3D can't load; steadier, clearer labels;
+  phones get labels in the stage's corners, 44 px tall, and big tap areas for Dexter and the bone; clicking a book
+  shows its title; a one-time hint for the bone game; the room always fits in one screen.
+- Study mockup, review pipeline: smoother on phones (textures redrawn only as they change, fewer shadows, no blur
+  behind labels), no keyboard-focus animation, press feedback on every door without delay, and fixes from a code
+  review (no flash before the room appears, the bone can't get stuck behind Dexter).
 - `scripts/contact-sheet.sh`: one command that screenshots a mockup in Night and Day at computer and phone width and
   reports script errors and sideways scrolling.
 

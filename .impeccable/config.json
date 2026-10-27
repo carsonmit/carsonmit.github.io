@@ -27,6 +27,15 @@
         ],
         "createdAt": "2026-10-25T13:17:36.559Z",
         "reason": "Claude: design-comparison mockup, not a shipped page; the built projects.html passes detect with no findings"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "design/mockups/home-doors-3d-r2.html"
+        ],
+        "createdAt": "2026-10-27T19:45:43.385Z",
+        "reason": "Claude, from detector evidence 2026-10-27: the rendered overlay finds no flat hierarchy (52px h1, 24px door titles, 18.5px body); the static scan misreads the clamp() h1 as 18.5px and counts the visually hidden screen-reader h2"
       }
     ]
   }
