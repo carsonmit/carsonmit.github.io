@@ -656,3 +656,70 @@ html.vt::view-transition-old(root), html.vt::view-transition-new(root) { animati
 @keyframes vt-fade-in { from { opacity: 0; } }
 html.vt-fade::view-transition-new(root) { animation: vt-fade-in .3s ease both; }
 html.vt-fade::view-transition-group(mode-knob) { animation: none; }
+
+/* ── Home: the Study. The four doors as labels beside Carson's things in a small 3D room (study.js). A tiny script in
+   index.html adds .d3on to the stage before the first paint when this browser can draw 3D; then the four door rows
+   below are hidden, and they come back if the room can't load. Mockup and decisions: design/mockups/home-doors-3d-r2.html, DESIGN.md. ── */
+.d3s { display: none; }
+.d3s.d3on { display: block; position: relative; margin: 0 0 clamp(24px, 4vh, 48px); height: clamp(420px, min(72vw, 100svh - 24px), 920px); }   /* never taller than the screen, so the whole room fits in one view */
+.d3s.d3on ~ .door { display: none; }   /* the rows are the fallback */
+.d3on .view { position: absolute; inset: 0; }
+.d3on .view canvas { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity .45s var(--ease-out); touch-action: pan-y; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+.d3on.ready .view canvas { opacity: 1; }
+.d3on .d3l { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; opacity: 0; transition: opacity .4s var(--ease-out) .15s; }
+.d3on.ready .d3l { opacity: 1; }
+.d3l line { stroke: var(--mu); stroke-opacity: .9; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1 5; transition: stroke .2s var(--ease-out); }
+.d3l line.on { stroke: var(--ac); stroke-opacity: 1; }
+@media (prefers-reduced-motion: no-preference) { .d3l line.on { animation: d3-march .9s linear infinite; } }
+@keyframes d3-march { to { stroke-dashoffset: -12; } }
+.d3l circle { fill: color-mix(in srgb, var(--ac) 45%, var(--bg)); stroke: var(--ac); stroke-width: 1.6; transition: fill .2s var(--ease-out); }   /* each object's dot, quietly in the accent even at rest */
+.d3l circle.on { fill: var(--ac); }
+.d3on .cards { position: absolute; inset: 0; pointer-events: none; }
+.c3 { position: absolute; left: 0; top: 0; width: 214px; pointer-events: auto; padding: 8px 13px 10px; border-radius: 12px; color: var(--ink); text-decoration: none; opacity: 0;
+  background: color-mix(in srgb, var(--card) 92%, transparent); border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);   /* no frosted blur over the moving room: it would be recomputed every frame */
+  transition: opacity .4s var(--ease-out), border-color .2s var(--ease-out);
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; scale: 1; }   /* phones: no tap flash, no long-press selection, no double-tap delay */
+.d3on.ready .c3 { opacity: 1; }
+.d3on:not(.ready) .cards { display: grid; align-content: start; gap: 8px; }   /* before the room is up, the labels wait as a small invisible list: */
+.d3on:not(.ready) .c3 { position: static; pointer-events: none; }                 /* reachable by keyboard, never stacked on one another, */
+.d3on:not(.ready) .c3:focus-visible { opacity: 1; }                                /* and visible if you tab to one before the room arrives */
+.d3on.ready .c3:nth-child(2) { transition-delay: .06s, 0s, 0s; } .d3on.ready .c3:nth-child(3) { transition-delay: .12s, 0s, 0s; } .d3on.ready .c3:nth-child(4) { transition-delay: .18s, 0s, 0s; }   /* the fade only: never the hover or press */
+.c3-t { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font: 400 24px/1.1 var(--serif-display); transition: color .18s var(--ease-out); }
+.c3-go { font: 500 19px var(--sans); color: var(--ac); transition: transform .2s var(--ease-out); }
+.c3-d { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .22s var(--ease-out), opacity .18s var(--ease-out); }
+.c3-d > span { overflow: hidden; font-size: 16.5px; line-height: 1.4; }
+.c3-d > span > span { display: block; padding-top: 6px; }
+.c3.on { border-color: color-mix(in srgb, var(--ac) 60%, transparent); z-index: 2; }
+.c3.on .c3-t { color: var(--ac); }
+.c3.on .c3-d { grid-template-rows: 1fr; opacity: 1; }
+.c3:focus-visible .c3-d, .c3:focus-visible .c3-t, .c3:focus-visible .c3-go { transition: none; }   /* keyboard: no animation, just the result */
+@media (hover: hover) and (pointer: fine) { .c3:hover .c3-t { color: var(--ac); } }
+@media (prefers-reduced-motion: no-preference) {
+  .c3.on .c3-go { transform: translateX(5px); }
+  .c3 { transition: opacity .4s var(--ease-out), border-color .2s var(--ease-out), scale .16s var(--ease-out); }
+  .c3:active { scale: .97; transition-duration: .4s, .2s, .1s; }   /* press 100 ms, release 160 ms */
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) { .c3:hover .c3-go { transform: translateX(5px); } }
+@media (prefers-reduced-motion: reduce) {   /* gentler, not zero: fades stay, movement goes */
+  .c3 { transition: opacity .2s var(--ease-out), border-color .2s var(--ease-out); } .c3-d { transition: opacity .2s var(--ease-out); } .c3-go { transition: none; }
+  .d3on .view canvas, .d3on .d3l { transition: opacity .2s var(--ease-out); }
+}
+/* Dexter's name tag, the bone's quiet invitation, and the tooltips for books and the record player: small notes, not links */
+.dx, .bh { position: absolute; left: 0; top: 0; pointer-events: none; font: italic 400 17px/1 var(--serif); color: var(--ink); padding: 5px 10px 6px; border-radius: 999px;
+  background: color-mix(in srgb, var(--card) 82%, transparent); border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  opacity: 0; transition: opacity .2s var(--ease-out); white-space: nowrap; }
+.bh { font-size: 15px; color: var(--mu); transition-duration: .3s; }
+.bh.on { pointer-events: auto; cursor: pointer; }   /* tapping the hint picks the bone up, too */
+.tp { font: 400 14px/1.2 var(--sans); z-index: 3; }
+.tp i { font: italic 400 16px var(--serif); }
+.dx.on, .bh.on { opacity: 1; }
+/* Phones: a taller stage with the room a little closer, and title-only labels in its four corners, each at least 44 px tall */
+@media (max-width: 760px) {
+  .d3s.d3on { height: auto; }
+  .d3on .view { position: relative; inset: auto; aspect-ratio: 1 / 1.32; }
+  .c3-d { display: none; }
+  .c3 { width: max-content; min-height: 44px; display: flex; align-items: center; padding: 0 13px; border-radius: 10px; }
+  .c3-t { font-size: 19px; margin: 0; gap: 10px; }
+  .c3-go { font-size: 15px; }
+  .bh { font-size: 13px; }
+}

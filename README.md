@@ -29,7 +29,8 @@ Personal website of **Carson Mitchell**, math graduate and private math tutor. T
 
 | Path | What it is |
 |---|---|
-| `index.html` | Home page: the hero (name, photo, the spinning circles) and a "door" to each page |
+| `index.html` | Home page: the hero (name, photo, the spinning circles), then the four doors as "the Study", a small 3D room of Carson's things (see `study.js`); the four plain door rows remain as the fallback when 3D can't run |
+| `study.js` | The Study: the 3D room on Home (Three.js). Home loads it only as the room scrolls near, so the first screen stays fast |
 | `about.html` | About Me: bio, Ehrhart's theorem (3D permutahedron), Gödel, Banach–Tarski |
 | `tutoring.html` | Tutoring: rates, booking (Cal.com), subjects, how I teach (placeholder), a problem that solves itself as you scroll, textbook sample |
 | `projects.html` | Projects: the free GRE textbook (download and page preview), the Neuron Diagram Maker with a live diagram, and the Star Battle Solver with a playable puzzle |
@@ -162,7 +163,7 @@ The direction is a "quiet instrument": a calm, narrow-column page with a few pre
 ## Version history
 
 Versions follow `MAJOR.MINOR.PATCH`:
-- **MAJOR**: a full redesign or relaunch (1.0.0 will be the redesigned site going live)
+- **MAJOR**: a full redesign or relaunch (1.0.0 was the redesigned site going live)
 - **MINOR**: a new section or feature
 - **PATCH**: fixes and small content edits
 

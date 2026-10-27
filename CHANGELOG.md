@@ -4,7 +4,14 @@ Notable changes to the site, newest first. Format based on [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-27
+
+Home's four doors become "the Study": a small 3D room of Carson's own things, with his dog Dexter.
+
 ### Added
+- Home: the four doors are now "the Study", a small 3D room of Carson's things with his dog Dexter (`study.js`).
+  Point at an object or its label to find a page; give Dexter his bone to watch him play. It loads only as you scroll
+  to it, so the top of Home is as fast as before, and the four plain door rows come back if the 3D can't run.
 - Mockup, rounds 2 to 7 of the Home page as a small 3D room ("The Study", `design/mockups/home-doors-3d-r2.html`).
   Carson's own things are in it: his eight favorite books on the shelf (point at one to see its title), the
   permutahedron, an apple that splits into two (Banach–Tarski), his UC Berkeley diploma, a drawn portrait of Dexter, a
@@ -301,7 +308,8 @@ Setup for the redesign. No visible change to the live site.
 - First version of the site from a template: hero, about, and connect sections, with animation effects.
 - A custom domain file (`CNAME`) was added and then removed the same day.
 
-[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/carsonmit/carsonmit.github.io/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.13.1...v1.0.0
 [0.13.1]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/carsonmit/carsonmit.github.io/compare/v0.12.1...v0.13.0
